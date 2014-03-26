@@ -11,7 +11,7 @@ import kademlia.node.NodeId;
  * @author Joshua Kissoon
  * @since 20140326
  */
-public class DosnaDataManager implements DataManager
+public final class DosnaDataManager implements DataManager
 {
 
     private final Kademlia kad;
@@ -24,6 +24,7 @@ public class DosnaDataManager implements DataManager
      * @param port
      *
      * @throws java.io.IOException
+     * @todo Try loading data from file, if no file exist, then create a new Kademlia instance
      */
     public DosnaDataManager(final String ownerId, final int port) throws IOException
     {
@@ -91,7 +92,7 @@ public class DosnaDataManager implements DataManager
     {
 
     }
-    
+
     @Override
     public void shutdown(final boolean saveState) throws IOException
     {

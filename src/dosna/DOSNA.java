@@ -32,16 +32,22 @@ public class DOSNA
             @Override
             public void actionPerformed(ActionEvent event)
             {
-                if (event.getActionCommand().equals("login"))
+                switch (event.getActionCommand())
                 {
-                    /* @todo Login the user */
+                    case "login":
+                        /* @todo Login the user */
 //                    Session.userId = userNameTF.getText();
 //                    Session.password = new String(passwordTF.getPassword());
 //                    Socialize soc = new Socialize(Session.password);
 //                    frame.dispose();
+                        break;
+                    case "signup":
+                        /* @todo The user wants to signup, get them the signup form */
+                        break;
                 }
             }
         });
+        login.display();
     }
 
     /**
