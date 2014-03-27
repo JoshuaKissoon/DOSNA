@@ -17,14 +17,14 @@ import javax.swing.border.EmptyBorder;
  * @author Joshua Kissoon
  * @date 20140326
  */
-public class LoginFrame extends JFrame
+public class SignupFrame extends JFrame
 {
 
     /* Main Components */
     private JPanel form;
 
     /* Form Items */
-    private JTextField userNameTF;
+    private JTextField userNameTF, fullNameTF;
     private JPasswordField passwordTF;
     private JButton btn;
     private JLabel label;
@@ -35,7 +35,7 @@ public class LoginFrame extends JFrame
     /* Listeners */
     private ActionListener listener;
 
-    public LoginFrame()
+    public SignupFrame()
     {
 
     }
@@ -45,6 +45,7 @@ public class LoginFrame extends JFrame
         form = new JPanel(new GridBagLayout());
         form.setBorder(new EmptyBorder(20, 20, 20, 20));
 
+        /* Username */
         label = new JLabel("Username: ");
         gbc = GBConstraints.getLabelConstraints(4, 4);
         form.add(label, gbc);
@@ -53,6 +54,7 @@ public class LoginFrame extends JFrame
         gbc = GBConstraints.getItemConstraints(5, 4);
         form.add(userNameTF, gbc);
 
+        /* Password */
         label = new JLabel("Password: ");
         gbc = GBConstraints.getLabelConstraints(4, 5);
         form.add(label, gbc);
@@ -61,17 +63,20 @@ public class LoginFrame extends JFrame
         gbc = GBConstraints.getItemConstraints(5, 5);
         form.add(passwordTF, gbc);
 
-        btn = new JButton("Login");
-        btn.setActionCommand("login");
-        btn.addActionListener(this.listener);
-        gbc = GBConstraints.getItemConstraints(4, 8);
-        form.add(btn, gbc);
-        
-        /* Signup btn */
-        btn = new JButton("New User? Join here.");
+        /* Full Name */
+        label = new JLabel("Full Name: ");
+        gbc = GBConstraints.getLabelConstraints(4, 6);
+        form.add(label, gbc);
+
+        fullNameTF = new JTextField(20);
+        gbc = GBConstraints.getItemConstraints(5, 6);
+        form.add(fullNameTF, gbc);
+
+        /* Submit btn */
+        btn = new JButton("Signup");
         btn.setActionCommand("signup");
         btn.addActionListener(this.listener);
-        gbc = GBConstraints.getItemConstraints(5, 8);
+        gbc = GBConstraints.getItemConstraints(4, 8);
         form.add(btn, gbc);
 
         /* Adding the form to the frame */
@@ -80,7 +85,7 @@ public class LoginFrame extends JFrame
 
     public void display()
     {
-        this.setTitle("Login");
+        this.setTitle("Sign Up.");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.pack();
@@ -100,5 +105,10 @@ public class LoginFrame extends JFrame
     public String getPassword()
     {
         return new String(passwordTF.getPassword());
+    }
+
+    public String getFullName()
+    {
+        return fullNameTF.getText();
     }
 }
