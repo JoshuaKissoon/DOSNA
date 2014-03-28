@@ -12,5 +12,23 @@ import kademlia.dht.KadContent;
  */
 public abstract class DOSNAContent implements KadContent
 {
+
+    public final long createTs, updateTs;
+
     
+    {
+        this.createTs = this.updateTs = System.currentTimeMillis() / 1000L;
+    }
+
+    @Override
+    public long getCreatedTimestamp()
+    {
+        return this.createTs;
+    }
+
+    @Override
+    public long getLastUpdatedTimestamp()
+    {
+        return this.updateTs;
+    }
 }

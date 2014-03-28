@@ -10,5 +10,5 @@ import dosna.dhtAbstraction.DOSNAContent;
  */
 public abstract class Actor extends DOSNAContent
 {
-
+    public abstract String getUsername();
 }

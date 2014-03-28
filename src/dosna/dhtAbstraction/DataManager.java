@@ -1,6 +1,9 @@
 package dosna.dhtAbstraction;
 
+import java.util.List;
 import java.io.IOException;
+import kademlia.core.GetParameter;
+import kademlia.dht.KadContent;
 
 /**
  * An abstraction that handles routing data on the network and storing data.
@@ -16,19 +19,34 @@ public interface DataManager
      * Put data onto the network.
      * This will put the data onto the network based on the routing protocol.
      * It may or may not store data locally.
+     *
+     * @param content The content to be stored on the network
+     *
+     * @throws java.io.IOException
      */
-    public void put();
+    public void put(KadContent content) throws IOException;
 
     /**
      * Stores data locally
+     *
+     * @param content The content to be stored locally
+     *
+     * @throws java.io.IOException
      */
-    public void putLocally();
+    public void putLocally(KadContent content) throws IOException;
 
     /**
      * Get data from the network.
      * Will get data either from local or remote network nodes.
+     *
+     * @param gp
+     * @param numReaultsReq
+     *
+     * @return
+     *
+     * @throws java.io.IOException
      */
-    public void get();
+    public List<KadContent> get(GetParameter gp, int numReaultsReq) throws IOException;
 
     /**
      * Run an update call to update the data stored locally on this computer.
