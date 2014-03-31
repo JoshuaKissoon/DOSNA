@@ -5,12 +5,14 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import kademlia.core.Kademlia;
+import javax.swing.JTextArea;
+import kademlia.Kademlia;
 import kademlia.node.NodeId;
 
 /**
@@ -18,16 +20,22 @@ import kademlia.node.NodeId;
  *
  * @author Joshua Kissoon
  * @since 20140326
+ *
+ * @todo Handle saving state when the window closes
  */
 public class Bootstrapper extends JFrame
 {
 
+    /* Properties */
+    private final static int FRAME_WIDTH = 1200;
+    private final static int FRAME_HEIGHT = 800;
+
     /* Display the contacts of the bootstrap node */
-    private JPanel contactsPanel;
+    private JTextArea contacts;
     private JScrollPane contactsScrollPane;
 
     /* Displays the content of the bootstrap node */
-    private JPanel contentPanel;
+    private JTextArea content;
     private JScrollPane contentScrollPane;
 
     /* Split Pane */
@@ -41,7 +49,20 @@ public class Bootstrapper extends JFrame
 
     public Bootstrapper()
     {
-
+        /* Setup a timer to update the frame often */
+        Timer timer = new Timer();
+        timer.schedule(
+                new TimerTask()
+                {
+                    @Override
+                    public void run()
+                    {
+                        Bootstrapper.this.updateData();
+                    }
+                },
+                // Delay: 10 secs  // Interval
+                10 * 1000, 10 * 1000
+        );
     }
 
     /**
@@ -49,13 +70,26 @@ public class Bootstrapper extends JFrame
      */
     public void createGUI()
     {
-        this.populateData();
+        /* Setup the Contacts Panel */
+        contacts = new JTextArea(10, 20);
 
-        this.contentScrollPane = new JScrollPane(this.contentPanel);
-        this.contactsScrollPane = new JScrollPane(this.contactsPanel);
-        this.splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, this.contentScrollPane, this.contactsScrollPane);
+        /* Setup the Content Panel */
+        content = new JTextArea(10, 20);
 
-        this.add(splitPane, BorderLayout.CENTER);
+        /* Populate the data */
+        //this.populateData();
+
+        this.contactsScrollPane = new JScrollPane(this.contacts);
+        contactsScrollPane.setMinimumSize(new Dimension(400, 800));
+        this.contentScrollPane = new JScrollPane(this.content);
+        contentScrollPane.setMinimumSize(new Dimension(400, 800));
+
+        this.splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.contactsScrollPane, this.contentScrollPane);
+        splitPane.setDividerLocation(FRAME_WIDTH / 2);
+
+        splitPane.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+
+        this.getContentPane().add(splitPane, BorderLayout.CENTER);
     }
 
     /**
@@ -65,19 +99,30 @@ public class Bootstrapper extends JFrame
      */
     private void populateData()
     {
-        contactsPanel = new JPanel();
-        contactsPanel.add(new JLabel(this.bootstrapInstance.getNode().getRoutingTable().toString()));
+        contacts.removeAll();
+        contacts.setText(bootstrapInstance.getNode().getRoutingTable().toString());
+        contacts.setWrapStyleWord(true);
+        contacts.setLineWrap(true);
 
-        contentPanel = new JPanel();
-        contactsPanel.add(new JLabel(this.bootstrapInstance.getNode().getRoutingTable().toString()));
+        content.removeAll();
+        content.setText(bootstrapInstance.getDHT().toString());
+        content.setWrapStyleWord(true);
+        content.setLineWrap(true);
     }
 
     /**
      * Update the display by refreshing the JFrame
      */
-    private void updateDisplay()
+    private void updateData()
     {
+        System.out.println("Updating data");
+        /* Re-Populate the new data */
+        this.populateData();
 
+        /* Refresh the frame */
+        this.invalidate();
+        this.validate();
+        this.repaint();
     }
 
     /**
@@ -87,7 +132,9 @@ public class Bootstrapper extends JFrame
     {
         this.setTitle("Bootstrap Node UI.");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setMinimumSize(new Dimension(800, 600));
+        this.setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+        this.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+        this.setMaximumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         this.setLocationRelativeTo(null);
         this.pack();
         this.setVisible(true);
@@ -100,7 +147,7 @@ public class Bootstrapper extends JFrame
     {
         try
         {
-            this.bootstrapInstance = new Kademlia("DOSNA", new NodeId("BOOTSTRAPBOOTSTRAPBO"), 9999);
+            this.bootstrapInstance = new Kademlia("DOSNA", new NodeId("BOOTSTRAPBOOTSTRAPBO"), 15049);
         }
         catch (IOException e)
         {
