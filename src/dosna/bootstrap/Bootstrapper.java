@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,12 +25,14 @@ import kademlia.node.NodeId;
  *
  * @todo Handle saving state when the window closes
  */
-public class Bootstrapper extends JFrame
+public class Bootstrapper extends JFrame implements WindowListener
 {
 
     /* Properties */
     private final static int FRAME_WIDTH = 1200;
     private final static int FRAME_HEIGHT = 800;
+    private final static String BOOTSTRAP_OWNER_ID = "DOSNA";   // Owner id of the bootstrap kademlia instance
+    private final static int BOOTSTRAP_NODE_PORT = 15049;
 
     /* Display the contacts of the bootstrap node */
     private JTextArea contacts;
@@ -77,7 +81,7 @@ public class Bootstrapper extends JFrame
         content = new JTextArea(10, 20);
 
         /* Populate the data */
-        //this.populateData();
+        this.populateData();
 
         this.contactsScrollPane = new JScrollPane(this.contacts);
         contactsScrollPane.setMinimumSize(new Dimension(400, 800));
@@ -115,7 +119,6 @@ public class Bootstrapper extends JFrame
      */
     private void updateData()
     {
-        System.out.println("Updating data");
         /* Re-Populate the new data */
         this.populateData();
 
@@ -131,6 +134,7 @@ public class Bootstrapper extends JFrame
     public void display()
     {
         this.setTitle("Bootstrap Node UI.");
+        this.addWindowListener(this);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         this.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -147,13 +151,23 @@ public class Bootstrapper extends JFrame
     {
         try
         {
-            this.bootstrapInstance = new Kademlia("DOSNA", new NodeId("BOOTSTRAPBOOTSTRAPBO"), 15049);
+            /* Try to load the state from file */
+            this.bootstrapInstance = Kademlia.loadFromFile(BOOTSTRAP_OWNER_ID);
+
         }
-        catch (IOException e)
+        catch (IOException | ClassNotFoundException ex)
         {
-            /**
-             * @todo Handle this exception
-             */
+            /* Loading state from file failed: create a new instance */
+            System.err.println("Loading state from file failed; message: " + ex.getMessage());
+            try
+            {
+                /* Create a new instance */
+                this.bootstrapInstance = new Kademlia(BOOTSTRAP_OWNER_ID, new NodeId("BOOTSTRAPBOOTSTRAPBO"), BOOTSTRAP_NODE_PORT);
+            }
+            catch (IOException exx)
+            {
+                exx.printStackTrace();
+            }
         }
     }
 
@@ -174,4 +188,55 @@ public class Bootstrapper extends JFrame
 
         }
     }
+
+    @Override
+    public void windowActivated(WindowEvent e)
+    {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e)
+    {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e)
+    {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e)
+    {
+
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e)
+    {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e)
+    {
+        /* Save the state before closing */
+        try
+        {
+            this.bootstrapInstance.shutdown(true);
+        }
+        catch (IOException ex)
+        {
+            System.err.println("Shutdown Save State failed; message: " + ex.getMessage());
+        }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e)
+    {
+
+    }
+
 }

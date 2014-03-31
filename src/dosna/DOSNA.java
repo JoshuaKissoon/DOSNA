@@ -23,7 +23,7 @@ import kademlia.node.NodeId;
 public class DOSNA
 {
 
-    private DataManager dataManager;
+    private DataManager dataManager = null;
 
     public DOSNA()
     {
@@ -42,7 +42,10 @@ public class DOSNA
      */
     public void initRouting(String username, NodeId nid) throws IOException
     {
-        dataManager = new DosnaDataManager(username, nid);
+        if (dataManager == null)
+        {
+            dataManager = new DosnaDataManager(username, nid);
+        }
     }
 
     /* Starts the DOSNA */
@@ -120,7 +123,7 @@ public class DOSNA
 
                 if (username.isEmpty() || password.isEmpty() || fullName.isEmpty())
                 {
-                    
+
                 }
                 else
                 {
@@ -136,7 +139,8 @@ public class DOSNA
 
                         /* See if this user object already exists on the network */
                         GetParameter gp = new GetParameter(u.getKey(), username, User.TYPE);
-                        List<KadContent> items = dataManager.get(gp, 3);
+                        System.out.println(gp);
+                        List<KadContent> items = dataManager.get(gp, 1);
 
                         if (items.size() > 0)
                         {
