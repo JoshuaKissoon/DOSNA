@@ -38,14 +38,23 @@ public class DOSNA
      * @param username
      * @param nid
      *
-     * @throws java.io.IOException
+     * @return Boolean Whether the initialization was successful or not 
      */
-    public void initRouting(String username, NodeId nid) throws IOException
+    public boolean initRouting(String username, NodeId nid)
     {
         if (dataManager == null)
         {
-            dataManager = new DosnaDataManager(username, nid);
+            try
+            {
+                dataManager = new DosnaDataManager(username, nid);
+            }
+            catch (IOException ex)
+            {
+                System.err.println("Routing initialization failed! Message: " + ex.getMessage());
+                return false;
+            }
         }
+        return true;
     }
 
     /* Starts the DOSNA */
@@ -75,21 +84,43 @@ public class DOSNA
 
                         User u = new User(username);
 
+                        
+                        if(!DOSNA.this.initRouting(username, u.getKey()))
+                        {
+                            return;
+                        }
+
                         try
                         {
-                            /* Initialize DOSNA, so we create a node and join the network */
-                            DOSNA.this.initRouting(username, u.getKey());
+                            /* Checking if a user exists */
+                            GetParameter gp = new GetParameter(u.getKey(), username, User.TYPE);
+                            List<KadContent> items = dataManager.get(gp, 1);
+
+                            if (items.size() > 0)
+                            {
+                                /* User exists! Now check if password matches */
+                                User user = (User) items.get(0);
+                                if (!user.isPassword(password))
+                                {
+                                    /* Everything's great! Launch the app */
+                                    JOptionPane.showMessageDialog(null, "Superb! You're logged in.");
+                                    login.dispose();
+                                }
+                                else
+                                {
+                                    JOptionPane.showMessageDialog(null, "Invalid password! please try again.");
+                                }
+                            }
+                            else
+                            {
+                                /* No user exists */
+                                JOptionPane.showMessageDialog(null, "Sorry, no account exists for the given user.");
+                            }
                         }
                         catch (IOException ex)
                         {
-
+                            System.err.println("Problem encountered during login whiles checking for existing profile; message: " + ex.getMessage());
                         }
-
-                        /* @todo Check if a user profile exists for this username */
-                        /* @todo If a profile exists, check if the password is valid by decrypting the encrypted username */
-                        /* @todo Everything's good, launch the application and populate this user's account */
-                        //                    Socialize soc = new Socialize(Session.password);
-                        //                    frame.dispose();
                         break;
                     case "signup":
                         /* The user wants to signup, get them the signup form */
@@ -123,7 +154,7 @@ public class DOSNA
 
                 if (username.isEmpty() || password.isEmpty() || fullName.isEmpty())
                 {
-
+                    JOptionPane.showMessageDialog(null, "All fields are required.");
                 }
                 else
                 {
@@ -139,7 +170,6 @@ public class DOSNA
 
                         /* See if this user object already exists on the network */
                         GetParameter gp = new GetParameter(u.getKey(), username, User.TYPE);
-                        System.out.println(gp);
                         List<KadContent> items = dataManager.get(gp, 1);
 
                         if (items.size() > 0)
@@ -147,7 +177,6 @@ public class DOSNA
                             /**
                              * Username is already taken, block this user and show a warning
                              */
-                            System.out.println("Account exists");
                             JOptionPane.showMessageDialog(null, "This username is already taken! Please try another username.");
                         }
                         else
@@ -158,8 +187,8 @@ public class DOSNA
 
                             /* User added, now launch DOSNA */
                             signup.dispose();
-                            JOptionPane.showMessageDialog(null, "You have successfully joined! welcome!");
-
+                            JOptionPane.showMessageDialog(null, "You have successfully joined! welcome! Please log in to continue.");
+                            DOSNA.this.userLogin();
                         }
                     }
                     catch (IOException ex)
