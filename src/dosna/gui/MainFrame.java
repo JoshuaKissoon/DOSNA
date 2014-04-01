@@ -1,4 +1,4 @@
-package dosna.ui;
+package dosna.gui;
 
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
