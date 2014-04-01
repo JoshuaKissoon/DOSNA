@@ -4,8 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,7 +25,7 @@ import kademlia.node.NodeId;
  *
  * @todo Handle saving state when the window closes
  */
-public class Bootstrapper extends JFrame implements WindowListener
+public class Bootstrapper extends JFrame
 {
 
     /* Properties */
@@ -134,7 +134,7 @@ public class Bootstrapper extends JFrame implements WindowListener
     public void display()
     {
         this.setTitle("Bootstrap Node UI.");
-        this.addWindowListener(this);
+        this.addWindowListener(new BootstrapperWindowListener());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         this.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -189,54 +189,21 @@ public class Bootstrapper extends JFrame implements WindowListener
         }
     }
 
-    @Override
-    public void windowActivated(WindowEvent e)
+    private final class BootstrapperWindowListener extends WindowAdapter
     {
 
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e)
-    {
-
-    }
-
-    @Override
-    public void windowIconified(WindowEvent e)
-    {
-
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent e)
-    {
-
-    }
-
-    @Override
-    public void windowOpened(WindowEvent e)
-    {
-
-    }
-
-    @Override
-    public void windowClosing(WindowEvent e)
-    {
-        /* Save the state before closing */
-        try
+        @Override
+        public void windowClosing(WindowEvent e)
         {
-            this.bootstrapInstance.shutdown(true);
-        }
-        catch (IOException ex)
-        {
-            System.err.println("Shutdown Save State failed; message: " + ex.getMessage());
+            /* Save the state before closing */
+            try
+            {
+                Bootstrapper.this.bootstrapInstance.shutdown(true);
+            }
+            catch (IOException ex)
+            {
+                System.err.println("Shutdown Save State failed; message: " + ex.getMessage());
+            }
         }
     }
-
-    @Override
-    public void windowClosed(WindowEvent e)
-    {
-
-    }
-
 }
