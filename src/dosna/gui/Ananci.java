@@ -5,7 +5,6 @@ import dosna.osn.Actor;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-import javax.swing.JFrame;
 
 /**
  * The Main User Interface class of DOSNA.
@@ -13,7 +12,7 @@ import javax.swing.JFrame;
  * @author Joshua Kissoon
  * @since 20140401
  */
-public class Ananci extends JFrame
+public class Ananci
 {
 
     private final DataManager dataManager;
