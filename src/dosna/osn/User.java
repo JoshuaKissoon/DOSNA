@@ -21,7 +21,7 @@ public class User extends Actor
 
     public static final String TYPE = "User";
 
-    public User(String username)
+    public User(final String username)
     {
         this.username = username;
         /**
@@ -45,9 +45,17 @@ public class User extends Actor
         return this.username;
     }
 
-    public void setFullName(String fullName)
+    public void setFullName(final String fullName)
     {
         this.fullName = fullName;
+    }
+
+    /**
+     * @return String This user's full name
+     */
+    public String getFullName()
+    {
+        return this.fullName;
     }
 
     /**
@@ -55,7 +63,7 @@ public class User extends Actor
      *
      * @param password
      */
-    public void setPassword(String password)
+    public void setPassword(final String password)
     {
         if (password.trim().equals(""))
         {
@@ -65,7 +73,7 @@ public class User extends Actor
         this.hashedPassword = this.hashPassword(password);
     }
 
-    public boolean isPassword(String password)
+    public boolean isPassword(final String password)
     {
         return this.hashedPassword.equals(this.hashPassword(password));
     }
@@ -77,7 +85,7 @@ public class User extends Actor
      *
      * @return String The hashed password
      */
-    private String hashPassword(String password)
+    private String hashPassword(final String password)
     {
         final String salt = "iu4rkjd&^876%ewfuhi4Y&*&*^*03487658347*&^&^";
 

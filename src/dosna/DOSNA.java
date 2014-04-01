@@ -100,7 +100,7 @@ public class DOSNA
                             {
                                 /* User exists! Now check if password matches */
                                 User user = (User) items.get(0);
-                                if (!user.isPassword(password))
+                                if (user.isPassword(password))
                                 {
                                     /* Everything's great! Launch the app */
                                     JOptionPane.showMessageDialog(null, "Superb! You're logged in.");
