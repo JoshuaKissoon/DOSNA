@@ -74,6 +74,9 @@ public class Bootstrapper extends JFrame
      */
     public void createGUI()
     {
+        
+        this.addWindowListener(new BootstrapperWindowListener());
+        
         /* Setup the Contacts Panel */
         contacts = new JTextArea(10, 20);
 
@@ -134,7 +137,6 @@ public class Bootstrapper extends JFrame
     public void display()
     {
         this.setTitle("Bootstrap Node UI.");
-        this.addWindowListener(new BootstrapperWindowListener());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         this.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));

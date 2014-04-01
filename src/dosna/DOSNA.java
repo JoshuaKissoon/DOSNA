@@ -2,9 +2,11 @@ package dosna;
 
 import dosna.dhtAbstraction.DataManager;
 import dosna.dhtAbstraction.DosnaDataManager;
+import dosna.gui.AnanciUI;
 import dosna.osn.User;
 import dosna.gui.LoginFrame;
 import dosna.gui.SignupFrame;
+import dosna.osn.Actor;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,7 +40,7 @@ public class DOSNA
      * @param username
      * @param nid
      *
-     * @return Boolean Whether the initialization was successful or not 
+     * @return Boolean Whether the initialization was successful or not
      */
     public boolean initRouting(String username, NodeId nid)
     {
@@ -84,8 +86,7 @@ public class DOSNA
 
                         User u = new User(username);
 
-                        
-                        if(!DOSNA.this.initRouting(username, u.getKey()))
+                        if (!DOSNA.this.initRouting(username, u.getKey()))
                         {
                             return;
                         }
@@ -105,6 +106,7 @@ public class DOSNA
                                     /* Everything's great! Launch the app */
                                     JOptionPane.showMessageDialog(null, "Superb! You're logged in.");
                                     login.dispose();
+                                    DOSNA.this.launchMainGUI(user);
                                 }
                                 else
                                 {
@@ -161,7 +163,7 @@ public class DOSNA
 
                     User u = new User(username);
                     u.setPassword(password);
-                    u.setFullName(fullName);
+                    u.setName(fullName);
 
                     try
                     {
@@ -187,8 +189,8 @@ public class DOSNA
 
                             /* User added, now launch DOSNA */
                             signup.dispose();
-                            JOptionPane.showMessageDialog(null, "You have successfully joined! welcome! Please log in to continue.");
-                            DOSNA.this.userLogin();
+                            JOptionPane.showMessageDialog(null, "You have successfully joined! welcome!");
+                            DOSNA.this.launchMainGUI(u);
                         }
                     }
                     catch (IOException ex)
@@ -201,6 +203,18 @@ public class DOSNA
 
         signup.createGUI();
         signup.display();
+    }
+
+    /**
+     * Launch the main GUI
+     *
+     * @param actor Which actor are we launching it for
+     */
+    public void launchMainGUI(Actor actor)
+    {
+        AnanciUI mainUi = new AnanciUI(dataManager, actor);
+        mainUi.create();
+        mainUi.display();
     }
 
     /**

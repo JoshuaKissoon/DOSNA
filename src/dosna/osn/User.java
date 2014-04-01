@@ -45,7 +45,7 @@ public class User extends Actor
         return this.username;
     }
 
-    public void setFullName(final String fullName)
+    public void setName(final String fullName)
     {
         this.fullName = fullName;
     }
@@ -53,7 +53,7 @@ public class User extends Actor
     /**
      * @return String This user's full name
      */
-    public String getFullName()
+    public String getName()
     {
         return this.fullName;
     }
