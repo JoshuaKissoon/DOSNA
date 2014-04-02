@@ -22,8 +22,6 @@ import kademlia.node.NodeId;
  *
  * @author Joshua Kissoon
  * @since 20140326
- *
- * @todo Handle saving state when the window closes
  */
 public class Bootstrapper extends JFrame
 {

@@ -2,13 +2,19 @@ package dosna.gui;
 
 import dosna.dhtAbstraction.DataManager;
 import dosna.osn.Actor;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 
 /**
  * The Main User Interface class of DOSNA.
@@ -25,6 +31,11 @@ public class AnanciUI extends JFrame
 
     private final DataManager dataManager;
     private final Actor actor;
+
+    /* Components */
+    private JSplitPane splitPane;
+    private JPanel leftSection, rightSection;
+    private JScrollPane leftSectionSP, rightSectionSP;
 
     /**
      * Initialize the UI Class
@@ -45,6 +56,30 @@ public class AnanciUI extends JFrame
     {
         this.createMainMenu();
         this.addWindowListener(new AnanciUIWindowListener());
+
+        /**
+         * @section Left Side
+         */
+        leftSection = new JPanel();
+        leftSectionSP = new JScrollPane(leftSection);
+        //leftSectionSP.setMinimumSize(new Dimension(FRAME_WIDTH / 2, FRAME_HEIGHT / 2));
+
+        /* Status Add Form */
+        StatusAddForm saf = new StatusAddForm();
+        leftSection.add(saf, BorderLayout.NORTH);
+
+        /**
+         * @section Right Side
+         */
+        rightSection = new JPanel();
+        rightSectionSP = new JScrollPane(rightSection);
+
+        /**
+         * @section Populating all content to the Main UI
+         */
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.leftSectionSP, this.rightSectionSP);
+        splitPane.setDividerLocation(FRAME_WIDTH / 2);
+        this.getContentPane().add(splitPane, BorderLayout.CENTER);
     }
 
     /**
@@ -99,6 +134,22 @@ public class AnanciUI extends JFrame
         this.repaint();
     }
 
+    /**
+     * Subclass that handles Action Events for this UI
+     */
+    private class AnanciUIActionListener implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent evt)
+        {
+
+        }
+    }
+
+    /**
+     * Subclass that handles Window Events for this UI
+     */
     private class AnanciUIWindowListener extends WindowAdapter
     {
 

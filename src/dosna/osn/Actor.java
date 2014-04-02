@@ -10,7 +10,21 @@ import dosna.dhtAbstraction.DOSNAContent;
  */
 public abstract class Actor extends DOSNAContent
 {
-    public abstract String getUsername();
+
+    /* Manage the content posted by this actor */
+    final ActorContentManager contentManager;
+
     
+    {
+        this.contentManager = new ActorContentManager();
+    }
+
+    public abstract String getUsername();
+
     public abstract String getName();
+
+    public ActorContentManager getContentManager()
+    {
+        return this.contentManager;
+    }
 }
