@@ -26,9 +26,12 @@ public class ActorContentManager
     {
         content = new HashMap<>();
         content.put("Key1", new TreeSet<ContentReference>());
+        content.put("Key2", new TreeSet<ContentReference>());
+        content.put("Key3", new TreeSet<ContentReference>());
+        
         content.get("Key1").add(new ContentReference(null));
-        content.get("Key1").add(new ContentReference(null));
-        content.get("Key1").add(new ContentReference(null));
+        content.get("Key2").add(new ContentReference(null));
+        content.get("Key3").add(new ContentReference(null));
     }
 
     /**
@@ -52,7 +55,6 @@ public class ActorContentManager
 //    {
 //
 //    }
-
     /**
      * Gets all content of a specific type from this actor posted after the given timestamp
      *
@@ -65,7 +67,6 @@ public class ActorContentManager
 //    {
 //
 //    }
-
     /**
      * Gets all content from this actor posted before the given timestamp
      *
@@ -77,7 +78,6 @@ public class ActorContentManager
 //    {
 //
 //    }
-
     /**
      * Gets all content of a specific type from this actor posted before the given timestamp
      *
@@ -90,7 +90,6 @@ public class ActorContentManager
 //    {
 //
 //    }
-
     /**
      * Gets all content from this actor posted between the given timestamps
      *
@@ -103,7 +102,6 @@ public class ActorContentManager
 //    {
 //
 //    }
-
     /**
      * Gets all content of a specific type from this actor posted between the given timestamps
      *
@@ -117,7 +115,6 @@ public class ActorContentManager
 //    {
 //
 //    }
-
     /**
      * Class used by the content manager to reference a content.
      * It will be used to keep track of content in Sorted order by timestamp.
@@ -135,5 +132,18 @@ public class ActorContentManager
         {
             return 1;
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("ContentManager: ");
+        sb.append("[# Content: ");
+        sb.append(this.content.size());
+        sb.append("]");
+
+        return sb.toString();
     }
 }

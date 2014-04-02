@@ -21,7 +21,6 @@ public final class DosnaDataManager implements DataManager
 {
 
     private final Kademlia kad;
-    private static int randomPort = 4858;
 
     /**
      * Initialize Kademlia
@@ -41,7 +40,7 @@ public final class DosnaDataManager implements DataManager
     }
 
     /**
-     * Initialize Kademlia
+     * Initialize Kademlia with a random port number
      *
      * @param ownerId
      * @param nodeId
@@ -50,7 +49,7 @@ public final class DosnaDataManager implements DataManager
      */
     public DosnaDataManager(final String ownerId, final NodeId nodeId) throws IOException
     {
-        this(ownerId, nodeId, randomPort);
+        this(ownerId, nodeId, (int) ((Math.random() * 10000) + 5000));
     }
 
     /**

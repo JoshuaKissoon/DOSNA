@@ -101,6 +101,7 @@ public class DOSNA
                             {
                                 /* User exists! Now check if password matches */
                                 User user = (User) new User().fromBytes(items.get(0).getContent());
+                                System.out.println("Loaded User: " + user);
                                 if (user.isPassword(password))
                                 {
                                     /* Everything's great! Launch the app */

@@ -135,45 +135,21 @@ public class User extends Actor
         return this.key;
     }
 
-    /**
-     * Serialize the user class data.
-     *
-     * Since there are many data to serialize, we serialize each separately,
-     * storing the serialized version in a HashMap, then we serialize the HashMap
-     * and return the serialized HashMap in byte format.
-     *
-     * @return
-     */
-//    @Override
-//    public byte[] toBytes()
-//    {
-//        Gson gson = new Gson();
-//
-//        /* Setup our HashMap object */
-//        HashMap<String, String> data = new HashMap<>();
-//
-//        /* Serialize our core user class */
-//        data.put("", TYPE);
-//        
-//        this.contentManager;
-//
-//        return gson.toJson(this).getBytes();
-//    }
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("User: ");
+        sb.append("[username: ");
+        sb.append(this.username);
+        sb.append("] ");
+        sb.append("[name: ");
+        sb.append(this.fullName);
+        sb.append("] ");
+        sb.append("[ContentManager: ");
+        sb.append(this.getContentManager());
+        sb.append("] ");
 
-    /**
-     * Deserialize the user class data.
-     * This is done based on the serialization specification.
-     *
-     * @param data
-     *
-     * @return new User object
-     */
-//    @Override
-//    public User fromBytes(byte[] data)
-//    {
-//        Gson gson = new Gson();
-//        DOSNAContent val = gson.fromJson(new String(data), this.getClass());
-//        return val;
-//    }
-    '
+        return sb.toString();
+    }
 }

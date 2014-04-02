@@ -15,7 +15,7 @@ public abstract class Actor extends DOSNAContent
     final static String SERIALK_CONTENT_MANAGER = "CManager";
 
     /* Manage the content posted by this actor */
-    ActorContentManager contentManager;
+    protected ActorContentManager contentManager;
 
     
     {
