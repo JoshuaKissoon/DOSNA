@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import kademlia.core.GetParameter;
-import kademlia.dht.KadContent;
+import kademlia.dht.StorageEntry;
 import kademlia.node.NodeId;
 
 /**
@@ -95,12 +95,12 @@ public class DOSNA
                         {
                             /* Checking if a user exists */
                             GetParameter gp = new GetParameter(u.getKey(), username, User.TYPE);
-                            List<KadContent> items = dataManager.get(gp, 1);
+                            List<StorageEntry> items = dataManager.get(gp, 1);
 
                             if (items.size() > 0)
                             {
                                 /* User exists! Now check if password matches */
-                                User user = (User) items.get(0);
+                                User user = (User) new User().fromBytes(items.get(0).getContent());
                                 if (user.isPassword(password))
                                 {
                                     /* Everything's great! Launch the app */
@@ -172,7 +172,7 @@ public class DOSNA
 
                         /* See if this user object already exists on the network */
                         GetParameter gp = new GetParameter(u.getKey(), username, User.TYPE);
-                        List<KadContent> items = dataManager.get(gp, 1);
+                        List<StorageEntry> items = dataManager.get(gp, 1);
 
                         if (items.size() > 0)
                         {

@@ -4,6 +4,7 @@ import java.util.List;
 import java.io.IOException;
 import kademlia.core.GetParameter;
 import kademlia.dht.KadContent;
+import kademlia.dht.StorageEntry;
 
 /**
  * An abstraction that handles routing data on the network and storing data.
@@ -46,7 +47,7 @@ public interface DataManager
      *
      * @throws java.io.IOException
      */
-    public List<KadContent> get(GetParameter gp, int numReaultsReq) throws IOException;
+    public List<StorageEntry> get(GetParameter gp, int numReaultsReq) throws IOException;
 
     /**
      * Run an update call to update the data stored locally on this computer.

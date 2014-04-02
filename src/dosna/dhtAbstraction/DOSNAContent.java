@@ -1,5 +1,6 @@
 package dosna.dhtAbstraction;
 
+import com.google.gson.Gson;
 import kademlia.dht.KadContent;
 
 /**
@@ -20,6 +21,11 @@ public abstract class DOSNAContent implements KadContent
         this.createTs = this.updateTs = System.currentTimeMillis() / 1000L;
     }
 
+    public DOSNAContent()
+    {
+        
+    }
+
     @Override
     public long getCreatedTimestamp()
     {
@@ -30,5 +36,20 @@ public abstract class DOSNAContent implements KadContent
     public long getLastUpdatedTimestamp()
     {
         return this.updateTs;
+    }
+
+    @Override
+    public byte[] toBytes()
+    {
+        Gson gson = new Gson();
+        return gson.toJson(this).getBytes();
+    }
+
+    @Override
+    public DOSNAContent fromBytes(byte[] data)
+    {
+        Gson gson = new Gson();
+        DOSNAContent val = gson.fromJson(new String(data), this.getClass());
+        return val;
     }
 }

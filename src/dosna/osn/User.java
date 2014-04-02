@@ -1,8 +1,10 @@
 package dosna.osn;
 
+import com.google.gson.Gson;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import kademlia.node.NodeId;
 
 /**
@@ -14,12 +16,17 @@ import kademlia.node.NodeId;
 public class User extends Actor
 {
 
-    private final String username;
+    private String username;
     private String fullName;
-    private final NodeId key;
+    private NodeId key;
     private String hashedPassword;
 
-    public static final String TYPE = "User";
+    public transient static final String TYPE = "User";
+
+    public User()
+    {
+
+    }
 
     public User(final String username)
     {
@@ -53,6 +60,7 @@ public class User extends Actor
     /**
      * @return String This user's full name
      */
+    @Override
     public String getName()
     {
         return this.fullName;
@@ -126,4 +134,46 @@ public class User extends Actor
     {
         return this.key;
     }
+
+    /**
+     * Serialize the user class data.
+     *
+     * Since there are many data to serialize, we serialize each separately,
+     * storing the serialized version in a HashMap, then we serialize the HashMap
+     * and return the serialized HashMap in byte format.
+     *
+     * @return
+     */
+//    @Override
+//    public byte[] toBytes()
+//    {
+//        Gson gson = new Gson();
+//
+//        /* Setup our HashMap object */
+//        HashMap<String, String> data = new HashMap<>();
+//
+//        /* Serialize our core user class */
+//        data.put("", TYPE);
+//        
+//        this.contentManager;
+//
+//        return gson.toJson(this).getBytes();
+//    }
+
+    /**
+     * Deserialize the user class data.
+     * This is done based on the serialization specification.
+     *
+     * @param data
+     *
+     * @return new User object
+     */
+//    @Override
+//    public User fromBytes(byte[] data)
+//    {
+//        Gson gson = new Gson();
+//        DOSNAContent val = gson.fromJson(new String(data), this.getClass());
+//        return val;
+//    }
+    '
 }

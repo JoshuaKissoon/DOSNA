@@ -11,8 +11,11 @@ import dosna.dhtAbstraction.DOSNAContent;
 public abstract class Actor extends DOSNAContent
 {
 
+    /* Serialization keys */
+    final static String SERIALK_CONTENT_MANAGER = "CManager";
+
     /* Manage the content posted by this actor */
-    final ActorContentManager contentManager;
+    ActorContentManager contentManager;
 
     
     {
@@ -23,8 +26,21 @@ public abstract class Actor extends DOSNAContent
 
     public abstract String getName();
 
+    /**
+     * @return The ContentManager that manages this actors contents
+     */
     public ActorContentManager getContentManager()
     {
         return this.contentManager;
+    }
+
+    /**
+     * Set a new ContentManager for this Actor
+     *
+     * @param cm The new content manager
+     */
+    public void setContentManager(ActorContentManager cm)
+    {
+        this.contentManager = cm;
     }
 }

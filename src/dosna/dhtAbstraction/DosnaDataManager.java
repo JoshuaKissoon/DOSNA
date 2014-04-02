@@ -7,6 +7,7 @@ import java.util.List;
 import kademlia.core.GetParameter;
 import kademlia.Kademlia;
 import kademlia.dht.KadContent;
+import kademlia.dht.StorageEntry;
 import kademlia.node.NodeId;
 
 /**
@@ -82,7 +83,7 @@ public final class DosnaDataManager implements DataManager
      * @return
      */
     @Override
-    public List<KadContent> get(GetParameter gp, int numReaultsReq) throws IOException
+    public List<StorageEntry> get(GetParameter gp, int numReaultsReq) throws IOException
     {
         return kad.get(gp, numReaultsReq);
     }
