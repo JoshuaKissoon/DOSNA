@@ -1,0 +1,1 @@
+This package contains the Social Network specific components of DOSNA that relates to actors

@@ -1,7 +1,7 @@
 package dosna.gui;
 
 import dosna.dhtAbstraction.DataManager;
-import dosna.osn.Actor;
+import dosna.osn.actor.Actor;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;

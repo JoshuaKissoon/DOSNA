@@ -1,10 +1,9 @@
-package dosna.osn;
+package dosna.osn.actor;
 
-import com.google.gson.Gson;
+import dosna.osn.actor.Actor;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import kademlia.node.NodeId;
 
 /**
@@ -16,16 +15,16 @@ import kademlia.node.NodeId;
 public class User extends Actor
 {
 
+    public static final String TYPE = "User";
+
     private String username;
     private String fullName;
     private NodeId key;
     private String hashedPassword;
 
-    public transient static final String TYPE = "User";
-
     public User()
     {
-
+        
     }
 
     public User(final String username)

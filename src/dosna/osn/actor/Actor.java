@@ -1,4 +1,4 @@
-package dosna.osn;
+package dosna.osn.actor;
 
 import dosna.dhtAbstraction.DOSNAContent;
 
@@ -15,11 +15,11 @@ public abstract class Actor extends DOSNAContent
     final static String SERIALK_CONTENT_MANAGER = "CManager";
 
     /* Manage the content posted by this actor */
-    protected ActorContentManager contentManager;
+    protected ContentManager contentManager;
 
     
     {
-        this.contentManager = new ActorContentManager();
+        this.contentManager = new ContentManager();
     }
 
     public abstract String getUsername();
@@ -29,7 +29,7 @@ public abstract class Actor extends DOSNAContent
     /**
      * @return The ContentManager that manages this actors contents
      */
-    public ActorContentManager getContentManager()
+    public ContentManager getContentManager()
     {
         return this.contentManager;
     }
@@ -39,7 +39,7 @@ public abstract class Actor extends DOSNAContent
      *
      * @param cm The new content manager
      */
-    public void setContentManager(ActorContentManager cm)
+    public void setContentManager(ContentManager cm)
     {
         this.contentManager = cm;
     }

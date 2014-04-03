@@ -1,4 +1,4 @@
-package dosna.osn;
+package dosna.osn.actor;
 
 import dosna.dhtAbstraction.DOSNAContent;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.TreeSet;
  * @author Joshua Kissoon
  * @since 20140401
  */
-public class ActorContentManager
+public class ContentManager
 {
 
     /**
@@ -22,7 +22,7 @@ public class ActorContentManager
      */
     private final HashMap<String, TreeSet<ContentReference>> content;
 
-    public ActorContentManager()
+    public ContentManager()
     {
         content = new HashMap<>();
         content.put("Key1", new TreeSet<ContentReference>());

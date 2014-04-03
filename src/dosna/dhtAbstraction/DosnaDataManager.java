@@ -20,6 +20,10 @@ import kademlia.node.NodeId;
 public final class DosnaDataManager implements DataManager
 {
 
+    /**
+     * The Kademlia instance to be used.
+     * We use composition rather than inheritance.
+     */
     private final Kademlia kad;
 
     /**

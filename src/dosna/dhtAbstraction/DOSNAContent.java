@@ -13,6 +13,8 @@ import kademlia.dht.KadContent;
  */
 public abstract class DOSNAContent implements KadContent
 {
+    
+    public static final String TYPE = "DOSNAContent";
 
     public final long createTs, updateTs;
 
