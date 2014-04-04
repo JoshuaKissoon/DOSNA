@@ -1,5 +1,6 @@
 package dosna.osn.actor;
 
+import java.util.Collection;
 import java.util.TreeSet;
 
 /**
@@ -8,7 +9,7 @@ import java.util.TreeSet;
  * @author Joshua Kissoon
  * @since 20140403
  */
-public class ConnectionManager
+public class ConnectionsManager
 {
 
     /**
@@ -21,7 +22,7 @@ public class ConnectionManager
     /**
      * Blank constructor to be used by Serializer
      */
-    public ConnectionManager()
+    public ConnectionsManager()
     {
 
     }
@@ -29,7 +30,7 @@ public class ConnectionManager
     /**
      * This constructor is called when creating a new ConnectionManager object
      */
-    private ConnectionManager(final Actor actor)
+    private ConnectionsManager(final Actor actor)
     {
         this.actor = actor;
         this.connections = new TreeSet<>();
@@ -42,9 +43,35 @@ public class ConnectionManager
      *
      * @return A new ConnectionManager object
      */
-    public static ConnectionManager createNew(final Actor actor)
+    public static ConnectionsManager createNew(final Actor actor)
     {
-        return new ConnectionManager(actor);
+        return new ConnectionsManager(actor);
     }
 
+    /**
+     * Adds a new relationship
+     *
+     * @param rel The relationship to add
+     *
+     * @return Whether the new relationship was added successfully or not
+     */
+    public boolean addConnection(final Relationship rel)
+    {
+        if (this.connections.contains(rel))
+        {
+            return false;
+        }
+        else
+        {
+            return this.connections.add(rel);
+        }
+    }
+
+    /**
+     * @return The set of all relationships that this actor manages
+     */
+    public Collection<Relationship> getConnection()
+    {
+        return this.connections;
+    }
 }

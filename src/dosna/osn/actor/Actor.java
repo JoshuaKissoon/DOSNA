@@ -17,6 +17,9 @@ public abstract class Actor extends DOSNAContent
     /* Manage the content posted by this actor */
     protected ContentManager contentManager;
 
+    /* Manage relationships this actor have to other actors */
+    protected ConnectionsManager connectionManager;
+
     
     {
         this.contentManager = new ContentManager();
@@ -42,5 +45,13 @@ public abstract class Actor extends DOSNAContent
     public void setContentManager(ContentManager cm)
     {
         this.contentManager = cm;
+    }
+
+    /**
+     * @return The ConnectionManager for this actor
+     */
+    public ConnectionsManager getConnectionManager()
+    {
+        return this.connectionManager;
     }
 }
