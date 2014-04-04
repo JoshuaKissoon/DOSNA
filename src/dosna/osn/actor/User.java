@@ -1,6 +1,5 @@
 package dosna.osn.actor;
 
-import dosna.osn.actor.Actor;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -46,7 +45,7 @@ public class User extends Actor
     }
 
     @Override
-    public String getUsername()
+    public String getUserId()
     {
         return this.username;
     }

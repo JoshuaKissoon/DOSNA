@@ -22,7 +22,7 @@ public abstract class Actor extends DOSNAContent
         this.contentManager = new ContentManager();
     }
 
-    public abstract String getUsername();
+    public abstract String getUserId();
 
     public abstract String getName();
 
