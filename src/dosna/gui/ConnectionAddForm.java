@@ -6,50 +6,53 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 /**
- * The user interface used to manage connections
+ * A form used to add a new connection
  *
  * @author Joshua Kissoon
  * @since 20140404
  */
-public class ConnectionsManagerUI extends JFrame
+public class ConnectionAddForm extends JFrame
 {
 
     /* Properties */
-    private final static int FRAME_WIDTH = 800;
-    private final static int FRAME_HEIGHT = 600;
+    private final static int FRAME_WIDTH = 450;
+    private final static int FRAME_HEIGHT = 250;
 
-    /* Main components */
     private final Actor actor;
     private final DataManager dataManager;
 
     /**
-     * @param actor       The actor currently logged in
-     * @param dataManager The DataManager used to store/retrieve data
+     * Setup the add connection form
+     *
+     * @param actor       Currently logged in Actor
+     * @param dataManager Used to put and get data
      */
-    public ConnectionsManagerUI(final Actor actor, final DataManager dataManager)
+    public ConnectionAddForm(final Actor actor, final DataManager dataManager)
     {
         this.actor = actor;
         this.dataManager = dataManager;
     }
 
     /**
-     * Create the Main GUI and populate it's contents
+     * Create the frame and populate it's contents
      */
     public void create()
     {
-
+        this.getContentPane().add(new ConnectionAddPanel(this.actor, this.dataManager));
     }
 
     /**
-     * Display the main GUI onto the screen
+     * Display the frame onto the screen
      */
     public void display()
     {
-        this.setTitle("Ananci: Manage Connections - " + this.actor.getName());
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setTitle("Ananci: Add Connection - " + this.actor.getName());
+
         this.setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         this.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         this.setMaximumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.pack();
         this.setVisible(true);

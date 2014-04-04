@@ -23,23 +23,24 @@ public class User extends Actor
 
     public User()
     {
-        
+
     }
 
     public User(final String username)
     {
-        this.username = username;
+        this.username = username.toLowerCase();
+
         /**
          * Node ID for a User object is the username/ownerId repeated until it have 20 characters
          *
          * @note The NodeId for this User object is the same as for the node this user uses,
          * A node will always store it's local user's uid
          */
-        int numRepeats = ((NodeId.ID_LENGTH / 8) / username.length()) + 1;
+        int numRepeats = ((NodeId.ID_LENGTH / 8) / this.username.length()) + 1;
         StringBuilder nodeId = new StringBuilder();
         for (int i = 0; i < numRepeats; i++)
         {
-            nodeId.append(username);
+            nodeId.append(this.username);
         }
         this.key = new NodeId(nodeId.substring(0, 20));
     }

@@ -32,8 +32,9 @@ public class LoginFrame extends JFrame
     /* Layout Manager Components */
     private GridBagConstraints gbc;
 
-    /* Listeners */
+    /* Listeners & Action Commands */
     private ActionListener listener;
+    private final static String AC_LOGIN = "login";
 
     public LoginFrame()
     {
@@ -58,15 +59,17 @@ public class LoginFrame extends JFrame
         form.add(label, gbc);
 
         passwordTF = new JPasswordField(20);
+        passwordTF.addActionListener(this.listener);
+        passwordTF.setActionCommand(AC_LOGIN);
         gbc = GBConstraints.getItemConstraints(5, 5);
         form.add(passwordTF, gbc);
 
         btn = new JButton("Login");
-        btn.setActionCommand("login");
+        btn.setActionCommand(AC_LOGIN);
         btn.addActionListener(this.listener);
         gbc = GBConstraints.getItemConstraints(4, 8);
         form.add(btn, gbc);
-        
+
         /* Signup btn */
         btn = new JButton("New User? Join here.");
         btn.setActionCommand("signup");

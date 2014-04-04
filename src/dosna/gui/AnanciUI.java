@@ -102,15 +102,19 @@ public class AnanciUI extends JFrame
         menu = new JMenu("Home");
         menuBar.add(menu);
 
-        menuItem = new JMenuItem("Connections");
-        menuItem.addActionListener(this.actionListener);
-        menuItem.setActionCommand(AnanciUIActionListener.AC_CONNECTIONS);
-        menu.add(menuItem);
-
-
         /* Setting up the Actor menu */
         menu = new JMenu("You");
         menuBar.add(menu);
+
+        menuItem = new JMenuItem("Manage Connections");
+        menuItem.addActionListener(this.actionListener);
+        menuItem.setActionCommand(AnanciUIActionListener.AC_MANAGE_CONNECTIONS);
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem("Add Connection");
+        menuItem.addActionListener(this.actionListener);
+        menuItem.setActionCommand(AnanciUIActionListener.AC_ADD_CONNECTION);
+        menu.add(menuItem);
 
         /* Setting up the Help menu */
         menu = new JMenu("Help");
@@ -149,15 +153,25 @@ public class AnanciUI extends JFrame
     {
 
         /* Action Commands used */
-        public static final String AC_CONNECTIONS = "AC_CONNECTIONS";
+        public static final String AC_MANAGE_CONNECTIONS = "AC_MANAGE_CONNECTIONS";
+        public static final String AC_ADD_CONNECTION = "AC_ADD_CONNECTIONS";
 
         @Override
         public void actionPerformed(ActionEvent evt)
         {
             switch (evt.getActionCommand())
             {
-                case AC_CONNECTIONS:
+                case AC_MANAGE_CONNECTIONS:
                     /* Load the Connections Manager UI */
+                    ConnectionsManagerUI cmui = new ConnectionsManagerUI(actor, dataManager);
+                    cmui.create();
+                    cmui.display();
+                    break;
+                case AC_ADD_CONNECTION:
+                    /* Load the Connections Add Form */
+                    ConnectionAddForm caf = new ConnectionAddForm(actor, dataManager);
+                    caf.create();
+                    caf.display();
                     break;
             }
         }

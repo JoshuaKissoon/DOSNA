@@ -94,7 +94,7 @@ public final class DosnaDataManager implements DataManager
         }
         else
         {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("No result exists for the given parameters.");
         }
     }
 

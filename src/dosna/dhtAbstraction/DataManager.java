@@ -2,6 +2,7 @@ package dosna.dhtAbstraction;
 
 import java.util.List;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import kademlia.core.GetParameter;
 import kademlia.dht.KadContent;
 import kademlia.dht.StorageEntry;
@@ -59,7 +60,7 @@ public interface DataManager
      *
      * @throws java.io.IOException
      */
-    public StorageEntry get(GetParameter gp) throws IOException;
+    public StorageEntry get(GetParameter gp) throws IOException, NoSuchElementException;
 
     /**
      * Run an update call to update the data stored locally on this computer.
