@@ -4,6 +4,7 @@ import dosna.DOSNAConfig;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import kademlia.core.GetParameter;
 import kademlia.Kademlia;
 import kademlia.dht.KadContent;
@@ -76,19 +77,25 @@ public final class DosnaDataManager implements DataManager
         kad.putLocally(content);
     }
 
-    /**
-     * Get data from the network.
-     * Will get data either from local or remote network nodes.
-     *
-     * @param gp
-     * @param numReaultsReq
-     *
-     * @return
-     */
     @Override
     public List<StorageEntry> get(GetParameter gp, int numReaultsReq) throws IOException
     {
         return kad.get(gp, numReaultsReq);
+    }
+
+    @Override
+    public StorageEntry get(GetParameter gp) throws IOException
+    {
+        List<StorageEntry> results = kad.get(gp, 1);
+
+        if (!results.isEmpty())
+        {
+            return results.get(0);
+        }
+        else
+        {
+            throw new NoSuchElementException();
+        }
     }
 
     /**

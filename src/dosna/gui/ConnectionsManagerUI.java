@@ -33,7 +33,7 @@ public class ConnectionsManagerUI extends JFrame
      */
     public void create()
     {
-
+        
     }
 
     /**

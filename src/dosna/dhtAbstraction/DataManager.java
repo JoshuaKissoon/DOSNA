@@ -50,6 +50,18 @@ public interface DataManager
     public List<StorageEntry> get(GetParameter gp, int numReaultsReq) throws IOException;
 
     /**
+     * Get 1 entry for a data from the network.
+     * Will get data either from local or remote network nodes.
+     *
+     * @param gp
+     *
+     * @return A single data entry
+     *
+     * @throws java.io.IOException
+     */
+    public StorageEntry get(GetParameter gp) throws IOException;
+
+    /**
      * Run an update call to update the data stored locally on this computer.
      * This may involve deleting some data and adding some other data.
      */
