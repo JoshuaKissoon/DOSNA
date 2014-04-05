@@ -1,4 +1,4 @@
-package dosna.gui;
+package dosna.osn.status;
 
 import dosna.dhtAbstraction.DataManager;
 import dosna.osn.actor.Actor;
@@ -18,7 +18,7 @@ import javax.swing.border.EmptyBorder;
  * @author Joshua Kissoon
  * @since 20140401
  */
-public class StatusAddForm extends JPanel
+public final class StatusAddForm extends JPanel
 {
 
     /* Form Elements */
@@ -58,34 +58,52 @@ public class StatusAddForm extends JPanel
      *
      * @param li
      */
-    private void setActionListener(ActionListener li)
+    public void setActionListener(ActionListener li)
     {
         this.actionListener = li;
-
         submitBtn.addActionListener(this.actionListener);
+    }
+
+    public String getEnteredStatus()
+    {
+        return this.statusTA.getText();
     }
 
     /**
      * Default ActionListener for the Status Add Form
      */
-    public class SAFActionListener implements ActionListener
+    public static final class SAFActionListener implements ActionListener
     {
 
-        private final DataManager dataManager;
+        private final Actor actor;
+        private final StatusAddForm saf;
 
         /**
-         * @param dataManager DataManager will be used to post a new status on the network
-         * @param actor       Actor object of the currently logged in user
+         * @param actor Actor object of the currently logged in user
+         * @param saf   The StatusAddForm for which this listener is for
          */
-        public SAFActionListener(DataManager dataManager, Actor actor)
+        public SAFActionListener(final Actor actor, StatusAddForm saf)
         {
-            this.dataManager = dataManager;
+            this.actor = actor;
+            this.saf = saf;
         }
 
+        /**
+         * When the user clicks the submit btn on a status, handle it
+         *
+         * @param evt
+         */
         @Override
-        public void actionPerformed(ActionEvent evt)
+        public void actionPerformed(final ActionEvent evt)
         {
+            final String text = saf.getEnteredStatus();
+            if (text.trim().isEmpty())
+            {
+                return;
+            }
 
+            Status s = Status.createNew(this.actor, text);
+            this.actor.getContentManager().store(s);
         }
     }
 }

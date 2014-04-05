@@ -2,6 +2,8 @@ package dosna.osn.status;
 
 import dosna.dhtAbstraction.DOSNAContent;
 import dosna.osn.actor.Actor;
+import dosna.util.HashCalculator;
+import java.security.NoSuchAlgorithmException;
 import kademlia.node.NodeId;
 
 /**
@@ -22,7 +24,7 @@ public class Status extends DOSNAContent
     private NodeId key;
 
     /**
-     * Blank public constructor mainly used by serializer
+     * Blank public constructor mainly used by serializer.
      */
     public Status()
     {
@@ -49,17 +51,16 @@ public class Status extends DOSNAContent
      */
     private void generateKey()
     {
-        final int numRepeats = (((NodeId.ID_LENGTH / 8) / 2) / this.userId.length()) + 1;
-        final StringBuilder repeatedUserId = new StringBuilder();
-        for (int i = 0; i < numRepeats; i++)
-        {
-            repeatedUserId.append(this.userId);
-        }
-
-        final String uidPart = repeatedUserId.substring(0, 10);
         final long currentTs = System.currentTimeMillis() / 1000L;
 
-        this.key = new NodeId(uidPart + "" + currentTs);
+        try
+        {
+            this.key = new NodeId(HashCalculator.sha1Hash(userId + currentTs));
+        }
+        catch (NoSuchAlgorithmException ex)
+        {
+            /* @todo Handle this error */
+        }
     }
 
     /**
@@ -70,15 +71,23 @@ public class Status extends DOSNAContent
      *
      * @return A new Status object
      */
-    public Status createNew(final Actor actor, final String text)
+    public static Status createNew(final Actor actor, final String text)
     {
         return new Status(actor, text);
+    }
+
+    /**
+     * @return String The text of the status
+     */
+    public String getStatusText()
+    {
+        return this.text;
     }
 
     @Override
     public NodeId getKey()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.key;
     }
 
     @Override

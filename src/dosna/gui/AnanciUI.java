@@ -1,5 +1,6 @@
 package dosna.gui;
 
+import dosna.osn.status.StatusAddForm;
 import dosna.dhtAbstraction.DataManager;
 import dosna.osn.actor.Actor;
 import java.awt.BorderLayout;
@@ -71,6 +72,7 @@ public class AnanciUI extends JFrame
 
         /* Status Add Form */
         StatusAddForm saf = new StatusAddForm();
+        saf.setActionListener(new StatusAddForm.SAFActionListener(actor, saf));
         leftSection.add(saf, BorderLayout.NORTH);
 
         /**
