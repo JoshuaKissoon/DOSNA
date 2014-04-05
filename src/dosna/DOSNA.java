@@ -9,10 +9,9 @@ import dosna.gui.SignupFrame;
 import dosna.osn.actor.Actor;
 import java.util.List;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import javax.swing.JOptionPane;
-import kademlia.core.GetParameter;
+import kademlia.dht.GetParameter;
 import kademlia.dht.StorageEntry;
 import kademlia.node.NodeId;
 
@@ -91,7 +90,7 @@ public class DOSNA
                     try
                     {
                         /* Checking if a user exists */
-                        GetParameter gp = new GetParameter(u.getKey(), username, User.TYPE);
+                        GetParameter gp = new GetParameter(u.getKey(), User.TYPE, username);
                         List<StorageEntry> items = dataManager.get(gp, 1);
 
                         if (items.size() > 0)

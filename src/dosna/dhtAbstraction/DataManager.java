@@ -3,8 +3,7 @@ package dosna.dhtAbstraction;
 import java.util.List;
 import java.io.IOException;
 import java.util.NoSuchElementException;
-import kademlia.core.GetParameter;
-import kademlia.dht.KadContent;
+import kademlia.dht.GetParameter;
 import kademlia.dht.StorageEntry;
 
 /**
@@ -28,7 +27,7 @@ public interface DataManager
      *
      * @throws java.io.IOException
      */
-    public int put(KadContent content) throws IOException;
+    public int put(final DOSNAContent content) throws IOException;
 
     /**
      * Stores data locally
@@ -37,7 +36,7 @@ public interface DataManager
      *
      * @throws java.io.IOException
      */
-    public void putLocally(KadContent content) throws IOException;
+    public void putLocally(final DOSNAContent content) throws IOException;
 
     /**
      * Put the content on the local node and on the network.
@@ -48,7 +47,7 @@ public interface DataManager
      *
      * @throws java.io.IOException
      */
-    public int putLocallyAndUniversally(KadContent content) throws IOException;
+    public int putLocallyAndUniversally(final DOSNAContent content) throws IOException;
 
     /**
      * Get data from the network.
@@ -61,7 +60,7 @@ public interface DataManager
      *
      * @throws java.io.IOException
      */
-    public List<StorageEntry> get(GetParameter gp, int numReaultsReq) throws IOException;
+    public List<StorageEntry> get(final GetParameter gp, final int numReaultsReq) throws IOException;
 
     /**
      * Get 1 entry for a data from the network.
@@ -73,7 +72,7 @@ public interface DataManager
      *
      * @throws java.io.IOException
      */
-    public StorageEntry get(GetParameter gp) throws IOException, NoSuchElementException;
+    public StorageEntry get(final GetParameter gp) throws IOException, NoSuchElementException;
 
     /**
      * Run an update call to update the data stored locally on this computer.
@@ -88,5 +87,5 @@ public interface DataManager
      *
      * @throws java.io.IOException
      */
-    public void shutdown(boolean saveState) throws IOException;
+    public void shutdown(final boolean saveState) throws IOException;
 }

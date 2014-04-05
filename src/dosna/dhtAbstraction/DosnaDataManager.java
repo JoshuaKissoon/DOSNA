@@ -5,9 +5,8 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.NoSuchElementException;
-import kademlia.core.GetParameter;
+import kademlia.dht.GetParameter;
 import kademlia.Kademlia;
-import kademlia.dht.KadContent;
 import kademlia.dht.StorageEntry;
 import kademlia.node.NodeId;
 
@@ -63,7 +62,7 @@ public final class DosnaDataManager implements DataManager
      * It may or may not store data locally.
      */
     @Override
-    public synchronized int put(KadContent content) throws IOException
+    public synchronized int put(final DOSNAContent content) throws IOException
     {
         return kad.put(content);
     }
@@ -72,7 +71,7 @@ public final class DosnaDataManager implements DataManager
      * Stores data locally
      */
     @Override
-    public synchronized void putLocally(KadContent content) throws IOException
+    public synchronized void putLocally(final DOSNAContent content) throws IOException
     {
         kad.putLocally(content);
     }
@@ -87,20 +86,20 @@ public final class DosnaDataManager implements DataManager
      * @throws java.io.IOException
      */
     @Override
-    public synchronized int putLocallyAndUniversally(KadContent content) throws IOException
+    public synchronized int putLocallyAndUniversally(final DOSNAContent content) throws IOException
     {
         this.putLocally(content);
         return this.put(content);
     }
 
     @Override
-    public List<StorageEntry> get(GetParameter gp, int numReaultsReq) throws IOException
+    public List<StorageEntry> get(final GetParameter gp, final int numReaultsReq) throws IOException
     {
         return kad.get(gp, numReaultsReq);
     }
 
     @Override
-    public StorageEntry get(GetParameter gp) throws IOException
+    public StorageEntry get(final GetParameter gp) throws IOException
     {
         List<StorageEntry> results = kad.get(gp, 1);
 

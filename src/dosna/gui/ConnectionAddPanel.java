@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import kademlia.core.GetParameter;
+import kademlia.dht.GetParameter;
 import kademlia.dht.StorageEntry;
 
 /**
@@ -173,6 +173,7 @@ public class ConnectionAddPanel extends JPanel
 
             Relationship r = new Relationship(actor, connection);
             actor.getConnectionManager().addConnection(r);
+            actor.setUpdated();
 
             try
             {
