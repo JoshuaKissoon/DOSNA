@@ -13,10 +13,11 @@ import kademlia.dht.KadContent;
  */
 public abstract class DOSNAContent implements KadContent
 {
-    
+
     public static final String TYPE = "DOSNAContent";
 
-    public final long createTs, updateTs;
+    public final long createTs;
+    public long updateTs;
 
     
     {
@@ -25,7 +26,7 @@ public abstract class DOSNAContent implements KadContent
 
     public DOSNAContent()
     {
-        
+
     }
 
     @Override
@@ -53,5 +54,14 @@ public abstract class DOSNAContent implements KadContent
         Gson gson = new Gson();
         DOSNAContent val = gson.fromJson(new String(data), this.getClass());
         return val;
+    }
+
+    /**
+     * When some updates have been made to a content,
+     * this method can be called to update the lastUpdated timestamp.
+     */
+    public void setUpdated()
+    {
+        this.updateTs = System.currentTimeMillis() / 1000L;
     }
 }

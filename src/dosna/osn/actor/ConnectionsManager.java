@@ -8,6 +8,9 @@ import java.util.TreeSet;
  *
  * @author Joshua Kissoon
  * @since 20140403
+ *
+ * @todo Add an isConnection method
+ * @todo When a person is a connection, show that status in the addConnection frame
  */
 public class ConnectionsManager
 {
@@ -73,5 +76,26 @@ public class ConnectionsManager
     public Collection<Relationship> getConnection()
     {
         return this.connections;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder("ConnectionManager: ");
+
+        sb.append("[");
+        sb.append("# Connections: ");
+        sb.append(this.connections.size());
+        sb.append("]");
+
+        sb.append("[");
+        sb.append("Connections: ");
+        this.connections.stream().forEach((s) ->
+        {
+            sb.append(s);
+        });
+        sb.append("]");
+
+        return sb.toString();
     }
 }

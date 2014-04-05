@@ -63,18 +63,34 @@ public final class DosnaDataManager implements DataManager
      * It may or may not store data locally.
      */
     @Override
-    public void put(KadContent content) throws IOException
+    public synchronized int put(KadContent content) throws IOException
     {
-        kad.put(content);
+        return kad.put(content);
     }
 
     /**
      * Stores data locally
      */
     @Override
-    public void putLocally(KadContent content) throws IOException
+    public synchronized void putLocally(KadContent content) throws IOException
     {
         kad.putLocally(content);
+    }
+
+    /**
+     * Put the content on the local node and on the network.
+     *
+     * @param content The content to put
+     *
+     * @return Integer The number of nodes this content was put on, excluding the local node.
+     *
+     * @throws java.io.IOException
+     */
+    @Override
+    public synchronized int putLocallyAndUniversally(KadContent content) throws IOException
+    {
+        this.putLocally(content);
+        return this.put(content);
     }
 
     @Override

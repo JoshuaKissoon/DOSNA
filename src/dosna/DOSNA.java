@@ -72,65 +72,61 @@ public class DOSNA
     {
         /* Ask the user to login */
         final LoginFrame login = new LoginFrame();
-        login.setActionListener(new ActionListener()
+        login.setActionListener((final ActionEvent event) ->
         {
-            @Override
-            public void actionPerformed(final ActionEvent event)
+            switch (event.getActionCommand())
             {
-                switch (event.getActionCommand())
-                {
-                    case "login":
-                        /* @todo Login the user */
-                        String username = login.getUsername();
-                        String password = login.getPassword();
+                case "login":
+                    /* @todo Login the user */
+                    String username = login.getUsername();
+                    String password = login.getPassword();
 
-                        User u = new User(username);
+                    User u = new User(username);
 
-                        if (!DOSNA.this.initRouting(username, u.getKey()))
+                    if (!DOSNA.this.initRouting(username, u.getKey()))
+                    {
+                        return;
+                    }
+
+                    try
+                    {
+                        /* Checking if a user exists */
+                        GetParameter gp = new GetParameter(u.getKey(), username, User.TYPE);
+                        List<StorageEntry> items = dataManager.get(gp, 1);
+
+                        if (items.size() > 0)
                         {
-                            return;
-                        }
-
-                        try
-                        {
-                            /* Checking if a user exists */
-                            GetParameter gp = new GetParameter(u.getKey(), username, User.TYPE);
-                            List<StorageEntry> items = dataManager.get(gp, 1);
-
-                            if (items.size() > 0)
+                            /* User exists! Now check if password matches */
+                            User user = (User) new User().fromBytes(items.get(0).getContent());
+                            System.out.println("Loaded User: " + user);
+                            if (user.isPassword(password))
                             {
-                                /* User exists! Now check if password matches */
-                                User user = (User) new User().fromBytes(items.get(0).getContent());
-                                System.out.println("Loaded User: " + user);
-                                if (user.isPassword(password))
-                                {
-                                    /* Everything's great! Launch the app */
-                                    JOptionPane.showMessageDialog(null, "Superb! You're logged in.");
-                                    login.dispose();
-                                    DOSNA.this.launchMainGUI(user);
-                                }
-                                else
-                                {
-                                    JOptionPane.showMessageDialog(null, "Invalid password! please try again.");
-                                }
+                                /* Everything's great! Launch the app */
+                                JOptionPane.showMessageDialog(null, "Superb! You're logged in.");
+                                login.dispose();
+                                DOSNA.this.launchMainGUI(user);
                             }
                             else
                             {
-                                /* No user exists */
-                                JOptionPane.showMessageDialog(null, "Sorry, no account exists for the given user.");
+                                JOptionPane.showMessageDialog(null, "Invalid password! please try again.");
                             }
                         }
-                        catch (IOException ex)
+                        else
                         {
-                            System.err.println("Problem encountered during login whiles checking for existing profile; message: " + ex.getMessage());
+                            /* No user exists */
+                            JOptionPane.showMessageDialog(null, "Sorry, no account exists for the given user.");
                         }
-                        break;
-                    case "signup":
-                        /* The user wants to signup, get them the signup form */
-                        login.dispose();
-                        DOSNA.this.userSignup();
-                        break;
-                }
+                    }
+                    catch (IOException ex)
+                    {
+                        System.err.println("Problem encountered during login whiles checking for existing profile; message: " + ex.getMessage());
+                    }
+                    break;
+                case "signup":
+                    /* The user wants to signup, get them the signup form */
+                    login.dispose();
+                    DOSNA.this.userSignup();
+                    break;
             }
         });
         login.createGUI();
@@ -144,60 +140,54 @@ public class DOSNA
     {
         final SignupFrame signup = new SignupFrame();
 
-        signup.setActionListener(new ActionListener()
+        signup.setActionListener((ActionEvent e) ->
         {
-
-            @Override
-            public void actionPerformed(ActionEvent e)
+            String username = signup.getUsername().trim();
+            String password = signup.getPassword().trim();
+            String fullName = signup.getFullName().trim();
+            
+            if (username.isEmpty() || password.isEmpty() || fullName.isEmpty())
             {
-                /* Handle signing up the user */
-                String username = signup.getUsername().trim();
-                String password = signup.getPassword().trim();
-                String fullName = signup.getFullName().trim();
-
-                if (username.isEmpty() || password.isEmpty() || fullName.isEmpty())
+                JOptionPane.showMessageDialog(null, "All fields are required.");
+            }
+            else
+            {
+                
+                User u = new User(username);
+                u.setPassword(password);
+                u.setName(fullName);
+                
+                try
                 {
-                    JOptionPane.showMessageDialog(null, "All fields are required.");
+                    /* Initialize our routing */
+                    DOSNA.this.initRouting(username, u.getKey());
+                    
+                    /* See if this user object already exists on the network */
+                    GetParameter gp = new GetParameter(u.getKey(), username, User.TYPE);
+                    List<StorageEntry> items = dataManager.get(gp, 1);
+                    
+                    if (items.size() > 0)
+                    {
+                        /**
+                         * Username is already taken, block this user and show a warning
+                         */
+                        JOptionPane.showMessageDialog(null, "This username is already taken! Please try another username.");
+                    }
+                    else
+                    {
+                        /* Lets add this user to the system */
+                        dataManager.putLocally(u);
+                        dataManager.put(u);
+                        
+                        /* User added, now launch DOSNA */
+                        signup.dispose();
+                        JOptionPane.showMessageDialog(null, "You have successfully joined! welcome!");
+                        DOSNA.this.launchMainGUI(u);
+                    }
                 }
-                else
+                catch (IOException ex)
                 {
-
-                    User u = new User(username);
-                    u.setPassword(password);
-                    u.setName(fullName);
-
-                    try
-                    {
-                        /* Initialize our routing */
-                        DOSNA.this.initRouting(username, u.getKey());
-
-                        /* See if this user object already exists on the network */
-                        GetParameter gp = new GetParameter(u.getKey(), username, User.TYPE);
-                        List<StorageEntry> items = dataManager.get(gp, 1);
-
-                        if (items.size() > 0)
-                        {
-                            /**
-                             * Username is already taken, block this user and show a warning
-                             */
-                            JOptionPane.showMessageDialog(null, "This username is already taken! Please try another username.");
-                        }
-                        else
-                        {
-                            /* Lets add this user to the system */
-                            dataManager.putLocally(u);
-                            dataManager.put(u);
-
-                            /* User added, now launch DOSNA */
-                            signup.dispose();
-                            JOptionPane.showMessageDialog(null, "You have successfully joined! welcome!");
-                            DOSNA.this.launchMainGUI(u);
-                        }
-                    }
-                    catch (IOException ex)
-                    {
-
-                    }
+                    
                 }
             }
         });

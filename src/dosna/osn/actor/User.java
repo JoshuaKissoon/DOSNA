@@ -137,16 +137,22 @@ public class User extends Actor
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append("User: ");
+        StringBuilder sb = new StringBuilder("User: ");
+
         sb.append("[username: ");
         sb.append(this.username);
+
         sb.append("] ");
         sb.append("[name: ");
         sb.append(this.fullName);
         sb.append("] ");
+
         sb.append("[ContentManager: ");
         sb.append(this.getContentManager());
+        sb.append("] ");
+
+        sb.append("[ConnectionsManager: ");
+        sb.append(this.getConnectionManager());
         sb.append("] ");
 
         return sb.toString();

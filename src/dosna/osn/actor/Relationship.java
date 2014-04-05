@@ -33,6 +33,11 @@ public class Relationship implements Comparable<Relationship>
         this.createTs = System.currentTimeMillis() / 1000L;
     }
 
+    public Relationship(final Actor owner, final Actor connection)
+    {
+        this(owner, connection.getUserId());
+    }
+
     public String getOwnerUid()
     {
         return this.ownerUid;
@@ -66,5 +71,23 @@ public class Relationship implements Comparable<Relationship>
 
         /* Compare based on timestamp now */
         return (this.getCreatedTimestamp() > o.getCreatedTimestamp()) ? 1 : -1;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder("Relationship: ");
+        
+        sb.append("[");
+        sb.append("Owner: ");
+        sb.append(this.getOwnerUid());
+        sb.append("]");
+        
+        sb.append("[");
+        sb.append("Connection: ");
+        sb.append(this.getConnectionUid());
+        sb.append("]");
+        
+        return sb.toString();
     }
 }

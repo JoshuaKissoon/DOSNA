@@ -118,6 +118,22 @@ public class AnanciUI extends JFrame
 
         /* Setting up the Help menu */
         menu = new JMenu("Help");
+
+        menuItem = new JMenuItem("Print Storage");
+        menuItem.addActionListener(this.actionListener);
+        menuItem.setActionCommand(AnanciUIActionListener.AC_HELP_PRINT_STORAGE);
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem("Print Actor Object");
+        menuItem.addActionListener(this.actionListener);
+        menuItem.setActionCommand(AnanciUIActionListener.AC_HELP_PRINT_ACTOR);
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem("Print Routing Table");
+        menuItem.addActionListener(this.actionListener);
+        menuItem.setActionCommand(AnanciUIActionListener.AC_HELP_PRINT_ROUTING_TABLE);
+        menu.add(menuItem);
+
         menuBar.add(menu);
     }
 
@@ -156,6 +172,10 @@ public class AnanciUI extends JFrame
         public static final String AC_MANAGE_CONNECTIONS = "AC_MANAGE_CONNECTIONS";
         public static final String AC_ADD_CONNECTION = "AC_ADD_CONNECTIONS";
 
+        public static final String AC_HELP_PRINT_STORAGE = "AC_HELP_PRINT_STORAGE";
+        public static final String AC_HELP_PRINT_ACTOR = "AC_HELP_PRINT_ACTOR";
+        public static final String AC_HELP_PRINT_ROUTING_TABLE = "AC_HELP_PRINT_ROUTING_TABLE";
+
         @Override
         public void actionPerformed(ActionEvent evt)
         {
@@ -172,6 +192,18 @@ public class AnanciUI extends JFrame
                     ConnectionAddForm caf = new ConnectionAddForm(actor, dataManager);
                     caf.create();
                     caf.display();
+                    break;
+
+                /* Help Menu cases */
+                case AC_HELP_PRINT_STORAGE:
+
+                    break;
+                case AC_HELP_PRINT_ACTOR:
+                    System.out.println();
+                    System.out.println(AnanciUI.this.actor);
+                    System.out.println();
+                    break;
+                case AC_HELP_PRINT_ROUTING_TABLE:
                     break;
             }
         }

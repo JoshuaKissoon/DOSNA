@@ -2,6 +2,7 @@ package dosna.gui;
 
 import dosna.dhtAbstraction.DataManager;
 import dosna.osn.actor.Actor;
+import dosna.osn.actor.Relationship;
 import dosna.osn.actor.User;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -9,9 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -84,9 +88,9 @@ public class ConnectionAddPanel extends JPanel
     /**
      * Updates the result panel with the given result.
      *
-     * @param rActor The actor that was found
+     * @param conn The actor that was found
      */
-    private void setResult(Actor actor)
+    private void setResult(final Actor conn)
     {
         /* Empty the results */
         resultsPanel.removeAll();
@@ -96,14 +100,16 @@ public class ConnectionAddPanel extends JPanel
         final JPanel actorData = new JPanel();
         actorData.setLayout(new BoxLayout(actorData, BoxLayout.Y_AXIS));
 
-        actorData.add(new JLabel("User ID: " + actor.getUserId()));
-        actorData.add(new JLabel("Name: " + actor.getName()));
+        actorData.add(new JLabel("User ID: " + conn.getUserId()));
+        actorData.add(new JLabel("Name: " + conn.getName()));
 
         resultsPanel.add(actorData, BorderLayout.CENTER);
 
         /* Add the Add button */
         final JButton btn = new JButton("Add Connection");
         btn.setBorder(new EmptyBorder(10, 10, 10, 10));
+        btn.putClientProperty("actor", conn);
+        btn.addActionListener(new ConnectionAddActionListener());
         resultsPanel.add(btn, BorderLayout.EAST);
 
         /* Refresh to show data to user */
@@ -117,7 +123,7 @@ public class ConnectionAddPanel extends JPanel
          * Handle searching when the user presses enter in the searchbox
          */
         @Override
-        public void actionPerformed(ActionEvent evt)
+        public void actionPerformed(final ActionEvent evt)
         {
             final String txt = searchBox.getText();
 
@@ -146,6 +152,43 @@ public class ConnectionAddPanel extends JPanel
                 {
 
                 }
+            }
+        }
+    }
+
+    /**
+     * The default class to handle the event where a user wants to connect to another user.
+     *
+     * @author Joshua Kissoon
+     * @since 20140404
+     */
+    private class ConnectionAddActionListener implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(final ActionEvent evt)
+        {
+            final JButton btn = (JButton) evt.getSource();
+            final Actor connection = (Actor) btn.getClientProperty("actor");
+
+            Relationship r = new Relationship(actor, connection);
+            actor.getConnectionManager().addConnection(r);
+
+            try
+            {
+                /* Now let's put this data back on the DHT */
+                if (dataManager.putLocallyAndUniversally(actor) > 0)
+                {
+                    JOptionPane.showMessageDialog(null, "You have successfully added this connection!! Congrats!");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "An error occured whiles adding this connection! Please try again later.");
+                }
+            }
+            catch (IOException ex)
+            {
+                Logger.getLogger(ConnectionAddPanel.class.getName()).log(Level.SEVERE, "Unable to upload User object after add connection.", ex);
             }
         }
     }

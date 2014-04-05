@@ -24,9 +24,11 @@ public interface DataManager
      *
      * @param content The content to be stored on the network
      *
+     * @return How many nodes was this content stored on
+     *
      * @throws java.io.IOException
      */
-    public void put(KadContent content) throws IOException;
+    public int put(KadContent content) throws IOException;
 
     /**
      * Stores data locally
@@ -36,6 +38,17 @@ public interface DataManager
      * @throws java.io.IOException
      */
     public void putLocally(KadContent content) throws IOException;
+
+    /**
+     * Put the content on the local node and on the network.
+     *
+     * @param content The content to put
+     *
+     * @return Integer The number of nodes this content was put on, excluding the local node.
+     *
+     * @throws java.io.IOException
+     */
+    public int putLocallyAndUniversally(KadContent content) throws IOException;
 
     /**
      * Get data from the network.

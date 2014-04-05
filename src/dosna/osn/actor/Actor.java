@@ -23,6 +23,7 @@ public abstract class Actor extends DOSNAContent
     
     {
         this.contentManager = new ContentManager();
+        this.connectionManager = ConnectionsManager.createNew(this);
     }
 
     public abstract String getUserId();
