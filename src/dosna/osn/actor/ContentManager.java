@@ -1,8 +1,8 @@
 package dosna.osn.actor;
 
+import dosna.core.ContentMetadata;
 import dosna.dhtAbstraction.DOSNAContent;
 import java.util.HashMap;
-import java.util.List;
 import java.util.TreeSet;
 
 /**
@@ -20,18 +20,18 @@ public class ContentManager
      * Set of content for a specific actor
      * Type - String - The type of element stored
      */
-    private final HashMap<String, TreeSet<ContentReference>> content;
+    private final HashMap<String, TreeSet<ContentMetadata>> actorContent;
 
     public ContentManager()
     {
-        content = new HashMap<>();
-        content.put("Key1", new TreeSet<ContentReference>());
-        content.put("Key2", new TreeSet<ContentReference>());
-        content.put("Key3", new TreeSet<ContentReference>());
-        
-        content.get("Key1").add(new ContentReference(null));
-        content.get("Key2").add(new ContentReference(null));
-        content.get("Key3").add(new ContentReference(null));
+        actorContent = new HashMap<>();
+        actorContent.put("Key1", new TreeSet<>());
+        actorContent.put("Key2", new TreeSet<>());
+        actorContent.put("Key3", new TreeSet<>());
+
+        actorContent.get("Key1").add(new ContentMetadata(null));
+        actorContent.get("Key2").add(new ContentMetadata(null));
+        actorContent.get("Key3").add(new ContentMetadata(null));
     }
 
     /**
@@ -41,7 +41,12 @@ public class ContentManager
      */
     public void store(final DOSNAContent content)
     {
+        if (!this.actorContent.containsKey(content.getType()))
+        {
+            this.actorContent.put(content.getType(), new TreeSet<>());
+        }
 
+        this.actorContent.get(content.getType()).add(new ContentMetadata(content));
     }
 
     /**
@@ -115,25 +120,6 @@ public class ContentManager
 //    {
 //
 //    }
-    /**
-     * Class used by the content manager to reference a content.
-     * It will be used to keep track of content in Sorted order by timestamp.
-     */
-    public final class ContentReference implements Comparable<ContentReference>
-    {
-
-        public ContentReference(final DOSNAContent content)
-        {
-
-        }
-
-        @Override
-        public int compareTo(final ContentReference o)
-        {
-            return 1;
-        }
-    }
-
     @Override
     public String toString()
     {
@@ -141,7 +127,7 @@ public class ContentManager
 
         sb.append("ContentManager: ");
         sb.append("[# Content: ");
-        sb.append(this.content.size());
+        sb.append(this.actorContent.size());
         sb.append("]");
 
         return sb.toString();
