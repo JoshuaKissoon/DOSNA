@@ -10,13 +10,15 @@ import kademlia.node.NodeId;
  *
  * @author Joshua Kissoon
  * @since 20140328
+ *
+ * @todo Limit UserId length to 8 or 10 characters
  */
 public class User extends Actor
 {
 
     public static final String TYPE = "User";
 
-    private String username;
+    private String userId;
     private String fullName;
     private NodeId key;
     private String hashedPassword;
@@ -26,21 +28,30 @@ public class User extends Actor
 
     }
 
-    public User(final String username)
+    /**
+     * Create a new user object
+     *
+     * @param userId
+     */
+    public User(final String userId)
     {
-        this.username = username.toLowerCase();
+        this.userId = userId.toLowerCase();
+        this.generateKey();
+    }
 
-        /**
-         * Node ID for a User object is the username/ownerId repeated until it have 20 characters
-         *
-         * @note The NodeId for this User object is the same as for the node this user uses,
-         * A node will always store it's local user's uid
-         */
-        int numRepeats = ((NodeId.ID_LENGTH / 8) / this.username.length()) + 1;
+    /**
+     * Generate a Node ID for this User object is the username/ownerId repeated until it have 20 characters
+     *
+     * @note The NodeId for this User object is the same as for the node this user uses,
+     * A node will always store it's local user's uid
+     */
+    private void generateKey()
+    {
+        int numRepeats = ((NodeId.ID_LENGTH / 8) / this.userId.length()) + 1;
         StringBuilder nodeId = new StringBuilder();
         for (int i = 0; i < numRepeats; i++)
         {
-            nodeId.append(this.username);
+            nodeId.append(this.userId);
         }
         this.key = new NodeId(nodeId.substring(0, 20));
     }
@@ -48,7 +59,7 @@ public class User extends Actor
     @Override
     public String getUserId()
     {
-        return this.username;
+        return this.userId;
     }
 
     public void setName(final String fullName)
@@ -119,7 +130,7 @@ public class User extends Actor
     @Override
     public String getOwnerId()
     {
-        return this.username;
+        return this.userId;
     }
 
     @Override
@@ -140,7 +151,7 @@ public class User extends Actor
         StringBuilder sb = new StringBuilder("User: ");
 
         sb.append("[username: ");
-        sb.append(this.username);
+        sb.append(this.userId);
 
         sb.append("] ");
         sb.append("[name: ");

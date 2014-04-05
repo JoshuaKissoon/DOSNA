@@ -29,6 +29,8 @@ import kademlia.dht.StorageEntry;
  *
  * @author Joshua Kissoon
  * @since 20140404
+ * 
+ * @todo when a user is already your friend, don't show the addfriend button
  */
 public class ConnectionAddPanel extends JPanel
 {
