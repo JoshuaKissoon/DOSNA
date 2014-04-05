@@ -1,5 +1,6 @@
 package dosna.osn.actor;
 
+import dosna.util.HashCalculator;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -15,17 +16,17 @@ import kademlia.node.NodeId;
  */
 public class User extends Actor
 {
-
+    
     public static final String TYPE = "User";
-
+    
     private String userId;
     private String fullName;
     private NodeId key;
     private String hashedPassword;
-
+    
     public User()
     {
-
+        
     }
 
     /**
@@ -55,13 +56,13 @@ public class User extends Actor
         }
         this.key = new NodeId(nodeId.substring(0, 20));
     }
-
+    
     @Override
     public String getUserId()
     {
         return this.userId;
     }
-
+    
     public void setName(final String fullName)
     {
         this.fullName = fullName;
@@ -87,10 +88,10 @@ public class User extends Actor
         {
             throw new NullPointerException();
         }
-
+        
         this.hashedPassword = this.hashPassword(password);
     }
-
+    
     public boolean isPassword(final String password)
     {
         return this.hashedPassword.equals(this.hashPassword(password));
@@ -106,66 +107,57 @@ public class User extends Actor
     private String hashPassword(final String password)
     {
         final String salt = "iu4rkjd&^876%ewfuhi4Y&*&*^*03487658347*&^&^";
-
+        
         try
         {
-            /* Create a MessageDigest */
-            MessageDigest md = MessageDigest.getInstance("MD5");
-
-            /* Add password bytes to digest */
-            md.update(password.getBytes());
-
-            /* Get the hashed bytes */
-            byte[] bytes = md.digest(salt.getBytes());
-
-            /* Get the string version */
-            return new BigInteger(1, bytes).toString(16);
+            /* Return a string version of the hash */
+            return new BigInteger(1, HashCalculator.md5Hash(password, salt)).toString(16);
         }
         catch (NoSuchAlgorithmException e)
         {
             return new BigInteger(1, password.getBytes()).multiply(new BigInteger(1, salt.getBytes())).toString(16);
         }
     }
-
+    
     @Override
     public String getOwnerId()
     {
         return this.userId;
     }
-
+    
     @Override
     public String getType()
     {
         return TYPE;
     }
-
+    
     @Override
     public NodeId getKey()
     {
         return this.key;
     }
-
+    
     @Override
     public String toString()
     {
         StringBuilder sb = new StringBuilder("User: ");
-
+        
         sb.append("[username: ");
         sb.append(this.userId);
-
+        
         sb.append("] ");
         sb.append("[name: ");
         sb.append(this.fullName);
         sb.append("] ");
-
+        
         sb.append("[ContentManager: ");
         sb.append(this.getContentManager());
         sb.append("] ");
-
+        
         sb.append("[ConnectionsManager: ");
         sb.append(this.getConnectionManager());
         sb.append("] ");
-
+        
         return sb.toString();
     }
 }
