@@ -94,6 +94,7 @@ public class ContentManager
             }            
             
             /* Lets also update the actor object on the DHT */
+            this.actor.setUpdated();
             this.dataManager.putLocallyAndUniversally(this.actor);
 
             return numStored;
