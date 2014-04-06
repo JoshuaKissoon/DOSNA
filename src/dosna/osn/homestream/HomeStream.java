@@ -13,14 +13,24 @@ public class HomeStream extends JPanel
 {
 
     /* Properties */
-    private final Iterable<HomeStreamContent> content;
+    private Iterable<HomeStreamContent> content;
 
+    public HomeStream()
+    {
+        
+    }
+    
     /**
      * Setup the HomeStream
      *
      * @param content The content to be displayed on the Home Stream
      */
     public HomeStream(final Iterable<HomeStreamContent> content)
+    {
+        this.content = content;
+    }
+    
+    public void setContent(final Iterable<HomeStreamContent> content)
     {
         this.content = content;
     }

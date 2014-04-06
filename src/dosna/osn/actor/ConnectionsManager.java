@@ -4,8 +4,10 @@ import dosna.dhtAbstraction.DataManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 import java.util.TreeSet;
 import kademlia.dht.GetParameter;
+import kademlia.dht.StorageEntry;
 
 /**
  * Each actor will have many connections, here we keep track of these connections.
@@ -113,16 +115,18 @@ public class ConnectionsManager
             /* Lets load the actor in this relationship */
             try
             {
-                
-                GetParameter gp = new GetParameter(null, null, null)
-                dataManager.get(null)
+                Actor a = new Actor(r.getConnectionUid());
+                GetParameter gp = new GetParameter(a.getKey(), a.getType(), a.getId());
+                StorageEntry se = dataManager.get(gp);
+                conns.add((Actor) new Actor().fromBytes(se.getContent().getBytes()));
             }
-            catch(IOException ex)
+            catch (IOException | NoSuchElementException ex)
             {
-                
+                /**
+                 * @think We didn't find this profile, do something
+                 * I think we can ignore it since one of the assumptions we make is that all content is available all the time
+                 */
             }
-
-            conns.add()
         }
 
         return conns;

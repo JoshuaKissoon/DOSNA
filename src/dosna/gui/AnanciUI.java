@@ -87,6 +87,10 @@ public final class AnanciUI extends JFrame
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.leftSectionSP, this.rightSectionSP);
         splitPane.setDividerLocation(FRAME_WIDTH / 2);
         this.getContentPane().add(splitPane, BorderLayout.CENTER);
+        
+        /**
+         * Lets launch another thread to manage displaying home stream
+         */
     }
 
     /**
