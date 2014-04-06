@@ -1,5 +1,7 @@
 package dosna.osn.homestream;
 
+import java.util.Collection;
+import java.util.SortedSet;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
@@ -17,20 +19,20 @@ public class HomeStream extends JPanel
 
     public HomeStream()
     {
-        
+
     }
-    
+
     /**
      * Setup the HomeStream
      *
      * @param content The content to be displayed on the Home Stream
      */
-    public HomeStream(final Iterable<HomeStreamContent> content)
+    public HomeStream(final Collection<HomeStreamContent> content)
     {
         this.content = content;
     }
-    
-    public void setContent(final Iterable<HomeStreamContent> content)
+
+    public void setContent(final Collection<HomeStreamContent> content)
     {
         this.content = content;
     }

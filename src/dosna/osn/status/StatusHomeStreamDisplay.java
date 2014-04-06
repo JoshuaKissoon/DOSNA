@@ -14,6 +14,9 @@ import javax.swing.JTextArea;
 public class StatusHomeStreamDisplay extends JPanel implements HomeStreamContent
 {
 
+    /* Properties */
+    private final Status status;
+
     /* Elements */
     private final JTextArea statusDisplayTA;
 
@@ -24,6 +27,8 @@ public class StatusHomeStreamDisplay extends JPanel implements HomeStreamContent
      */
     public StatusHomeStreamDisplay(Status status)
     {
+        this.status = status;
+
         this.setLayout(new BorderLayout());
         statusDisplayTA = new JTextArea(status.getStatusText());
         statusDisplayTA.setEditable(false);
@@ -37,6 +42,12 @@ public class StatusHomeStreamDisplay extends JPanel implements HomeStreamContent
     public JPanel getContentDisplay()
     {
         return this;
+    }
+
+    @Override
+    public long getLastUpdatedTimestamp()
+    {
+        return this.status.getLastUpdatedTimestamp();
     }
 
 }

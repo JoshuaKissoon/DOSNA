@@ -6,6 +6,7 @@ import javax.swing.JPanel;
  * An interface for any content that wants to be displayed on the Home Stream.
  *
  * @author Joshua Kissoon
+ *
  * @since 20140406
  */
 public interface HomeStreamContent
@@ -17,4 +18,6 @@ public interface HomeStreamContent
      * @return JPanel
      */
     public JPanel getContentDisplay();
+
+    public long getLastUpdatedTimestamp();
 }

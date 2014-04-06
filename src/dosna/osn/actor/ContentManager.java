@@ -4,6 +4,8 @@ import dosna.core.ContentMetadata;
 import dosna.dhtAbstraction.DOSNAContent;
 import dosna.dhtAbstraction.DataManager;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
@@ -104,6 +106,25 @@ public class ContentManager
         {
             /* Just re-throw this exception and return */
             throw new IOException(e);
+        }
+    }
+
+    /**
+     * Get the metadata for all content of a given type
+     *
+     * @param type
+     *
+     * @return
+     */
+    public Collection<ContentMetadata> getAllContent(String type)
+    {
+        if (!this.actorContent.containsKey(type))
+        {
+            return new ArrayList<>();
+        }
+        else
+        {
+            return this.actorContent.get(type);
         }
     }
 

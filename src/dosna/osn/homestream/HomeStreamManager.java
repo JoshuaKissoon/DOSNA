@@ -1,8 +1,14 @@
 package dosna.osn.homestream;
 
+import dosna.core.ContentMetadata;
 import dosna.dhtAbstraction.DataManager;
 import dosna.osn.actor.Actor;
+import dosna.osn.status.HomeStreamStatusesLoader;
+import dosna.osn.status.Status;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.SortedSet;
 
 /**
  * This class manages creating the home stream, loading all content and displaying the home stream.
@@ -42,6 +48,14 @@ public class HomeStreamManager implements Runnable
         return currentActor.getConnectionManager().loadConnections(this.dataManager);
     }
 
+    /**
+     * @return HomeStream The homestream object
+     */
+    public HomeStream getHomeStream()
+    {
+        return this.homeStream;
+    }
+
     @Override
     public void run()
     {
@@ -54,5 +68,21 @@ public class HomeStreamManager implements Runnable
          *
          * For now, let's just show the statuses
          */
+        List<ContentMetadata> statuses = new ArrayList<>();
+        
+        for (Actor a : connections)
+        {
+            System.out.println("Connection: " + a);
+            statuses.addAll(a.getContentManager().getAllContent(Status.TYPE));
+        }
+
+        HomeStreamStatusesLoader hssl = new HomeStreamStatusesLoader();
+        hssl.addContent(statuses);
+        
+        Collection<HomeStreamContent> toAdd = hssl.loadContent(dataManager);
+        
+        System.out.println("Statuses on home stream: " + toAdd.size());
+
+        this.homeStream.setContent(toAdd);
     }
 }

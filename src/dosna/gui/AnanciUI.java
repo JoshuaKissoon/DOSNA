@@ -3,6 +3,7 @@ package dosna.gui;
 import dosna.osn.status.StatusAddForm;
 import dosna.dhtAbstraction.DataManager;
 import dosna.osn.actor.Actor;
+import dosna.osn.homestream.HomeStreamManager;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -87,10 +88,14 @@ public final class AnanciUI extends JFrame
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.leftSectionSP, this.rightSectionSP);
         splitPane.setDividerLocation(FRAME_WIDTH / 2);
         this.getContentPane().add(splitPane, BorderLayout.CENTER);
-        
+
         /**
          * Lets launch another thread to manage displaying home stream
          */
+        HomeStreamManager hsm = new HomeStreamManager(actor, dataManager);
+        Thread hsmt = new Thread(hsm);
+        hsmt.start();
+        
     }
 
     /**
