@@ -81,9 +81,6 @@ public class ContentManager
         {
             /* Lets store this content on the DHT now */
             final int numStored = this.dataManager.putLocallyAndUniversally(content);
-
-            /* Lets also update the actor object on the DHT */
-            this.dataManager.putLocallyAndUniversally(this.actor);
             
             if (numStored > 0)
             {
@@ -94,7 +91,10 @@ public class ContentManager
                 }
 
                 this.actorContent.get(content.getType()).add(new ContentMetadata(content));
-            }
+            }            
+            
+            /* Lets also update the actor object on the DHT */
+            this.dataManager.putLocallyAndUniversally(this.actor);
 
             return numStored;
         }

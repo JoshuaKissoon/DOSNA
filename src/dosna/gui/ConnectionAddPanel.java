@@ -142,7 +142,7 @@ public class ConnectionAddPanel extends JPanel
                 try
                 {
                     val = ConnectionAddPanel.this.dataManager.get(gp);
-                    u = (User) new User().fromBytes(val.getContent());
+                    u = (User) new User().fromBytes(val.getContent().getBytes());
                     ConnectionAddPanel.this.setResult(u);
                 }
                 catch (NoSuchElementException | IOException ex)

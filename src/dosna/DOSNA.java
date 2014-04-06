@@ -96,7 +96,7 @@ public class DOSNA
                         if (items.size() > 0)
                         {
                             /* User exists! Now check if password matches */
-                            final User user = (User) new User().fromBytes(items.get(0).getContent());
+                            final User user = (User) new User().fromBytes(items.get(0).getContent().getBytes());
                             System.out.println("Loaded User: " + user);
                             if (user.isPassword(password))
                             {
@@ -199,7 +199,7 @@ public class DOSNA
      *
      * @param actor Which actor are we launching it for
      */
-    public void launchMainGUI(Actor actor)
+    public void launchMainGUI(final Actor actor)
     {
         /* Lets set the data manager for this actor's content manager */
         actor.init(this.dataManager);

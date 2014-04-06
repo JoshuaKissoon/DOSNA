@@ -1,6 +1,5 @@
 package dosna.osn.status;
 
-import dosna.dhtAbstraction.DataManager;
 import dosna.osn.actor.Actor;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -64,10 +63,18 @@ public final class StatusAddForm extends JPanel
         this.actionListener = li;
         submitBtn.addActionListener(this.actionListener);
     }
-
+    
     public String getEnteredStatus()
     {
         return this.statusTA.getText();
+    }
+
+    /**
+     * Clear the text in the status box.
+     */
+    public void clearStatusBox()
+    {
+        this.statusTA.setText("");
     }
 
     /**
@@ -75,7 +82,7 @@ public final class StatusAddForm extends JPanel
      */
     public static final class SAFActionListener implements ActionListener
     {
-
+        
         private final Actor actor;
         private final StatusAddForm saf;
 
@@ -102,16 +109,21 @@ public final class StatusAddForm extends JPanel
             {
                 return;
             }
-
+            
             Status s = Status.createNew(this.actor, text);
-
+            
             try
             {
                 final int numStoredOn = this.actor.getContentManager().store(s);
-
-                if (numStoredOn < 1)
+                
+                if (numStoredOn > 0)
+                {
+                    this.saf.clearStatusBox();
+                }
+                else
                 {
                     /* Data was not stored online, maybe because of an error! handle it! */
+                    
                 }
             }
             catch (IOException ex)
