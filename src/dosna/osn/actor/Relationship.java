@@ -57,7 +57,7 @@ public class Relationship implements Comparable<Relationship>
      * Compare this relationship to another relationship by timestamp
      */
     @Override
-    public int compareTo(Relationship o)
+    public int compareTo(final Relationship o)
     {
         /* Check if they are the same object */
         if (this == o)

@@ -43,7 +43,7 @@ public abstract class Actor extends DOSNAContent
      *
      * @param cm The new content manager
      */
-    public void setContentManager(ContentManager cm)
+    public void setContentManager(final ContentManager cm)
     {
         this.contentManager = cm;
     }

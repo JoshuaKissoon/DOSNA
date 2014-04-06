@@ -2,6 +2,8 @@ package dosna.osn.actor;
 
 import dosna.core.ContentMetadata;
 import dosna.dhtAbstraction.DOSNAContent;
+import dosna.dhtAbstraction.DataManager;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.TreeSet;
 
@@ -16,11 +18,10 @@ import java.util.TreeSet;
 public class ContentManager
 {
 
-    /**
-     * Set of content for a specific actor
-     * Type - String - The type of element stored
+    /*  Set of content for a specific actor <String - The type of element stored, TreeSet<ContentMetadata>>
      */
     private final HashMap<String, TreeSet<ContentMetadata>> actorContent;
+    private transient DataManager dataManager;
 
     public ContentManager()
     {
@@ -35,11 +36,26 @@ public class ContentManager
     }
 
     /**
-     * Store a new Content on the DHT
+     * Set the DataManager used by this class to put content on the DHT.
+     * This needs to be set every time the Actor is loaded.
+     *
+     * @param mngr
+     */
+    public void setDataManager(final DataManager mngr)
+    {
+        this.dataManager = mngr;
+    }
+
+    /**
+     * Store a new Content on the DHT and add a reference to the content in this actor's object.
+     * This content is stored both locally and universally.
+     *
+     * @throws java.io.IOException
+     * @note Only content owned by this Actor should be managed by this content manager
      *
      * @param content The content to store
      */
-    public void store(final DOSNAContent content)
+    public void store(final DOSNAContent content) throws IOException
     {
         if (!this.actorContent.containsKey(content.getType()))
         {
@@ -47,6 +63,9 @@ public class ContentManager
         }
 
         this.actorContent.get(content.getType()).add(new ContentMetadata(content));
+
+        /* Lets store this content on the DHT now */
+        this.dataManager.putLocallyAndUniversally(content);
     }
 
     /**

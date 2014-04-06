@@ -24,7 +24,7 @@ import javax.swing.JSplitPane;
  * @author Joshua Kissoon
  * @since 20140401
  */
-public class AnanciUI extends JFrame
+public final class AnanciUI extends JFrame
 {
 
     /* Properties */
@@ -71,7 +71,7 @@ public class AnanciUI extends JFrame
         //leftSectionSP.setMinimumSize(new Dimension(FRAME_WIDTH / 2, FRAME_HEIGHT / 2));
 
         /* Status Add Form */
-        StatusAddForm saf = new StatusAddForm();
+        final StatusAddForm saf = new StatusAddForm();
         saf.setActionListener(new StatusAddForm.SAFActionListener(actor, saf));
         leftSection.add(saf, BorderLayout.NORTH);
 
@@ -167,7 +167,7 @@ public class AnanciUI extends JFrame
     /**
      * Subclass that handles Action Events for this UI
      */
-    private class AnanciUIActionListener implements ActionListener
+    private final class AnanciUIActionListener implements ActionListener
     {
 
         /* Action Commands used */
@@ -179,7 +179,7 @@ public class AnanciUI extends JFrame
         public static final String AC_HELP_PRINT_ROUTING_TABLE = "AC_HELP_PRINT_ROUTING_TABLE";
 
         @Override
-        public void actionPerformed(ActionEvent evt)
+        public void actionPerformed(final ActionEvent evt)
         {
             switch (evt.getActionCommand())
             {
@@ -214,7 +214,7 @@ public class AnanciUI extends JFrame
     /**
      * Subclass that handles Window Events for this UI
      */
-    private class AnanciUIWindowListener extends WindowAdapter
+    private final class AnanciUIWindowListener extends WindowAdapter
     {
 
         @Override

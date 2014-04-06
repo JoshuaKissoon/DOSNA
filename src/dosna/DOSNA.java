@@ -77,10 +77,10 @@ public class DOSNA
             {
                 case "login":
                     /* @todo Login the user */
-                    String username = login.getUsername();
-                    String password = login.getPassword();
+                    final String username = login.getUsername();
+                    final String password = login.getPassword();
 
-                    User u = new User(username);
+                    final User u = new User(username);
 
                     if (!DOSNA.this.initRouting(username, u.getKey()))
                     {
@@ -90,18 +90,18 @@ public class DOSNA
                     try
                     {
                         /* Checking if a user exists */
-                        GetParameter gp = new GetParameter(u.getKey(), User.TYPE, username);
-                        List<StorageEntry> items = dataManager.get(gp, 1);
+                        final GetParameter gp = new GetParameter(u.getKey(), User.TYPE, username);
+                        final List<StorageEntry> items = this.dataManager.get(gp, 1);
 
                         if (items.size() > 0)
                         {
                             /* User exists! Now check if password matches */
-                            User user = (User) new User().fromBytes(items.get(0).getContent());
+                            final User user = (User) new User().fromBytes(items.get(0).getContent());
                             System.out.println("Loaded User: " + user);
                             if (user.isPassword(password))
                             {
                                 /* Everything's great! Launch the app */
-                                JOptionPane.showMessageDialog(null, "Superb! You're logged in.");
+                                user.getContentManager().setDataManager(this.dataManager);
                                 login.dispose();
                                 DOSNA.this.launchMainGUI(user);
                             }
@@ -141,9 +141,9 @@ public class DOSNA
 
         signup.setActionListener((ActionEvent e) ->
         {
-            String username = signup.getUsername().trim();
-            String password = signup.getPassword().trim();
-            String fullName = signup.getFullName().trim();
+            final String username = signup.getUsername().trim();
+            final String password = signup.getPassword().trim();
+            final String fullName = signup.getFullName().trim();
             
             if (username.isEmpty() || password.isEmpty() || fullName.isEmpty())
             {
@@ -152,7 +152,7 @@ public class DOSNA
             else
             {
                 
-                User u = new User(username);
+                final User u = new User(username);
                 u.setPassword(password);
                 u.setName(fullName);
                 
