@@ -88,8 +88,15 @@ public final class DosnaDataManager implements DataManager
     @Override
     public synchronized int putLocallyAndUniversally(final DOSNAContent content) throws IOException
     {
-        this.putLocally(content);
-        return this.put(content);
+        final int num = this.put(content);
+
+        /* Only if the content was saved online do we save it locally, otherwise there is no use. */
+        if (num > 0)
+        {
+            this.putLocally(content);
+        }
+
+        return num;
     }
 
     @Override

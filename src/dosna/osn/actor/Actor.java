@@ -1,6 +1,7 @@
 package dosna.osn.actor;
 
 import dosna.dhtAbstraction.DOSNAContent;
+import dosna.dhtAbstraction.DataManager;
 
 /**
  * Any type of user/group within the system of the system
@@ -22,8 +23,20 @@ public abstract class Actor extends DOSNAContent
 
     
     {
-        this.contentManager = new ContentManager();
+        this.contentManager = ContentManager.createNew(this);
         this.connectionManager = ConnectionsManager.createNew(this);
+    }
+
+    /**
+     * Method that initializes the actor object and it's components.
+     *
+     * @param mngr The DataManager to manage content on the DHT
+     */
+    public final void init(final DataManager mngr)
+    {
+        /* After the ContentManager have been loaded from file, we need to set a few things */
+        this.contentManager.setDataManager(mngr);
+        this.contentManager.setActor(this);
     }
 
     public abstract String getUserId();

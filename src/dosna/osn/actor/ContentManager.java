@@ -20,19 +20,27 @@ public class ContentManager
 
     /*  Set of content for a specific actor <String - The type of element stored, TreeSet<ContentMetadata>>
      */
-    private final HashMap<String, TreeSet<ContentMetadata>> actorContent;
+    private HashMap<String, TreeSet<ContentMetadata>> actorContent;
     private transient DataManager dataManager;
+    private transient Actor actor;
 
+    /**
+     * Blank constructor mainly used by serializers
+     */
     public ContentManager()
     {
-        actorContent = new HashMap<>();
-        actorContent.put("Key1", new TreeSet<>());
-        actorContent.put("Key2", new TreeSet<>());
-        actorContent.put("Key3", new TreeSet<>());
 
-        actorContent.get("Key1").add(new ContentMetadata(null));
-        actorContent.get("Key2").add(new ContentMetadata(null));
-        actorContent.get("Key3").add(new ContentMetadata(null));
+    }
+
+    private ContentManager(final Actor actor)
+    {
+        actorContent = new HashMap<>();
+        this.actor = actor;
+    }
+
+    public static ContentManager createNew(Actor actor)
+    {
+        return new ContentManager(actor);
     }
 
     /**
@@ -47,25 +55,54 @@ public class ContentManager
     }
 
     /**
+     * Set the Actor that owns this ContentManager.
+     *
+     * @param actor
+     */
+    public void setActor(final Actor actor)
+    {
+        this.actor = actor;
+    }
+
+    /**
      * Store a new Content on the DHT and add a reference to the content in this actor's object.
      * This content is stored both locally and universally.
+     *
+     * @return The number of nodes this data was stored on.
      *
      * @throws java.io.IOException
      * @note Only content owned by this Actor should be managed by this content manager
      *
      * @param content The content to store
      */
-    public void store(final DOSNAContent content) throws IOException
+    public int store(final DOSNAContent content) throws IOException
     {
-        if (!this.actorContent.containsKey(content.getType()))
+        try
         {
-            this.actorContent.put(content.getType(), new TreeSet<>());
+            /* Lets store this content on the DHT now */
+            final int numStored = this.dataManager.putLocallyAndUniversally(content);
+
+            /* Lets also update the actor object on the DHT */
+            this.dataManager.putLocallyAndUniversally(this.actor);
+            
+            if (numStored > 0)
+            {
+                /* The data was stored online!, lets store it here now*/
+                if (!this.actorContent.containsKey(content.getType()))
+                {
+                    this.actorContent.put(content.getType(), new TreeSet<>());
+                }
+
+                this.actorContent.get(content.getType()).add(new ContentMetadata(content));
+            }
+
+            return numStored;
         }
-
-        this.actorContent.get(content.getType()).add(new ContentMetadata(content));
-
-        /* Lets store this content on the DHT now */
-        this.dataManager.putLocallyAndUniversally(content);
+        catch (IOException e)
+        {
+            /* Just re-throw this exception and return */
+            throw new IOException(e);
+        }
     }
 
     /**

@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -103,7 +104,20 @@ public final class StatusAddForm extends JPanel
             }
 
             Status s = Status.createNew(this.actor, text);
-            this.actor.getContentManager().store(s);
+
+            try
+            {
+                final int numStoredOn = this.actor.getContentManager().store(s);
+
+                if (numStoredOn < 1)
+                {
+                    /* Data was not stored online, maybe because of an error! handle it! */
+                }
+            }
+            catch (IOException ex)
+            {
+                /* @todo Handle failed status posting */
+            }
         }
     }
 }

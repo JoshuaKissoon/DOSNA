@@ -101,7 +101,6 @@ public class DOSNA
                             if (user.isPassword(password))
                             {
                                 /* Everything's great! Launch the app */
-                                user.getContentManager().setDataManager(this.dataManager);
                                 login.dispose();
                                 DOSNA.this.launchMainGUI(user);
                             }
@@ -144,27 +143,27 @@ public class DOSNA
             final String username = signup.getUsername().trim();
             final String password = signup.getPassword().trim();
             final String fullName = signup.getFullName().trim();
-            
+
             if (username.isEmpty() || password.isEmpty() || fullName.isEmpty())
             {
                 JOptionPane.showMessageDialog(null, "All fields are required.");
             }
             else
             {
-                
+
                 final User u = new User(username);
                 u.setPassword(password);
                 u.setName(fullName);
-                
+
                 try
                 {
                     /* Initialize our routing */
                     DOSNA.this.initRouting(username, u.getKey());
-                    
+
                     /* See if this user object already exists on the network */
                     GetParameter gp = new GetParameter(u.getKey(), username, User.TYPE);
                     List<StorageEntry> items = dataManager.get(gp, 1);
-                    
+
                     if (items.size() > 0)
                     {
                         /**
@@ -177,7 +176,7 @@ public class DOSNA
                         /* Lets add this user to the system */
                         dataManager.putLocally(u);
                         dataManager.put(u);
-                        
+
                         /* User added, now launch DOSNA */
                         signup.dispose();
                         JOptionPane.showMessageDialog(null, "You have successfully joined! welcome!");
@@ -186,7 +185,7 @@ public class DOSNA
                 }
                 catch (IOException ex)
                 {
-                    
+
                 }
             }
         });
@@ -202,6 +201,8 @@ public class DOSNA
      */
     public void launchMainGUI(Actor actor)
     {
+        /* Lets set the data manager for this actor's content manager */
+        actor.init(this.dataManager);
         AnanciUI mainUi = new AnanciUI(dataManager, actor);
         mainUi.create();
         mainUi.display();
