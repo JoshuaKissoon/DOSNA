@@ -3,7 +3,6 @@ package dosna.gui;
 import dosna.dhtAbstraction.DataManager;
 import dosna.osn.actor.Actor;
 import dosna.osn.actor.Relationship;
-import dosna.osn.actor.User;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -29,7 +28,7 @@ import kademlia.dht.StorageEntry;
  *
  * @author Joshua Kissoon
  * @since 20140404
- * 
+ *
  * @todo when a user is already your friend, don't show the addfriend button
  */
 public class ConnectionAddPanel extends JPanel
@@ -102,7 +101,7 @@ public class ConnectionAddPanel extends JPanel
         final JPanel actorData = new JPanel();
         actorData.setLayout(new BoxLayout(actorData, BoxLayout.Y_AXIS));
 
-        actorData.add(new JLabel("User ID: " + conn.getUserId()));
+        actorData.add(new JLabel("User ID: " + conn.getId()));
         actorData.add(new JLabel("Name: " + conn.getName()));
 
         resultsPanel.add(actorData, BorderLayout.CENTER);
@@ -132,7 +131,7 @@ public class ConnectionAddPanel extends JPanel
             /* Only do something if they user has entered some text */
             if (!txt.trim().isEmpty())
             {
-                User u = new User(txt);
+                Actor u = new Actor(txt);
 
                 /* Create our GetParameter to do the search */
                 GetParameter gp = new GetParameter(u.getKey(), u.getType());
@@ -142,7 +141,7 @@ public class ConnectionAddPanel extends JPanel
                 try
                 {
                     val = ConnectionAddPanel.this.dataManager.get(gp);
-                    u = (User) new User().fromBytes(val.getContent().getBytes());
+                    u = (Actor) new Actor().fromBytes(val.getContent().getBytes());
                     ConnectionAddPanel.this.setResult(u);
                 }
                 catch (NoSuchElementException | IOException ex)

@@ -5,6 +5,7 @@ import dosna.dhtAbstraction.DOSNAContent;
 import dosna.dhtAbstraction.DataManager;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
 
 /**
@@ -81,7 +82,7 @@ public class ContentManager
         {
             /* Lets store this content on the DHT now */
             final int numStored = this.dataManager.putLocallyAndUniversally(content);
-            
+
             if (numStored > 0)
             {
                 /* The data was stored online!, lets store it here now*/
@@ -91,8 +92,8 @@ public class ContentManager
                 }
 
                 this.actorContent.get(content.getType()).add(new ContentMetadata(content));
-            }            
-            
+            }
+
             /* Lets also update the actor object on the DHT */
             this.actor.setUpdated();
             this.dataManager.putLocallyAndUniversally(this.actor);
@@ -182,10 +183,27 @@ public class ContentManager
     {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("ContentManager: ");
-        sb.append("[# Content: ");
+        sb.append("\nContentManager: ");
+        sb.append("[# Content Types: ");
         sb.append(this.actorContent.size());
         sb.append("]");
+
+        for (Map.Entry<String, TreeSet<ContentMetadata>> e : this.actorContent.entrySet())
+        {
+            sb.append("[Content Type: ");
+            sb.append(e.getKey());
+            sb.append(", # items: ");
+            sb.append(e.getValue().size());
+
+            sb.append(", Items: ");
+
+            e.getValue().stream().forEach((md) ->
+            {
+                sb.append(md);
+            });
+
+            sb.append("]\n");
+        }
 
         return sb.toString();
     }

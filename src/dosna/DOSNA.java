@@ -3,7 +3,6 @@ package dosna;
 import dosna.dhtAbstraction.DataManager;
 import dosna.dhtAbstraction.DosnaDataManager;
 import dosna.gui.AnanciUI;
-import dosna.osn.actor.User;
 import dosna.gui.LoginFrame;
 import dosna.gui.SignupFrame;
 import dosna.osn.actor.Actor;
@@ -80,7 +79,7 @@ public class DOSNA
                     final String username = login.getUsername();
                     final String password = login.getPassword();
 
-                    final User u = new User(username);
+                    final Actor u = new Actor(username);
 
                     if (!DOSNA.this.initRouting(username, u.getKey()))
                     {
@@ -90,13 +89,13 @@ public class DOSNA
                     try
                     {
                         /* Checking if a user exists */
-                        final GetParameter gp = new GetParameter(u.getKey(), User.TYPE, username);
+                        final GetParameter gp = new GetParameter(u.getKey(), u.getType(), username);
                         final List<StorageEntry> items = this.dataManager.get(gp, 1);
 
                         if (items.size() > 0)
                         {
                             /* User exists! Now check if password matches */
-                            final User user = (User) new User().fromBytes(items.get(0).getContent().getBytes());
+                            final Actor user = (Actor) new Actor().fromBytes(items.get(0).getContent().getBytes());
                             System.out.println("Loaded User: " + user);
                             if (user.isPassword(password))
                             {
@@ -151,7 +150,7 @@ public class DOSNA
             else
             {
 
-                final User u = new User(username);
+                final Actor u = new Actor(username);
                 u.setPassword(password);
                 u.setName(fullName);
 
@@ -161,7 +160,7 @@ public class DOSNA
                     DOSNA.this.initRouting(username, u.getKey());
 
                     /* See if this user object already exists on the network */
-                    GetParameter gp = new GetParameter(u.getKey(), username, User.TYPE);
+                    GetParameter gp = new GetParameter(u.getKey(), username, u.getType());
                     List<StorageEntry> items = dataManager.get(gp, 1);
 
                     if (items.size() > 0)

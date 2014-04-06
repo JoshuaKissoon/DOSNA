@@ -79,4 +79,22 @@ public final class ContentMetadata implements Comparable<ContentMetadata>
 
         return this.getLastUpdatedTimestamp() > o.getLastUpdatedTimestamp() ? 1 : 0;
     }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder("ContentMetadata: ");
+
+        sb.append("[Type: ");
+        sb.append(this.getType());
+        sb.append("]");
+
+        sb.append("[Owner: ");
+        sb.append(this.getOwnerId());
+        sb.append("]");
+
+        sb.append("");
+
+        return sb.toString();
+    }
 }

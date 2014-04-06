@@ -1,7 +1,11 @@
 package dosna.osn.actor;
 
+import dosna.dhtAbstraction.DataManager;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeSet;
+import kademlia.dht.GetParameter;
 
 /**
  * Each actor will have many connections, here we keep track of these connections.
@@ -52,6 +56,16 @@ public class ConnectionsManager
     }
 
     /**
+     * Set the Actor that owns this Manager.
+     *
+     * @param actor
+     */
+    public void setActor(final Actor actor)
+    {
+        this.actor = actor;
+    }
+
+    /**
      * Adds a new relationship
      *
      * @param rel The relationship to add
@@ -71,11 +85,47 @@ public class ConnectionsManager
     }
 
     /**
-     * @return The set of all relationships that this actor manages
+     * @return The set of all relationships that this actor has
      */
-    public Collection<Relationship> getConnection()
+    public Collection<Relationship> getRelationships()
     {
         return this.connections;
+    }
+
+    /**
+     * Here we load all Actors that are connected with this actor.
+     *
+     * @param dataManager DataManager to be used to load the connections
+     *
+     * @return The set of Actors connected to this actor
+     */
+    public Collection<Actor> loadConnections(final DataManager dataManager)
+    {
+        if (this.connections.isEmpty())
+        {
+            return new ArrayList<>();
+        }
+
+        final Collection<Actor> conns = new ArrayList<>();
+
+        for (Relationship r : this.connections)
+        {
+            /* Lets load the actor in this relationship */
+            try
+            {
+                
+                GetParameter gp = new GetParameter(null, null, null)
+                dataManager.get(null)
+            }
+            catch(IOException ex)
+            {
+                
+            }
+
+            conns.add()
+        }
+
+        return conns;
     }
 
     @Override

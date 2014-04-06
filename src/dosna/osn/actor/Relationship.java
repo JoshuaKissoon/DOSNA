@@ -28,14 +28,14 @@ public class Relationship implements Comparable<Relationship>
     public Relationship(final Actor owner, final String connectionUid)
     {
         this.owner = owner;
-        this.ownerUid = owner.getUserId();
+        this.ownerUid = owner.getId();
         this.connectionUid = connectionUid;
         this.createTs = System.currentTimeMillis() / 1000L;
     }
 
     public Relationship(final Actor owner, final Actor connection)
     {
-        this(owner, connection.getUserId());
+        this(owner, connection.getId());
     }
 
     public String getOwnerUid()

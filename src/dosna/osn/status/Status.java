@@ -41,7 +41,7 @@ public class Status extends DOSNAContent
     {
         this.text = text;
         this.actor = actor;
-        this.userId = actor.getUserId();
+        this.userId = actor.getId();
         this.generateKey();
     }
 
