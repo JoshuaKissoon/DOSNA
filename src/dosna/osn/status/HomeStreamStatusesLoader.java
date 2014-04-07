@@ -50,11 +50,11 @@ public class HomeStreamStatusesLoader implements HomeStreamLoadingEventHandler<S
         for (ContentMetadata md : this.contentMD)
         {
             /* Lets start a new thread for each content to be gotten */
-            new Thread()
-            {
-                @Override
-                public void run()
-                {
+//            new Thread()
+//            {
+//                @Override
+//                public void run()
+//                {
                     GetParameter gp = new GetParameter(md.getKey(), md.getType(), md.getOwnerId());
                     try
                     {
@@ -66,8 +66,8 @@ public class HomeStreamStatusesLoader implements HomeStreamLoadingEventHandler<S
                     {
                         /* Means we're unable to load this status. @todo Handle this error */
                     }
-                }
-            }.start();
+//                }
+//            }.start();
 
         }
 

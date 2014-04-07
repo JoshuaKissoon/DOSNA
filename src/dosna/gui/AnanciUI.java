@@ -3,6 +3,7 @@ package dosna.gui;
 import dosna.osn.status.StatusAddForm;
 import dosna.dhtAbstraction.DataManager;
 import dosna.osn.actor.Actor;
+import dosna.osn.homestream.HomeStream;
 import dosna.osn.homestream.HomeStreamManager;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -11,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -24,6 +27,9 @@ import javax.swing.JSplitPane;
  *
  * @author Joshua Kissoon
  * @since 20140401
+ * 
+ * @todo Handle Refreashing of home stream
+ * @todo Make HomeStreamManager a producer to this class and do updates when it calls for an update
  */
 public final class AnanciUI extends JFrame
 {
@@ -68,6 +74,7 @@ public final class AnanciUI extends JFrame
          * @section Left Side
          */
         leftSection = new JPanel();
+        leftSection.setLayout(new BorderLayout());
         leftSectionSP = new JScrollPane(leftSection);
         //leftSectionSP.setMinimumSize(new Dimension(FRAME_WIDTH / 2, FRAME_HEIGHT / 2));
 
@@ -90,12 +97,26 @@ public final class AnanciUI extends JFrame
         this.getContentPane().add(splitPane, BorderLayout.CENTER);
 
         /**
-         * Lets launch another thread to manage displaying home stream
+         * Lets launch a new Timer to manage displaying home stream.
+         * Wait until the HomeStream is loaded, then display it in the left section.
          */
-        HomeStreamManager hsm = new HomeStreamManager(actor, dataManager);
-        Thread hsmt = new Thread(hsm);
-        hsmt.start();
-        
+        Timer t = new Timer();
+        t.schedule(
+                new TimerTask()
+                {
+
+                    @Override
+                    public void run()
+                    {
+                        HomeStreamManager hsm = new HomeStreamManager(actor, dataManager);
+                        HomeStream hs = hsm.createHomeStream();
+                        leftSection.add(hs, BorderLayout.CENTER);
+                        AnanciUI.this.refresh();
+                    }
+                },
+                // initial Delay                        // Interval
+                1000, 60 * 1000
+        );
     }
 
     /**

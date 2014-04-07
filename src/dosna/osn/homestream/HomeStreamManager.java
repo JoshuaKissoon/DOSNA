@@ -8,7 +8,7 @@ import dosna.osn.status.Status;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.SortedSet;
+import java.util.concurrent.Callable;
 
 /**
  * This class manages creating the home stream, loading all content and displaying the home stream.
@@ -17,7 +17,7 @@ import java.util.SortedSet;
  * @author Joshua Kissoon
  * @since 20140406
  */
-public class HomeStreamManager implements Runnable
+public class HomeStreamManager
 {
 
     private final Actor currentActor;
@@ -56,8 +56,7 @@ public class HomeStreamManager implements Runnable
         return this.homeStream;
     }
 
-    @Override
-    public void run()
+    public HomeStream createHomeStream()
     {
         Collection<Actor> connections = this.getConnections();
 
@@ -69,7 +68,7 @@ public class HomeStreamManager implements Runnable
          * For now, let's just show the statuses
          */
         List<ContentMetadata> statuses = new ArrayList<>();
-        
+
         for (Actor a : connections)
         {
             System.out.println("Connection: " + a);
@@ -78,11 +77,14 @@ public class HomeStreamManager implements Runnable
 
         HomeStreamStatusesLoader hssl = new HomeStreamStatusesLoader();
         hssl.addContent(statuses);
-        
+
         Collection<HomeStreamContent> toAdd = hssl.loadContent(dataManager);
-        
+
         System.out.println("Statuses on home stream: " + toAdd.size());
 
         this.homeStream.setContent(toAdd);
+        this.homeStream.create();
+
+        return this.homeStream;
     }
 }
