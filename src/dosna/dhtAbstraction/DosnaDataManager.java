@@ -106,13 +106,30 @@ public final class DosnaDataManager implements DataManager
     }
 
     @Override
-    public StorageEntry get(final GetParameter gp) throws IOException
+    public StorageEntry get(final GetParameter gp) throws IOException, NoSuchElementException
     {
-        List<StorageEntry> results = kad.get(gp, 1);
+        List<StorageEntry> results = kad.get(gp, 5);
 
         if (!results.isEmpty())
         {
-            return results.get(0);
+            /* Return the latest */
+            StorageEntry latest = null;
+            for (StorageEntry e : results)
+            {
+                if (latest == null)
+                {
+                    latest = e;
+                }
+                else
+                {
+                    if (e.getContentMetadata().getLastUpdatedTimestamp() > latest.getContentMetadata().getLastUpdatedTimestamp())
+                    {
+                        latest = e;
+                    }
+                }
+            }
+
+            return latest;
         }
         else
         {

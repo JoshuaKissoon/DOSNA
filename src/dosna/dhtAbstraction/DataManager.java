@@ -63,8 +63,7 @@ public interface DataManager
     public List<StorageEntry> get(final GetParameter gp, final int numReaultsReq) throws IOException;
 
     /**
-     * Get 1 entry for a data from the network.
-     * Will get data either from local or remote network nodes.
+     * Get entries for the required data from the network and return the latest entry.
      *
      * @param gp
      *

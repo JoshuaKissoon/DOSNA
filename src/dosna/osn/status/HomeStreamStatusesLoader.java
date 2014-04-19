@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import kademlia.dht.GetParameter;
 import kademlia.dht.StorageEntry;
 
@@ -50,25 +48,17 @@ public class HomeStreamStatusesLoader implements HomeStreamLoadingEventHandler<S
         for (ContentMetadata md : this.contentMD)
         {
             /* Lets start a new thread for each content to be gotten */
-//            new Thread()
-//            {
-//                @Override
-//                public void run()
-//                {
-                    GetParameter gp = new GetParameter(md.getKey(), md.getType(), md.getOwnerId());
-                    try
-                    {
-                        StorageEntry e = dataManager.get(gp);
-                        Status s = (Status) new Status().fromBytes(e.getContent().getBytes());
-                        statuses.add(new StatusHomeStreamDisplay(s));
-                    }
-                    catch (IOException e)
-                    {
-                        /* Means we're unable to load this status. @todo Handle this error */
-                    }
-//                }
-//            }.start();
-
+            GetParameter gp = new GetParameter(md.getKey(), md.getType(), md.getOwnerId());
+            try
+            {
+                StorageEntry e = dataManager.get(gp);
+                Status s = (Status) new Status().fromBytes(e.getContent().getBytes());
+                statuses.add(new StatusHomeStreamDisplay(s));
+            }
+            catch (IOException e)
+            {
+                /* Means we're unable to load this status. @todo Handle this error */
+            }
         }
 
         return statuses;
@@ -94,7 +84,7 @@ public class HomeStreamStatusesLoader implements HomeStreamLoadingEventHandler<S
             }
             else
             {
-                return 0;
+                return -1;
             }
         }
     }

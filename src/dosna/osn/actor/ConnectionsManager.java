@@ -126,6 +126,7 @@ public class ConnectionsManager
                  * @think We didn't find this profile, do something
                  * I think we can ignore it since one of the assumptions we make is that all content is available all the time
                  */
+                ex.printStackTrace();
             }
         }
 

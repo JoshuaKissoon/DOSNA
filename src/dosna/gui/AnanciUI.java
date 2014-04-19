@@ -27,7 +27,7 @@ import javax.swing.JSplitPane;
  *
  * @author Joshua Kissoon
  * @since 20140401
- * 
+ *
  * @todo Handle Refreashing of home stream
  * @todo Make HomeStreamManager a producer to this class and do updates when it calls for an update
  */
@@ -45,6 +45,7 @@ public final class AnanciUI extends JFrame
     private JSplitPane splitPane;
     private JPanel leftSection, rightSection;
     private JScrollPane leftSectionSP, rightSectionSP;
+    private JPanel homeStream;
 
     /* Listeners */
     private final ActionListener actionListener;
@@ -100,6 +101,10 @@ public final class AnanciUI extends JFrame
          * Lets launch a new Timer to manage displaying home stream.
          * Wait until the HomeStream is loaded, then display it in the left section.
          */
+        homeStream = new JPanel();
+        homeStream.setLayout(new BorderLayout());
+        leftSection.add(homeStream, BorderLayout.CENTER);
+
         Timer t = new Timer();
         t.schedule(
                 new TimerTask()
@@ -110,12 +115,13 @@ public final class AnanciUI extends JFrame
                     {
                         HomeStreamManager hsm = new HomeStreamManager(actor, dataManager);
                         HomeStream hs = hsm.createHomeStream();
-                        leftSection.add(hs, BorderLayout.CENTER);
+                        homeStream.removeAll();
+                        homeStream.add(hs, BorderLayout.CENTER);
                         AnanciUI.this.refresh();
                     }
                 },
                 // initial Delay                        // Interval
-                1000, 60 * 1000
+                5000, 1000 * 10
         );
     }
 
@@ -189,6 +195,7 @@ public final class AnanciUI extends JFrame
      */
     public void refresh()
     {
+        System.out.println("Refresh Called.");
         this.invalidate();
         this.validate();
         this.repaint();

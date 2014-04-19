@@ -8,7 +8,6 @@ import dosna.osn.status.Status;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * This class manages creating the home stream, loading all content and displaying the home stream.
@@ -71,7 +70,6 @@ public class HomeStreamManager
 
         for (Actor a : connections)
         {
-            System.out.println("Connection: " + a);
             statuses.addAll(a.getContentManager().getAllContent(Status.TYPE));
         }
 
