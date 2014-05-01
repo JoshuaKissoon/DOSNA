@@ -33,6 +33,9 @@ public class Actor extends DOSNAContent
     private NodeId key;
     private String hashedPassword;
 
+    /* References to other objects */
+    private NodeId notificationBoxNid;
+
     
     {
         this.contentManager = ContentManager.createNew(this);
@@ -192,6 +195,16 @@ public class Actor extends DOSNAContent
     public ConnectionsManager getConnectionManager()
     {
         return this.connectionManager;
+    }
+
+    /**
+     * Sets the reference to the Notification Box Node ID on the network for this actor.
+     *
+     * @param notificationBoxNid
+     */
+    public void setNotificationBoxNid(NodeId notificationBoxNid)
+    {
+        this.notificationBoxNid = notificationBoxNid;
     }
 
     @Override

@@ -6,7 +6,7 @@ import dosna.gui.AnanciUI;
 import dosna.gui.LoginFrame;
 import dosna.gui.SignupFrame;
 import dosna.osn.actor.Actor;
-import java.util.List;
+import dosna.osn.actor.ActorCreator;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -166,17 +166,18 @@ public class DOSNA
                     try
                     {
                         /* Lets add this user to the system */
-                        dataManager.putLocally(u);
-                        dataManager.put(u);
+                        ActorCreator ac = new ActorCreator(dataManager, u);
+
+                        Actor createdActor = ac.createActor();
 
                         /* User added, now launch DOSNA */
                         signup.dispose();
                         JOptionPane.showMessageDialog(null, "You have successfully joined! welcome!");
-                        DOSNA.this.launchMainGUI(u);
+                        DOSNA.this.launchMainGUI(createdActor);
                     }
                     catch (IOException exc)
                     {
-
+                        
                     }
                 }
             }

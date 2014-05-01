@@ -112,7 +112,7 @@ public final class DosnaDataManager implements DataManager
     @Override
     public void updateStorage()
     {
-
+        
     }
 
     @Override

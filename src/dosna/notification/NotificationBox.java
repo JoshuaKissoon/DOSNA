@@ -1,7 +1,12 @@
 package dosna.notification;
 
+import dosna.content.DOSNAContent;
+import dosna.osn.actor.Actor;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import kademlia.node.NodeId;
+import kademlia.util.hashing.HashCalculator;
 
 /**
  * A box containing all notifications meant for a user
@@ -9,14 +14,45 @@ import java.util.List;
  * @author Joshua Kissoon
  * @since 20140501
  */
-public class NotificationBox
+public class NotificationBox extends DOSNAContent
 {
 
+    public final static String TYPE = "NotificationBox";
+
     private List<Notification> notifications;
+    private final String ownerId;
+
+    private NodeId key;
 
     
     {
         notifications = new ArrayList<>();
+    }
+
+    /**
+     * Setup the Notification Box
+     *
+     * @param owner The owner of this notification box
+     */
+    public NotificationBox(final Actor owner)
+    {
+        ownerId = owner.getId();
+        this.generateNodeId();
+    }
+
+    private void generateNodeId()
+    {
+        byte[] keyData = null;
+        try
+        {
+            keyData = HashCalculator.sha1Hash(this.ownerId + "NotificationBox");
+        }
+        catch (NoSuchAlgorithmException ex)
+        {
+            /*@todo try some other hash here */
+            System.err.println("SHA-1 Hash algorithm isn't existent.");
+        }
+        this.key = new NodeId(keyData);
     }
 
     /**
@@ -43,6 +79,24 @@ public class NotificationBox
     public void emptyBox()
     {
         this.notifications = new ArrayList<>();
+    }
+
+    @Override
+    public NodeId getKey()
+    {
+        return this.key;
+    }
+
+    @Override
+    public String getType()
+    {
+        return TYPE;
+    }
+
+    @Override
+    public String getOwnerId()
+    {
+        return this.ownerId;
     }
 
 }
