@@ -4,11 +4,10 @@ import dosna.content.DOSNAContent;
 import dosna.DOSNAConfig;
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.List;
-import java.util.NoSuchElementException;
 import kademlia.dht.GetParameter;
-import kademlia.Kademlia;
+import kademlia.KademliaNode;
 import kademlia.dht.StorageEntry;
+import kademlia.exceptions.ContentNotFoundException;
 import kademlia.node.NodeId;
 
 /**
@@ -25,7 +24,7 @@ public final class DosnaDataManager implements DataManager
      * The Kademlia instance to be used.
      * We use composition rather than inheritance.
      */
-    private final Kademlia kad;
+    private final KademliaNode kad;
 
     /**
      * Initialize Kademlia
@@ -40,7 +39,7 @@ public final class DosnaDataManager implements DataManager
      */
     public DosnaDataManager(final String ownerId, final NodeId nodeId, final int port) throws IOException, UnknownHostException
     {
-        kad = new Kademlia(ownerId, nodeId, port);
+        kad = new KademliaNode(ownerId, nodeId, port);
         kad.bootstrap(new DOSNAConfig().getBootstrapNode());
     }
 
@@ -101,43 +100,11 @@ public final class DosnaDataManager implements DataManager
     }
 
     @Override
-    public List<StorageEntry> get(final GetParameter gp, final int numReaultsReq) throws IOException
+    public StorageEntry get(final GetParameter gp) throws IOException, ContentNotFoundException
     {
-        return kad.get(gp, numReaultsReq);
+        return kad.get(gp);
     }
-
-    @Override
-    public StorageEntry get(final GetParameter gp) throws IOException, NoSuchElementException
-    {
-        List<StorageEntry> results = kad.get(gp, 5);
-
-        if (!results.isEmpty())
-        {
-            /* Return the latest */
-            StorageEntry latest = null;
-            for (StorageEntry e : results)
-            {
-                if (latest == null)
-                {
-                    latest = e;
-                }
-                else
-                {
-                    if (e.getContentMetadata().getLastUpdatedTimestamp() > latest.getContentMetadata().getLastUpdatedTimestamp())
-                    {
-                        latest = e;
-                    }
-                }
-            }
-
-            return latest;
-        }
-        else
-        {
-            throw new NoSuchElementException("No result exists for the given parameters.");
-        }
-    }
-
+    
     /**
      * Run an update call to update the data stored locally on this computer.
      * This may involve deleting some data and adding some other data.

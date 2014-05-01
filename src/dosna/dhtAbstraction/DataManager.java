@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 import kademlia.dht.GetParameter;
 import kademlia.dht.StorageEntry;
+import kademlia.exceptions.ContentNotFoundException;
 
 /**
  * An abstraction that handles routing data on the network and storing data.
@@ -51,19 +52,6 @@ public interface DataManager
     public int putLocallyAndUniversally(final DOSNAContent content) throws IOException;
 
     /**
-     * Get data from the network.
-     * Will get data either from local or remote network nodes.
-     *
-     * @param gp
-     * @param numReaultsReq
-     *
-     * @return
-     *
-     * @throws java.io.IOException
-     */
-    public List<StorageEntry> get(final GetParameter gp, final int numReaultsReq) throws IOException;
-
-    /**
      * Get entries for the required data from the network and return the latest entry.
      *
      * @param gp
@@ -71,8 +59,9 @@ public interface DataManager
      * @return A single data entry
      *
      * @throws java.io.IOException
+     * @throws kademlia.exceptions.ContentNotFoundException
      */
-    public StorageEntry get(final GetParameter gp) throws IOException, NoSuchElementException;
+    public StorageEntry get(final GetParameter gp) throws IOException, NoSuchElementException, ContentNotFoundException;
 
     /**
      * Run an update call to update the data stored locally on this computer.

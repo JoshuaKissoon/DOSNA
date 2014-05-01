@@ -21,6 +21,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import kademlia.dht.GetParameter;
 import kademlia.dht.StorageEntry;
+import kademlia.exceptions.ContentNotFoundException;
 
 /**
  * The main component of the add connection form is this panel.
@@ -144,7 +145,7 @@ public class ConnectionAddPanel extends JPanel
                     u = (Actor) new Actor().fromBytes(val.getContent().getBytes());
                     ConnectionAddPanel.this.setResult(u);
                 }
-                catch (NoSuchElementException | IOException ex)
+                catch (ContentNotFoundException | IOException ex)
                 {
                     System.err.println("Ran into a prob when searching for person. Message: " + ex.getMessage());
                 }

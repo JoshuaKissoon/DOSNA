@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import kademlia.dht.GetParameter;
 import kademlia.dht.StorageEntry;
+import kademlia.exceptions.ContentNotFoundException;
 
 /**
  * Class that handles loading the set of statuses when the home stream is being loaded.
@@ -55,7 +56,7 @@ public class HomeStreamStatusesLoader implements HomeStreamLoadingEventHandler<S
                 Status s = (Status) new Status().fromBytes(e.getContent().getBytes());
                 statuses.add(new StatusHomeStreamDisplay(s));
             }
-            catch (IOException e)
+            catch (IOException | ContentNotFoundException e)
             {
                 /* Means we're unable to load this status. @todo Handle this error */
             }

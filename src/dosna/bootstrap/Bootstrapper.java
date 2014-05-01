@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
-import kademlia.Kademlia;
+import kademlia.KademliaNode;
 import kademlia.node.NodeId;
 
 /**
@@ -47,7 +47,7 @@ public class Bootstrapper extends JFrame
     private JLabel lbl;
 
     /* Kademlia instance */
-    Kademlia bootstrapInstance;
+    KademliaNode bootstrapInstance;
 
     public Bootstrapper()
     {
@@ -72,9 +72,9 @@ public class Bootstrapper extends JFrame
      */
     public void createGUI()
     {
-        
+
         this.addWindowListener(new BootstrapperWindowListener());
-        
+
         /* Setup the Contacts Panel */
         contacts = new JTextArea(10, 20);
 
@@ -105,7 +105,7 @@ public class Bootstrapper extends JFrame
     private void populateData()
     {
         contacts.removeAll();
-        contacts.setText(bootstrapInstance.getNode().getRoutingTable().toString());
+        contacts.setText(bootstrapInstance.getRoutingTable().toString());
         contacts.setWrapStyleWord(true);
         contacts.setLineWrap(true);
 
@@ -152,7 +152,7 @@ public class Bootstrapper extends JFrame
         try
         {
             /* Try to load the state from file */
-            this.bootstrapInstance = Kademlia.loadFromFile(BOOTSTRAP_OWNER_ID);
+            this.bootstrapInstance = KademliaNode.loadFromFile(BOOTSTRAP_OWNER_ID);
 
         }
         catch (IOException | ClassNotFoundException ex)
@@ -162,7 +162,7 @@ public class Bootstrapper extends JFrame
             try
             {
                 /* Create a new instance */
-                this.bootstrapInstance = new Kademlia(BOOTSTRAP_OWNER_ID, new NodeId("BOOTSTRAPBOOTSTRAPBO"), BOOTSTRAP_NODE_PORT);
+                this.bootstrapInstance = new KademliaNode(BOOTSTRAP_OWNER_ID, new NodeId("BOOTSTRAPBOOTSTRAPBO"), BOOTSTRAP_NODE_PORT);
             }
             catch (IOException exx)
             {

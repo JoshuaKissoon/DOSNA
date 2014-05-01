@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import kademlia.dht.GetParameter;
 import kademlia.dht.StorageEntry;
+import kademlia.exceptions.ContentNotFoundException;
 import kademlia.node.NodeId;
 
 /**
@@ -90,33 +91,25 @@ public class DOSNA
                     {
                         /* Checking if a user exists */
                         final GetParameter gp = new GetParameter(u.getKey(), u.getType(), username);
-                        final List<StorageEntry> items = this.dataManager.get(gp, 1);
+                        StorageEntry items = this.dataManager.get(gp);
 
-                        if (items.size() > 0)
+                        /* User exists! Now check if password matches */
+                        final Actor user = (Actor) new Actor().fromBytes(items.getContent().getBytes());
+                        System.out.println("Loaded User: " + user);
+                        if (user.isPassword(password))
                         {
-                            /* User exists! Now check if password matches */
-                            final Actor user = (Actor) new Actor().fromBytes(items.get(0).getContent().getBytes());
-                            System.out.println("Loaded User: " + user);
-                            if (user.isPassword(password))
-                            {
-                                /* Everything's great! Launch the app */
-                                login.dispose();
-                                DOSNA.this.launchMainGUI(user);
-                            }
-                            else
-                            {
-                                JOptionPane.showMessageDialog(null, "Invalid password! please try again.");
-                            }
+                            /* Everything's great! Launch the app */
+                            login.dispose();
+                            DOSNA.this.launchMainGUI(user);
                         }
                         else
                         {
-                            /* No user exists */
-                            JOptionPane.showMessageDialog(null, "Sorry, no account exists for the given user.");
+                            JOptionPane.showMessageDialog(null, "Invalid password! please try again.");
                         }
                     }
-                    catch (IOException ex)
+                    catch (IOException | ContentNotFoundException ex)
                     {
-                        System.err.println("Problem encountered during login whiles checking for existing profile; message: " + ex.getMessage());
+                        JOptionPane.showMessageDialog(null, "Sorry, no account exists for the given user.");
                     }
                     break;
                 case "signup":
@@ -154,6 +147,8 @@ public class DOSNA
                 u.setPassword(password);
                 u.setName(fullName);
 
+                boolean usernameTaken = false;
+
                 try
                 {
                     /* Initialize our routing */
@@ -161,16 +156,14 @@ public class DOSNA
 
                     /* See if this user object already exists on the network */
                     GetParameter gp = new GetParameter(u.getKey(), username, u.getType());
-                    List<StorageEntry> items = dataManager.get(gp, 1);
+                    StorageEntry item = dataManager.get(gp);
 
-                    if (items.size() > 0)
-                    {
-                        /**
-                         * Username is already taken, block this user and show a warning
-                         */
-                        JOptionPane.showMessageDialog(null, "This username is already taken! Please try another username.");
-                    }
-                    else
+                    /* Username is already taken, block this user and show a warning */
+                    JOptionPane.showMessageDialog(null, "This username is already taken! Please try another username.");
+                }
+                catch (IOException | ContentNotFoundException ex)
+                {
+                    try
                     {
                         /* Lets add this user to the system */
                         dataManager.putLocally(u);
@@ -181,10 +174,10 @@ public class DOSNA
                         JOptionPane.showMessageDialog(null, "You have successfully joined! welcome!");
                         DOSNA.this.launchMainGUI(u);
                     }
-                }
-                catch (IOException ex)
-                {
+                    catch (IOException exc)
+                    {
 
+                    }
                 }
             }
         });

@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 import java.util.TreeSet;
 import kademlia.dht.GetParameter;
 import kademlia.dht.StorageEntry;
+import kademlia.exceptions.ContentNotFoundException;
 
 /**
  * Each actor will have many connections, here we keep track of these connections.
@@ -120,7 +121,7 @@ public class ConnectionsManager
                 StorageEntry se = dataManager.get(gp);
                 conns.add((Actor) new Actor().fromBytes(se.getContent().getBytes()));
             }
-            catch (IOException | NoSuchElementException ex)
+            catch (IOException | ContentNotFoundException ex)
             {
                 /**
                  * @think We didn't find this profile, do something
