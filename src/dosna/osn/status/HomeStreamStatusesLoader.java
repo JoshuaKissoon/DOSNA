@@ -54,6 +54,7 @@ public class HomeStreamStatusesLoader implements HomeStreamLoadingEventHandler<S
             {
                 StorageEntry e = dataManager.get(gp);
                 Status s = (Status) new Status().fromBytes(e.getContent().getBytes());
+                System.out.println("Status Retrieved: " + s);
                 statuses.add(new StatusHomeStreamDisplay(s));
             }
             catch (IOException | ContentNotFoundException e)

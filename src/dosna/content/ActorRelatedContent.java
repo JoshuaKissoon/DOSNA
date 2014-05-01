@@ -1,7 +1,7 @@
 package dosna.content;
 
 import dosna.osn.actor.Actor;
-import java.util.Map;
+import java.util.Collection;
 
 /**
  * This interface defines any content that actors are related to.
@@ -21,9 +21,17 @@ public interface ActorRelatedContent
     public void addActor(Actor a, String relationship);
 
     /**
+     * Add a new actor relation to this content
+     *
+     * @param userId       The ID of the actor related to this content
+     * @param relationship What's the relationship between the actor and the content
+     */
+    public void addActor(String userId, String relationship);
+
+    /**
      * Get all the actors related to this content and their relationships to the content.
      *
      * @return A Map with the details
      */
-    public Map<Actor, String> getActors();
+    public Collection getActors();
 }

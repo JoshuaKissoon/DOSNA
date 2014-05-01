@@ -58,6 +58,7 @@ public class HomeStreamManager
     public HomeStream createHomeStream()
     {
         Collection<Actor> connections = this.getConnections();
+        connections.add(currentActor);
 
         /**
          * Here we're supposed to let all class that implement HomeStreamLoad hook set the content to be displayed on the home stream

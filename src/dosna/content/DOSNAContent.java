@@ -2,7 +2,9 @@ package dosna.content;
 
 import com.google.gson.Gson;
 import dosna.osn.actor.Actor;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import kademlia.dht.KadContent;
 
@@ -16,45 +18,45 @@ import kademlia.dht.KadContent;
  */
 public abstract class DOSNAContent implements KadContent, ActorRelatedContent
 {
-
+    
     public static final String TYPE = "DOSNAContent";
-
+    
     public final long createTs;
     public long updateTs;
 
     /* Set of actors related to this content */
-    private Map<Actor, String> relatedActors;
-
+    Map<String, String> relatedActors;
+    
     
     {
         this.createTs = this.updateTs = System.currentTimeMillis() / 1000L;
         relatedActors = new HashMap<>();
     }
-
+    
     public DOSNAContent()
     {
-
+        
     }
-
+    
     @Override
     public long getCreatedTimestamp()
     {
         return this.createTs;
     }
-
+    
     @Override
     public long getLastUpdatedTimestamp()
     {
         return this.updateTs;
     }
-
+    
     @Override
     public byte[] toBytes()
     {
         Gson gson = new Gson();
         return gson.toJson(this).getBytes();
     }
-
+    
     @Override
     public DOSNAContent fromBytes(byte[] data)
     {
@@ -72,18 +74,27 @@ public abstract class DOSNAContent implements KadContent, ActorRelatedContent
         this.updateTs = System.currentTimeMillis() / 1000L;
     }
 
+    /**
+     * When adding an actor we store the actor's ID and the actor's relationship to this content
+     */
+    @Override
+    public void addActor(String userId, String relationship)
+    {
+        this.relatedActors.put(userId, relationship);
+    }
+    
     @Override
     public void addActor(Actor a, String relationship)
     {
-        this.relatedActors.put(a, relationship);
+        addActor(a.getId(), relationship);
     }
-
+    
     @Override
-    public Map<Actor, String> getActors()
+    public List<String> getActors()
     {
-        return this.relatedActors;
+        return new ArrayList<>(this.relatedActors.keySet());
     }
-
+    
     @Override
     public String toString()
     {
@@ -93,14 +104,14 @@ public abstract class DOSNAContent implements KadContent, ActorRelatedContent
         
         sb.append("[Actors: ");
         
-        for(Actor a : this.relatedActors.keySet())
+        for (String a : this.relatedActors.keySet())
         {
-            sb.append(a.getId());
+            sb.append(a);
             sb.append("; ");
         }
         
         sb.append("]");
-
+        
         return sb.toString();
     }
 }
