@@ -1,6 +1,9 @@
 package dosna.content;
 
 import com.google.gson.Gson;
+import dosna.osn.actor.Actor;
+import java.util.HashMap;
+import java.util.Map;
 import kademlia.dht.KadContent;
 
 /**
@@ -11,7 +14,7 @@ import kademlia.dht.KadContent;
  * @author Joshua Kissoon
  * @since 20140326
  */
-public abstract class DOSNAContent implements KadContent
+public abstract class DOSNAContent implements KadContent, ActorRelatedContent
 {
 
     public static final String TYPE = "DOSNAContent";
@@ -19,9 +22,13 @@ public abstract class DOSNAContent implements KadContent
     public final long createTs;
     public long updateTs;
 
+    /* Set of actors related to this content */
+    private Map<Actor, String> relatedActors;
+
     
     {
         this.createTs = this.updateTs = System.currentTimeMillis() / 1000L;
+        relatedActors = new HashMap<>();
     }
 
     public DOSNAContent()
@@ -63,5 +70,37 @@ public abstract class DOSNAContent implements KadContent
     public void setUpdated()
     {
         this.updateTs = System.currentTimeMillis() / 1000L;
+    }
+
+    @Override
+    public void addActor(Actor a, String relationship)
+    {
+        this.relatedActors.put(a, relationship);
+    }
+
+    @Override
+    public Map<Actor, String> getActors()
+    {
+        return this.relatedActors;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder(this.getType());
+        
+        sb.append(": ");
+        
+        sb.append("[Actors: ");
+        
+        for(Actor a : this.relatedActors.keySet())
+        {
+            sb.append(a.getId());
+            sb.append("; ");
+        }
+        
+        sb.append("]");
+
+        return sb.toString();
     }
 }
