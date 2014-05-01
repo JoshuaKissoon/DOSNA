@@ -20,13 +20,18 @@ public class NotificationBox extends DOSNAContent
     public final static String TYPE = "NotificationBox";
 
     private List<Notification> notifications;
-    private final String ownerId;
+    private String ownerId;
 
     private NodeId key;
 
     
     {
         notifications = new ArrayList<>();
+    }
+    
+    public NotificationBox()
+    {
+        
     }
 
     /**
@@ -36,7 +41,17 @@ public class NotificationBox extends DOSNAContent
      */
     public NotificationBox(final Actor owner)
     {
-        ownerId = owner.getId();
+        this(owner.getId());
+    }
+
+    /**
+     * Setup the Notification Box
+     *
+     * @param ownerId The ID of the owner of this notification box
+     */
+    public NotificationBox(final String ownerId)
+    {
+        this.ownerId = ownerId;
         this.generateNodeId();
     }
 

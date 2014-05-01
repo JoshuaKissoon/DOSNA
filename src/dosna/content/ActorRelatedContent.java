@@ -33,5 +33,5 @@ public interface ActorRelatedContent
      *
      * @return A Map with the details
      */
-    public Collection getActors();
+    public Collection getRelatedActors();
 }

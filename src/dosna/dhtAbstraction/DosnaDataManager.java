@@ -4,6 +4,7 @@ import dosna.content.DOSNAContent;
 import dosna.DOSNAConfig;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.NoSuchElementException;
 import kademlia.dht.GetParameter;
 import kademlia.KademliaNode;
 import kademlia.dht.StorageEntry;
@@ -104,7 +105,19 @@ public final class DosnaDataManager implements DataManager
     {
         return kad.get(gp);
     }
-    
+
+    @Override
+    public StorageEntry get(NodeId key, String type) throws IOException, NoSuchElementException, ContentNotFoundException
+    {
+        return this.get(new GetParameter(key, type));
+    }
+
+    @Override
+    public StorageEntry get(NodeId key, String type, String ownerId) throws IOException, NoSuchElementException, ContentNotFoundException
+    {
+        return this.get(new GetParameter(key, type, ownerId));
+    }
+
     /**
      * Run an update call to update the data stored locally on this computer.
      * This may involve deleting some data and adding some other data.
@@ -112,7 +125,7 @@ public final class DosnaDataManager implements DataManager
     @Override
     public void updateStorage()
     {
-        
+
     }
 
     @Override

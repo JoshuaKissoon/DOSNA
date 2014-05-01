@@ -90,7 +90,7 @@ public abstract class DOSNAContent implements KadContent, ActorRelatedContent
     }
     
     @Override
-    public List<String> getActors()
+    public List<String> getRelatedActors()
     {
         return new ArrayList<>(this.relatedActors.keySet());
     }

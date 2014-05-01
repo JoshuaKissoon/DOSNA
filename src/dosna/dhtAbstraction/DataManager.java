@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import kademlia.dht.GetParameter;
 import kademlia.dht.StorageEntry;
 import kademlia.exceptions.ContentNotFoundException;
+import kademlia.node.NodeId;
 
 /**
  * An abstraction that handles routing data on the network and storing data.
@@ -52,7 +53,7 @@ public interface DataManager
     public int putLocallyAndUniversally(final DOSNAContent content) throws IOException;
 
     /**
-     * Get entries for the required data from the network and return the latest entry.
+     * Get entries for the required data from the network
      *
      * @param gp
      *
@@ -62,6 +63,33 @@ public interface DataManager
      * @throws kademlia.exceptions.ContentNotFoundException
      */
     public StorageEntry get(final GetParameter gp) throws IOException, NoSuchElementException, ContentNotFoundException;
+
+    /**
+     * Get entries for the required data from the network
+     *
+     * @param key
+     * @param type
+     *
+     * @return A single data entry
+     *
+     * @throws java.io.IOException
+     * @throws kademlia.exceptions.ContentNotFoundException
+     */
+    public StorageEntry get(final NodeId key, final String type) throws IOException, NoSuchElementException, ContentNotFoundException;
+
+    /**
+     * Get entries for the required data from the network
+     *
+     * @param key
+     * @param type
+     * @param ownerId
+     *
+     * @return A single data entry
+     *
+     * @throws java.io.IOException
+     * @throws kademlia.exceptions.ContentNotFoundException
+     */
+    public StorageEntry get(final NodeId key, final String type, final String ownerId) throws IOException, NoSuchElementException, ContentNotFoundException;
 
     /**
      * Run an update call to update the data stored locally on this computer.
