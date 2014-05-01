@@ -28,10 +28,10 @@ public class NotificationBox extends DOSNAContent
     {
         notifications = new ArrayList<>();
     }
-    
+
     public NotificationBox()
     {
-        
+
     }
 
     /**
@@ -94,6 +94,16 @@ public class NotificationBox extends DOSNAContent
     public void emptyBox()
     {
         this.notifications = new ArrayList<>();
+    }
+
+    /**
+     * Check whether this box has any notifications.
+     *
+     * @return
+     */
+    public boolean hasNotifications()
+    {
+        return !this.notifications.isEmpty();
     }
 
     @Override

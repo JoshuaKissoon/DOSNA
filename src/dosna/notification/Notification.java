@@ -10,7 +10,7 @@ import kademlia.node.NodeId;
  */
 public class Notification
 {
-    
+
     private final NodeId key;
     private final String notification;
 
@@ -25,14 +25,26 @@ public class Notification
         this.key = key;
         this.notification = notification;
     }
-    
+
     public NodeId getContentKey()
     {
         return this.key;
     }
-    
+
     public String getNotification()
     {
         return this.notification;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder("Notification: ");
+
+        sb.append("[Text: ");
+        sb.append(notification);
+        sb.append("]");
+
+        return sb.toString();
     }
 }
