@@ -1,4 +1,4 @@
-package dosna.dhtAbstraction;
+package dosna.content;
 
 import com.google.gson.Gson;
 import kademlia.dht.KadContent;

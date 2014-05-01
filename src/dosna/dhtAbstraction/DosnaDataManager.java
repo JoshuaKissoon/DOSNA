@@ -1,5 +1,6 @@
 package dosna.dhtAbstraction;
 
+import dosna.content.DOSNAContent;
 import dosna.DOSNAConfig;
 import java.io.IOException;
 import java.net.UnknownHostException;

@@ -1,7 +1,7 @@
 package dosna.osn.actor;
 
 import dosna.core.ContentMetadata;
-import dosna.dhtAbstraction.DOSNAContent;
+import dosna.content.DOSNAContent;
 import dosna.dhtAbstraction.DataManager;
 import java.io.IOException;
 import java.util.ArrayList;

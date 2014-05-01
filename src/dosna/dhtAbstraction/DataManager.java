@@ -1,5 +1,6 @@
 package dosna.dhtAbstraction;
 
+import dosna.content.DOSNAContent;
 import java.util.List;
 import java.io.IOException;
 import java.util.NoSuchElementException;

@@ -1,6 +1,6 @@
 package dosna.osn.status;
 
-import dosna.dhtAbstraction.DOSNAContent;
+import dosna.content.DOSNAContent;
 import dosna.osn.actor.Actor;
 import dosna.util.HashCalculator;
 import java.security.NoSuchAlgorithmException;

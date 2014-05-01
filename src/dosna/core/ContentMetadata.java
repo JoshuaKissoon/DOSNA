@@ -1,6 +1,6 @@
 package dosna.core;
 
-import dosna.dhtAbstraction.DOSNAContent;
+import dosna.content.DOSNAContent;
 import kademlia.node.NodeId;
 
 /**

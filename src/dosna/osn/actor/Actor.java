@@ -1,6 +1,6 @@
 package dosna.osn.actor;
 
-import dosna.dhtAbstraction.DOSNAContent;
+import dosna.content.DOSNAContent;
 import dosna.dhtAbstraction.DataManager;
 import dosna.util.HashCalculator;
 import java.math.BigInteger;
