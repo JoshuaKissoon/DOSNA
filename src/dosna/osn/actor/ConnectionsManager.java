@@ -4,7 +4,6 @@ import dosna.dhtAbstraction.DataManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 import java.util.TreeSet;
 import kademlia.dht.GetParameter;
 import kademlia.dht.StorageEntry;
@@ -110,24 +109,18 @@ public class ConnectionsManager
         }
 
         final Collection<Actor> conns = new ArrayList<>();
+        ActorManager am = new ActorManager(dataManager);
 
         for (Relationship r : this.connections)
         {
             /* Lets load the actor in this relationship */
             try
             {
-                Actor a = new Actor(r.getConnectionUid());
-                GetParameter gp = new GetParameter(a.getKey(), a.getType(), a.getId());
-                StorageEntry se = dataManager.get(gp);
-                conns.add((Actor) new Actor().fromBytes(se.getContent().getBytes()));
+                conns.add(am.loadActor(r.getConnectionUid()));
             }
             catch (IOException | ContentNotFoundException ex)
             {
-                /**
-                 * @think We didn't find this profile, do something
-                 * I think we can ignore it since one of the assumptions we make is that all content is available all the time
-                 */
-                ex.printStackTrace();
+                /* We can ignore it since one of the DHT assumptions we make is that all content is available all the time */
             }
         }
 

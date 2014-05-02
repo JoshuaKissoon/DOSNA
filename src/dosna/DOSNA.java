@@ -6,7 +6,7 @@ import dosna.gui.AnanciUI;
 import dosna.gui.LoginFrame;
 import dosna.gui.SignupFrame;
 import dosna.osn.actor.Actor;
-import dosna.osn.actor.ActorCreator;
+import dosna.osn.actor.ActorManager;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -122,31 +122,31 @@ public class DOSNA
     {
         final Actor u = new Actor(username);
 
-        if (DOSNA.this.initRouting(username, u.getKey()))
+        DOSNA.this.initRouting(username, u.getKey());
+
+        try
         {
-            try
-            {
-                /* Checking if a user exists */
-                final GetParameter gp = new GetParameter(u.getKey(), u.getType(), username);
-                StorageEntry items = this.dataManager.get(gp);
+            /* Checking if a user exists */
+            final GetParameter gp = new GetParameter(u.getKey(), u.getType(), username);
+            StorageEntry items = this.dataManager.get(gp);
 
-                /* User exists! Now check if password matches */
-                Actor actor = (Actor) new Actor().fromBytes(items.getContent().getBytes());
-                if (actor.isPassword(password))
-                {
-                    return new LoginResult(actor, true);
-                }
-            }
-            catch (ContentNotFoundException cnfex)
+            /* User exists! Now check if password matches */
+            Actor actor = (Actor) new Actor().fromBytes(items.getContent().getBytes());
+            if (actor.isPassword(password))
             {
-                /* The user does not exist */
-                return new LoginResult();
-            }
-            catch (IOException ex)
-            {
-
+                return new LoginResult(actor, true);
             }
         }
+        catch (ContentNotFoundException cnfex)
+        {
+            /* The user does not exist */
+            return new LoginResult();
+        }
+        catch (IOException ex)
+        {
+
+        }
+
 
         /* Login was unsuccessful */
         return new LoginResult(false);
@@ -234,29 +234,29 @@ public class DOSNA
     /**
      * Try to signup a user into the system, handles the logic for signing up the user.
      *
-     * @param username
+     * @param userId
      * @param password
      * @param fullName
      *
      * @return Whether the user signup was successful or not
      */
-    public SignupResult signupUser(final String username, final String password, final String fullName)
+    public SignupResult signupUser(final String userId, final String password, final String fullName)
     {
-        final Actor u = new Actor(username);
+        final Actor u = new Actor(userId);
         u.setPassword(password);
         u.setName(fullName);
 
         try
         {
             /* Initialize our routing */
-            DOSNA.this.initRouting(username, u.getKey());
+            DOSNA.this.initRouting(userId, u.getKey());
 
             /* See if this user object already exists on the network */
-            GetParameter gp = new GetParameter(u.getKey(), u.getType(), username);
+            GetParameter gp = new GetParameter(u.getKey(), u.getType(), userId);
             StorageEntry item = dataManager.get(gp);
-            
+
             System.out.println(item.getContent());
-            
+
             /* Username is already taken */
             return new SignupResult(false);
         }
@@ -265,9 +265,9 @@ public class DOSNA
             try
             {
                 /* Lets add this user to the system */
-                ActorCreator ac = new ActorCreator(dataManager, u);
+                ActorManager ac = new ActorManager(dataManager);
 
-                Actor createdActor = ac.createActor();
+                Actor createdActor = ac.createActor(u);
 
                 /* User added, now launch DOSNA */
                 return new SignupResult(createdActor, true);
@@ -328,6 +328,11 @@ public class DOSNA
         AnanciUI mainUi = new AnanciUI(dataManager, actor);
         mainUi.create();
         mainUi.display();
+    }
+
+    public DataManager getDataManager()
+    {
+        return this.dataManager;
     }
 
     /**

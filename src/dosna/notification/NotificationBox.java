@@ -24,11 +24,6 @@ public class NotificationBox extends DOSNAContent
 
     private NodeId key;
 
-    
-    {
-        notifications = new ArrayList<>();
-    }
-
     public NotificationBox()
     {
 
@@ -42,6 +37,7 @@ public class NotificationBox extends DOSNAContent
     public NotificationBox(final Actor owner)
     {
         this(owner.getId());
+        notifications = new ArrayList<>();
     }
 
     /**

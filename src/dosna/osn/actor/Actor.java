@@ -22,7 +22,7 @@ public class Actor extends DOSNAContent
     final static String SERIALK_CONTENT_MANAGER = "CManager";
 
     /* Manage the content posted by this actor */
-    protected ContentManager contentManager;
+    protected ActorContentManager contentManager;
 
     /* Manage relationships this actor have to other actors */
     protected ConnectionsManager connectionManager;
@@ -38,7 +38,7 @@ public class Actor extends DOSNAContent
 
     
     {
-        this.contentManager = ContentManager.createNew(this);
+        this.contentManager = ActorContentManager.createNew(this);
         this.connectionManager = ConnectionsManager.createNew(this);
     }
 
@@ -174,7 +174,7 @@ public class Actor extends DOSNAContent
     /**
      * @return The ContentManager that manages this actors contents
      */
-    public ContentManager getContentManager()
+    public ActorContentManager getContentManager()
     {
         return this.contentManager;
     }
@@ -184,7 +184,7 @@ public class Actor extends DOSNAContent
      *
      * @param cm The new content manager
      */
-    public void setContentManager(final ContentManager cm)
+    public void setContentManager(final ActorContentManager cm)
     {
         this.contentManager = cm;
     }

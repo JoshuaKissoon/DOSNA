@@ -18,7 +18,7 @@ import java.util.TreeSet;
  * @author Joshua Kissoon
  * @since 20140401
  */
-public class ContentManager
+public class ActorContentManager
 {
 
     /*  Set of content for a specific actor <String - The type of element stored, TreeSet<ContentMetadata>>
@@ -30,20 +30,20 @@ public class ContentManager
     /**
      * Blank constructor mainly used by serializers
      */
-    public ContentManager()
+    public ActorContentManager()
     {
 
     }
 
-    private ContentManager(final Actor actor)
+    private ActorContentManager(final Actor actor)
     {
         actorContent = new HashMap<>();
         this.actor = actor;
     }
 
-    public static ContentManager createNew(Actor actor)
+    public static ActorContentManager createNew(Actor actor)
     {
-        return new ContentManager(actor);
+        return new ActorContentManager(actor);
     }
 
     /**
