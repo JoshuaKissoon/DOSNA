@@ -80,36 +80,23 @@ public class DOSNA
                     final String username = login.getUsername();
                     final String password = login.getPassword();
 
-                    final Actor u = new Actor(username);
-
-                    if (!DOSNA.this.initRouting(username, u.getKey()))
+                    final LoginResult res = this.loginUser(username, password);
+                    if (res.isLoginSuccessful)
                     {
-                        return;
+                        /* Everything's great! Launch the app */
+                        login.dispose();
+                        DOSNA.this.launchMainGUI(res.loggedInActor);
                     }
-
-                    try
+                    else
                     {
-                        /* Checking if a user exists */
-                        final GetParameter gp = new GetParameter(u.getKey(), u.getType(), username);
-                        StorageEntry items = this.dataManager.get(gp);
-
-                        /* User exists! Now check if password matches */
-                        final Actor user = (Actor) new Actor().fromBytes(items.getContent().getBytes());
-                        System.out.println("Loaded User: " + user);
-                        if (user.isPassword(password))
-                        {
-                            /* Everything's great! Launch the app */
-                            login.dispose();
-                            DOSNA.this.launchMainGUI(user);
-                        }
-                        else
+                        if (res.isUserExistent)
                         {
                             JOptionPane.showMessageDialog(null, "Invalid password! please try again.");
                         }
-                    }
-                    catch (IOException | ContentNotFoundException ex)
-                    {
-                        JOptionPane.showMessageDialog(null, "Sorry, no account exists for the given user.");
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null, "Sorry, no account exists for the given user.");
+                        }
                     }
                     break;
                 case "signup":
@@ -121,6 +108,82 @@ public class DOSNA
         });
         login.createGUI();
         login.display();
+    }
+
+    /**
+     * Try to login a user into the system
+     *
+     * @param username
+     * @param password
+     *
+     * @return Whether the user login was successful or not
+     */
+    public LoginResult loginUser(String username, String password)
+    {
+        final Actor u = new Actor(username);
+
+        if (DOSNA.this.initRouting(username, u.getKey()))
+        {
+            try
+            {
+                /* Checking if a user exists */
+                final GetParameter gp = new GetParameter(u.getKey(), u.getType(), username);
+                StorageEntry items = this.dataManager.get(gp);
+
+                /* User exists! Now check if password matches */
+                Actor actor = (Actor) new Actor().fromBytes(items.getContent().getBytes());
+                if (actor.isPassword(password))
+                {
+                    return new LoginResult(actor, true);
+                }
+            }
+            catch (ContentNotFoundException cnfex)
+            {
+                /* The user does not exist */
+                return new LoginResult();
+            }
+            catch (IOException ex)
+            {
+
+            }
+        }
+
+        /* Login was unsuccessful */
+        return new LoginResult(false);
+    }
+
+    /**
+     * A class used to return the result of a login
+     */
+    public class LoginResult
+    {
+
+        public Actor loggedInActor = null;
+        public boolean isLoginSuccessful = false;
+        public boolean isUserExistent = false;
+
+        public LoginResult(final Actor loggedInActor, final boolean isLoginSuccessful, final boolean isUserExistent)
+        {
+            this.loggedInActor = loggedInActor;
+            this.isLoginSuccessful = isLoginSuccessful;
+            this.isUserExistent = isUserExistent;
+        }
+
+        public LoginResult(final Actor loggedInActor, final boolean isLoginSuccessful)
+        {
+            this(loggedInActor, isLoginSuccessful, true);
+        }
+
+        public LoginResult(final Boolean isLoginSuccessful)
+        {
+            this.isLoginSuccessful = isLoginSuccessful;
+            this.isUserExistent = true;
+        }
+
+        public LoginResult()
+        {
+
+        }
     }
 
     /**
@@ -177,7 +240,7 @@ public class DOSNA
                     }
                     catch (IOException exc)
                     {
-                        
+
                     }
                 }
             }
