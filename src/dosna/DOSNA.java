@@ -89,7 +89,7 @@ public class DOSNA
                     }
                     else
                     {
-                        if (res.isUserExistent)
+                        if (res.isActorExistent)
                         {
                             JOptionPane.showMessageDialog(null, "Invalid password! please try again.");
                         }
@@ -111,7 +111,7 @@ public class DOSNA
     }
 
     /**
-     * Try to login a user into the system
+     * Try to login a user into the system, handles the logic for logging in the user.
      *
      * @param username
      * @param password
@@ -160,13 +160,13 @@ public class DOSNA
 
         public Actor loggedInActor = null;
         public boolean isLoginSuccessful = false;
-        public boolean isUserExistent = false;
+        public boolean isActorExistent = false;
 
         public LoginResult(final Actor loggedInActor, final boolean isLoginSuccessful, final boolean isUserExistent)
         {
             this.loggedInActor = loggedInActor;
             this.isLoginSuccessful = isLoginSuccessful;
-            this.isUserExistent = isUserExistent;
+            this.isActorExistent = isUserExistent;
         }
 
         public LoginResult(final Actor loggedInActor, final boolean isLoginSuccessful)
@@ -177,7 +177,7 @@ public class DOSNA
         public LoginResult(final Boolean isLoginSuccessful)
         {
             this.isLoginSuccessful = isLoginSuccessful;
-            this.isUserExistent = true;
+            this.isActorExistent = true;
         }
 
         public LoginResult()
@@ -205,42 +205,23 @@ public class DOSNA
             }
             else
             {
+                SignupResult res = this.signupUser(username, password, fullName);
 
-                final Actor u = new Actor(username);
-                u.setPassword(password);
-                u.setName(fullName);
-
-                boolean usernameTaken = false;
-
-                try
+                if (res.isSignupSuccessful)
                 {
-                    /* Initialize our routing */
-                    DOSNA.this.initRouting(username, u.getKey());
-
-                    /* See if this user object already exists on the network */
-                    GetParameter gp = new GetParameter(u.getKey(), username, u.getType());
-                    StorageEntry item = dataManager.get(gp);
-
-                    /* Username is already taken, block this user and show a warning */
-                    JOptionPane.showMessageDialog(null, "This username is already taken! Please try another username.");
+                    signup.dispose();
+                    JOptionPane.showMessageDialog(null, "You have successfully joined! welcome!");
+                    DOSNA.this.launchMainGUI(res.actor);
                 }
-                catch (IOException | ContentNotFoundException ex)
+                else
                 {
-                    try
+                    if (res.isActorExistent)
                     {
-                        /* Lets add this user to the system */
-                        ActorCreator ac = new ActorCreator(dataManager, u);
-
-                        Actor createdActor = ac.createActor();
-
-                        /* User added, now launch DOSNA */
-                        signup.dispose();
-                        JOptionPane.showMessageDialog(null, "You have successfully joined! welcome!");
-                        DOSNA.this.launchMainGUI(createdActor);
+                        JOptionPane.showMessageDialog(null, "This username is already taken! Please try another username.");
                     }
-                    catch (IOException exc)
+                    else
                     {
-
+                        JOptionPane.showMessageDialog(null, "The signup process encountered an error, please try again later.");
                     }
                 }
             }
@@ -248,6 +229,91 @@ public class DOSNA
 
         signup.createGUI();
         signup.display();
+    }
+
+    /**
+     * Try to signup a user into the system, handles the logic for signing up the user.
+     *
+     * @param username
+     * @param password
+     * @param fullName
+     *
+     * @return Whether the user signup was successful or not
+     */
+    public SignupResult signupUser(final String username, final String password, final String fullName)
+    {
+        final Actor u = new Actor(username);
+        u.setPassword(password);
+        u.setName(fullName);
+
+        try
+        {
+            /* Initialize our routing */
+            DOSNA.this.initRouting(username, u.getKey());
+
+            /* See if this user object already exists on the network */
+            GetParameter gp = new GetParameter(u.getKey(), u.getType(), username);
+            StorageEntry item = dataManager.get(gp);
+            
+            System.out.println(item.getContent());
+            
+            /* Username is already taken */
+            return new SignupResult(false);
+        }
+        catch (IOException | ContentNotFoundException ex)
+        {
+            try
+            {
+                /* Lets add this user to the system */
+                ActorCreator ac = new ActorCreator(dataManager, u);
+
+                Actor createdActor = ac.createActor();
+
+                /* User added, now launch DOSNA */
+                return new SignupResult(createdActor, true);
+            }
+            catch (IOException exc)
+            {
+
+            }
+        }
+
+        /* We got here means things were not successful */
+        return new SignupResult();
+    }
+
+    /**
+     * A class used to return the result of a login
+     */
+    public class SignupResult
+    {
+
+        public Actor actor = null;
+        public boolean isSignupSuccessful = false;
+        public boolean isActorExistent = false;
+
+        public SignupResult(final Actor actor, final boolean isSignupSuccessful, final boolean isActorExistent)
+        {
+            this.actor = actor;
+            this.isSignupSuccessful = isSignupSuccessful;
+            this.isActorExistent = isActorExistent;
+        }
+
+        public SignupResult(final Actor actor, final boolean isSignupSuccessful)
+        {
+            this(actor, isSignupSuccessful, false);
+        }
+
+        public SignupResult(final Boolean isSignupSuccessful)
+        {
+            this.isSignupSuccessful = isSignupSuccessful;
+            this.isActorExistent = true;
+        }
+
+        public SignupResult()
+        {
+
+        }
     }
 
     /**
