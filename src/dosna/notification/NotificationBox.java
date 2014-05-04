@@ -24,6 +24,11 @@ public class NotificationBox extends DOSNAContent
 
     private NodeId key;
 
+    
+    {
+        notifications = new ArrayList<>();
+    }
+
     public NotificationBox()
     {
 
@@ -37,7 +42,6 @@ public class NotificationBox extends DOSNAContent
     public NotificationBox(final Actor owner)
     {
         this(owner.getId());
-        notifications = new ArrayList<>();
     }
 
     /**
@@ -74,6 +78,7 @@ public class NotificationBox extends DOSNAContent
     public void addNotification(Notification n)
     {
         this.notifications.add(n);
+        this.setUpdated();
     }
 
     /**
@@ -118,6 +123,26 @@ public class NotificationBox extends DOSNAContent
     public String getOwnerId()
     {
         return this.ownerId;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder("NotificationBox: ");
+
+        sb.append("[Owner: ");
+        sb.append(ownerId);
+        sb.append("");
+
+        for (Notification n : this.notifications)
+        {
+            sb.append(n);
+            sb.append(" ; ");
+        }
+
+        sb.append("]");
+
+        return sb.toString();
     }
 
 }

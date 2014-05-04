@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeSet;
-import kademlia.dht.GetParameter;
-import kademlia.dht.StorageEntry;
 import kademlia.exceptions.ContentNotFoundException;
 
 /**

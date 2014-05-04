@@ -1,6 +1,5 @@
 package dosna.simulations;
 
-import dosna.content.ContentManager;
 import dosna.core.ContentMetadata;
 import dosna.osn.actor.Actor;
 import dosna.osn.status.Status;
