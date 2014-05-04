@@ -328,6 +328,20 @@ public class DOSNA
         AnanciUI mainUi = new AnanciUI(dataManager, actor);
         mainUi.create();
         mainUi.display();
+
+        /* Lets also launch the notifications checker */
+        this.launchNotificationChecker(actor);
+    }
+
+    /**
+     * Launch the notification checker
+     *
+     * @param actor
+     */
+    public void launchNotificationChecker(final Actor actor)
+    {
+        PeriodicNotificationsChecker pnc = new PeriodicNotificationsChecker(this.dataManager, actor.getId());
+        pnc.startTimer();
     }
 
     public DataManager getDataManager()

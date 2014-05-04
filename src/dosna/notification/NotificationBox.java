@@ -95,6 +95,7 @@ public class NotificationBox extends DOSNAContent
     public void emptyBox()
     {
         this.notifications = new ArrayList<>();
+        this.setUpdated();
     }
 
     /**

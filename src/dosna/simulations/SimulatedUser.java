@@ -7,7 +7,6 @@ import dosna.osn.actor.Actor;
 import dosna.osn.actor.ActorManager;
 import dosna.osn.status.Status;
 import java.io.IOException;
-import kademlia.dht.GetParameter;
 import kademlia.dht.StorageEntry;
 import kademlia.exceptions.ContentNotFoundException;
 import kademlia.node.NodeId;
@@ -86,6 +85,7 @@ public class SimulatedUser
         {
             this.actor = res.loggedInActor;
             this.actor.init(this.dosna.getDataManager());
+            this.dosna.launchNotificationChecker(this.actor);
         }
 
         return res.isLoginSuccessful;

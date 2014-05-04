@@ -28,7 +28,7 @@ public class PeriodicNotificationsChecker
 
     private final Timer timer;
     private final int period = 60 * 1000;   // every minute
-    private final long intialDelay = 5 * 1000; // 5 seconds
+    private final long intialDelay = 10 * 1000; // 5 seconds
 
     /**
      * Setup the class
