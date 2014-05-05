@@ -4,8 +4,8 @@ import dosna.content.DOSNAContent;
 import dosna.core.ContentMetadata;
 import dosna.dhtAbstraction.DataManager;
 import dosna.osn.actor.Actor;
-import dosna.osn.status.HomeStreamStatusesLoader;
 import dosna.osn.status.Status;
+import dosna.osn.status.StatusHomeStreamDisplay;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -50,9 +50,14 @@ public class HomeStreamManager
     {
         /* Get the home stream content */
         Collection<DOSNAContent> homeStreamContent = getHomeStreamContent();
-
-        /* Setup the display of the home stream content*/
-        Collection<HomeStreamContent> toAdd = hssl.loadContent(dataManager);
+        Collection<HomeStreamContent> toAdd = new ArrayList<>();
+        for (DOSNAContent c : homeStreamContent)
+        {
+            if (c.getType().equals(Status.TYPE))
+            {
+                toAdd.add(new StatusHomeStreamDisplay((Status) c));
+            }
+        }
 
         System.out.println("Statuses on home stream: " + toAdd.size());
 
