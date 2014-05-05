@@ -10,26 +10,26 @@ public class SimConfig
 {
 
     /* Number of users in the simulation */
-    public final static int N = 1000;
+    public final static int N = 5;
 
     /* How many users should be created at once on the network */
-    private final static int NUM_USERS_PER_SET = 100;
+    private final static int NUM_USERS_PER_SET = 1;
 
     /* How long should we delay between creating users on the network */
-    private final static int USER_CREATION_DELAY = 10;
+    private final static int USER_CREATION_DELAY = 1000;
 
     /* The number of times a user can perform the activities */
-    private final static int NUM_CONTENT = 100;
-    private final static int NUM_CONNECTIONS = 100;
-    private final static int NUM_ACTIVITY_STREAM_REFRESHES = 100;
-    private final static int NUM_CONTENT_MODIFICATIONS = 100;
+    private final static int NUM_CONTENT = 5;
+    private final static int NUM_CONNECTIONS = 5;
+    private final static int NUM_ACTIVITY_STREAM_REFRESHES = 5;
+    private final static int NUM_CONTENT_MODIFICATIONS = 5;
 
     /**
      * Maximum and minimum wait period (in ms) before a user does another activity,
      * the user simulation class will wait a random time between this period.
      */
-    private final static int MIN_WAIT_PERIOD = 1;
-    private final static int MAX_WAIT_PERIOD = 30;
+    private final static int MIN_WAIT_PERIOD = 1000;
+    private final static int MAX_WAIT_PERIOD = 3000;
 
     /**
      * @return The number of users in the simulation

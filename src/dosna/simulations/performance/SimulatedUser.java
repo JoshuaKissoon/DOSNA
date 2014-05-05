@@ -98,7 +98,7 @@ public class SimulatedUser
      *
      * @throws java.io.IOException
      */
-    public void setNewStatus(String statusText) throws IOException
+    public synchronized void setNewStatus(String statusText) throws IOException
     {
         Status status = Status.createNew(this.getActor(), statusText);
         this.getActor().getContentManager().store(status);

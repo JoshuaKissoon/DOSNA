@@ -1,5 +1,7 @@
 package dosna.simulations.performance;
 
+import java.io.IOException;
+
 /**
  * This is a class that simulates the user activities for a single user;
  * this is part of the overall simulation of users.
@@ -13,6 +15,11 @@ public class UserSimulation implements Runnable
     private final SimConfig config;
     private long numContent, numConnections, numActivityStreamRefreshes, numContentModified;
 
+    private final int userNumber;
+    private String actorId, password, name;
+
+    private final SimulatedUser simulatedUser;
+
     
     {
         this.numContent = 0;
@@ -24,16 +31,29 @@ public class UserSimulation implements Runnable
     /**
      * Setup the simulation for a single user
      *
-     * @param config The simulation configuration
+     * @param config     The simulation configuration
+     * @param userNumber The user number in the simulation
      */
-    public UserSimulation(SimConfig config)
+    public UserSimulation(SimConfig config, int userNumber)
     {
         this.config = config;
+        this.userNumber = userNumber;
+
+        this.actorId = "actor" + userNumber;
+        this.password = "password" + userNumber;
+        this.name = "Actor Name " + userNumber;
+
+        simulatedUser = new SimulatedUser(this.actorId, this.password, this.name);
+
+        System.out.println("Created user " + userNumber);
     }
 
     @Override
     public void run()
     {
+        /* Lets signup and login */
+        this.signupAndLogin();
+
         while (numContent < config.numContent() || numConnections < config.numConnections()
                 || numActivityStreamRefreshes < config.numActivityStreamRefreshes() || numContentModified < config.numContentModifications())
         {
@@ -76,22 +96,51 @@ public class UserSimulation implements Runnable
                 System.err.println("User Simulation interrupted. ");
             }
         }
-        
+
         System.out.println("Finished Executing everything....");
+    }
+
+    /**
+     * Let the user signup and log into the system
+     */
+    private synchronized void signupAndLogin()
+    {
+        try
+        {
+            this.simulatedUser.initializeDOSNA();
+            Thread.sleep(100);
+            this.simulatedUser.signup();
+            Thread.sleep(1000);
+            this.simulatedUser.login();
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ex)
+        {
+
+        }
     }
 
     /**
      * Handles creating and posting a new content on the DHT.
      */
-    public void createAndPostContent()
+    public synchronized void createAndPostContent()
     {
-        numContent++;
+        try
+        {
+            String status = this.name + " - Status " + numContent;
+            this.simulatedUser.setNewStatus(status);
+            numContent++;
+        }
+        catch (IOException ex)
+        {
+            System.err.println("User " + this.userNumber + " error whiles posting status. Msg: " + ex.getMessage());
+        }
     }
 
     /**
      * Handles creating a new connection.
      */
-    public void createConnection()
+    public synchronized void createConnection()
     {
         numConnections++;
     }
@@ -99,7 +148,7 @@ public class UserSimulation implements Runnable
     /**
      * Refreshes the activity stream
      */
-    public void refreshActivityStream()
+    public synchronized void refreshActivityStream()
     {
         numActivityStreamRefreshes++;
     }
@@ -107,7 +156,7 @@ public class UserSimulation implements Runnable
     /**
      * Modify some content from a connection
      */
-    public void modifyContent()
+    public synchronized void modifyContent()
     {
         numContentModified++;
     }
@@ -117,7 +166,7 @@ public class UserSimulation implements Runnable
      *
      * @return The computed value
      */
-    public long randomWaitPeriod()
+    public synchronized long randomWaitPeriod()
     {
         /* Compute a random value */
         long val = (long) (Math.random() * config.maxWaitPeriod());

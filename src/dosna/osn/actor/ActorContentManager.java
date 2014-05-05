@@ -78,7 +78,7 @@ public class ActorContentManager
      *
      * @param content The content to store
      */
-    public int store(final DOSNAContent content) throws IOException
+    public synchronized int store(final DOSNAContent content) throws IOException
     {
         try
         {

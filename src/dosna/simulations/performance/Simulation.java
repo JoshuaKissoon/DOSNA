@@ -41,10 +41,9 @@ public class Simulation
             }
 
             /* Start a new thread for this user */
-            users[i] = new UserSimulation(config);
+            users[i] = new UserSimulation(config, i);
             Thread t = new Thread(users[i]);
             t.start();
-            System.out.println("Created user " + i);
         }
     }
     
