@@ -25,7 +25,7 @@ public class Actor extends DOSNAContent
     protected ActorContentManager contentManager;
 
     /* Manage relationships this actor have to other actors */
-    protected ConnectionsManager connectionManager;
+    protected ActorConnectionsManager connectionManager;
 
     /* Attributes */
     private String id;
@@ -39,7 +39,7 @@ public class Actor extends DOSNAContent
     
     {
         this.contentManager = ActorContentManager.createNew(this);
-        this.connectionManager = ConnectionsManager.createNew(this);
+        this.connectionManager = ActorConnectionsManager.createNew(this);
     }
 
     /**
@@ -190,9 +190,20 @@ public class Actor extends DOSNAContent
     }
 
     /**
+     * Add a new connection
+     *
+     * @param actorId The actor to connect to
+     */
+    public void addConnection(String actorId)
+    {
+        this.getConnectionManager().addConnection(new Relationship(this, actorId));
+        this.setUpdated();
+    }
+
+    /**
      * @return The ConnectionManager for this actor
      */
-    public ConnectionsManager getConnectionManager()
+    public ActorConnectionsManager getConnectionManager()
     {
         return this.connectionManager;
     }

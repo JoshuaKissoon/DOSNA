@@ -13,10 +13,10 @@ public class UserSimulation implements Runnable
 {
 
     private final SimConfig config;
-    private long numContent, numConnections, numActivityStreamRefreshes, numContentModified;
+    private int numContent, numConnections, numActivityStreamRefreshes, numContentModified;
 
     private final int userNumber;
-    private String actorId, password, name;
+    private final String actorId, password, name;
 
     private final SimulatedUser simulatedUser;
 
@@ -97,6 +97,17 @@ public class UserSimulation implements Runnable
             }
         }
 
+        /* Lets shutdown everything */
+        try
+        {
+            Thread.sleep(3000);// Wait a little for other users to finish their operatins
+            this.simulatedUser.logout();
+        }
+        catch (InterruptedException ex)
+        {
+
+        }
+
         System.out.println("Finished Executing everything....");
     }
 
@@ -107,8 +118,6 @@ public class UserSimulation implements Runnable
     {
         try
         {
-            this.simulatedUser.initializeDOSNA();
-            Thread.sleep(100);
             this.simulatedUser.signup();
             Thread.sleep(1000);
             this.simulatedUser.login();
@@ -142,6 +151,8 @@ public class UserSimulation implements Runnable
      */
     public synchronized void createConnection()
     {
+        int connectionUid = (this.userNumber + numConnections + 1) % this.config.numUsers();
+        this.simulatedUser.createConnection("actor" + connectionUid);
         numConnections++;
     }
 

@@ -16,7 +16,7 @@ import kademlia.exceptions.ContentNotFoundException;
  * @todo Add an isConnection method
  * @todo When a person is a connection, show that status in the addConnection frame
  */
-public class ConnectionsManager
+public class ActorConnectionsManager
 {
 
     /**
@@ -29,7 +29,7 @@ public class ConnectionsManager
     /**
      * Blank constructor to be used by Serializer
      */
-    public ConnectionsManager()
+    public ActorConnectionsManager()
     {
 
     }
@@ -37,7 +37,7 @@ public class ConnectionsManager
     /**
      * This constructor is called when creating a new ConnectionManager object
      */
-    private ConnectionsManager(final Actor actor)
+    private ActorConnectionsManager(final Actor actor)
     {
         this.actor = actor;
         this.connections = new TreeSet<>();
@@ -50,9 +50,9 @@ public class ConnectionsManager
      *
      * @return A new ConnectionManager object
      */
-    public static ConnectionsManager createNew(final Actor actor)
+    public static ActorConnectionsManager createNew(final Actor actor)
     {
-        return new ConnectionsManager(actor);
+        return new ActorConnectionsManager(actor);
     }
 
     /**

@@ -5,6 +5,7 @@ import dosna.content.ContentManager;
 import dosna.content.DOSNAContent;
 import dosna.osn.actor.Actor;
 import dosna.osn.actor.ActorManager;
+import dosna.osn.actor.Relationship;
 import dosna.osn.status.Status;
 import java.io.IOException;
 import kademlia.dht.StorageEntry;
@@ -21,11 +22,19 @@ public class SimulatedUser
 {
 
     private Actor actor;
-    private DOSNA dosna;
+    private final DOSNA dosna;
 
     private String actorId;
     private String name;
     private String password;
+
+    /* Content Manager to manage the content on the network */
+    private ContentManager contentManager;
+
+    
+    {
+        this.dosna = new DOSNA();
+    }
 
     /**
      * Setup the simulated user
@@ -60,11 +69,6 @@ public class SimulatedUser
         return this.actor;
     }
 
-    public void initializeDOSNA()
-    {
-        this.dosna = new DOSNA();
-    }
-
     public boolean signup()
     {
         DOSNA.SignupResult res = this.dosna.signupUser(this.actorId, this.password, this.name);
@@ -81,6 +85,8 @@ public class SimulatedUser
     {
         DOSNA.LoginResult res = this.dosna.loginUser(this.actorId, this.password);
 
+        this.contentManager = new ContentManager(this.dosna.getDataManager());
+
         if (res.isLoginSuccessful)
         {
             this.actor = res.loggedInActor;
@@ -89,6 +95,24 @@ public class SimulatedUser
         }
 
         return res.isLoginSuccessful;
+    }
+
+    /**
+     * Log the user out and shutdown the system
+     *
+     * @return Whether logout and shutdown was successful or not
+     */
+    public boolean logout()
+    {
+        try
+        {
+            this.dosna.getDataManager().shutdown(true);
+            return true;
+        }
+        catch (IOException ex)
+        {
+            return false;
+        }
     }
 
     /**
@@ -117,11 +141,23 @@ public class SimulatedUser
 
     public void updateContent(DOSNAContent content)
     {
-        ContentManager cm = new ContentManager(this.dosna.getDataManager());
         content.addActor(this.getActor().getId(), "editor");
         content.setUpdated();
-        
-        cm.updateContent(content);
+
+        this.contentManager.updateContent(content);
+    }
+
+    /**
+     * Creates a new connection with the given actor
+     *
+     * @param actorId The actor to create the connection with
+     */
+    public void createConnection(String actorId)
+    {
+        this.actor.addConnection(actorId);
+
+        /* Update the actor object online */
+        this.contentManager.updateContent(this.actor);
     }
 
 }
