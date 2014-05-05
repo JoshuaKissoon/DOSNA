@@ -1,5 +1,6 @@
 package dosna.osn.homestream;
 
+import dosna.content.DOSNAContent;
 import dosna.core.ContentMetadata;
 import dosna.dhtAbstraction.DataManager;
 import dosna.osn.actor.Actor;
@@ -38,16 +39,6 @@ public class HomeStreamManager
     }
 
     /**
-     * Gets the Actor object of all connections
-     *
-     * @return The set of connections
-     */
-    public Collection<Actor> getConnections()
-    {
-        return currentActor.getConnectionManager().loadConnections(this.dataManager);
-    }
-
-    /**
      * @return HomeStream The homestream object
      */
     public HomeStream getHomeStream()
@@ -57,26 +48,10 @@ public class HomeStreamManager
 
     public HomeStream createHomeStream()
     {
-        Collection<Actor> connections = this.getConnections();
-        connections.add(currentActor);
+        /* Get the home stream content */
+        Collection<DOSNAContent> homeStreamContent = getHomeStreamContent();
 
-        /**
-         * Here we're supposed to let all class that implement HomeStreamLoad hook set the content to be displayed on the home stream
-         *
-         * @todo Do this when the APIs are setup
-         *
-         * For now, let's just show the statuses
-         */
-        List<ContentMetadata> statuses = new ArrayList<>();
-
-        for (Actor a : connections)
-        {
-            statuses.addAll(a.getContentManager().getAllContent(Status.TYPE));
-        }
-
-        HomeStreamStatusesLoader hssl = new HomeStreamStatusesLoader();
-        hssl.addContent(statuses);
-
+        /* Setup the display of the home stream content*/
         Collection<HomeStreamContent> toAdd = hssl.loadContent(dataManager);
 
         System.out.println("Statuses on home stream: " + toAdd.size());
@@ -85,5 +60,65 @@ public class HomeStreamManager
         this.homeStream.create();
 
         return this.homeStream;
+    }
+
+    /**
+     * Loads the Home stream content from the DHT.
+     *
+     * @return The content to be displayed on the Home stream
+     */
+    public Collection<DOSNAContent> getHomeStreamContent()
+    {
+        /* Get the MetaData of the home stream content */
+        Collection homeStreamContent = getHomeStreamContentMD();
+
+        /* Use the home stream data manager to load the required content */
+        HomeStreamDataManager hsdm = new HomeStreamDataManager(dataManager);
+        return hsdm.loadContent(homeStreamContent);
+    }
+
+    /**
+     * @return A set of content to be displayed on the home stream
+     */
+    public Collection<ContentMetadata> getHomeStreamContentMD()
+    {
+        /* Get a list of all content for all of this actor's connections */
+        List<ContentMetadata> content = getConnectionsContentList();
+
+        /* Use the selection algorithm to select which on the list is to be shown on the home stream */
+        HomeStreamContentSelector hscs = new HomeStreamContentSelector(content);
+        return hscs.getHomeStreamContent();
+    }
+
+    /**
+     * Get a list of all content for all of this actor's connections
+     *
+     * @return
+     */
+    public List<ContentMetadata> getConnectionsContentList()
+    {
+        /* Load the actor objects of this actor's connections */
+        Collection<Actor> connections = this.getConnections();
+
+        /* Get a list of all content for all of this actor's connections */
+        List<ContentMetadata> content = new ArrayList<>();
+        for (Actor a : connections)
+        {
+            content.addAll(a.getContentManager().getAllContent());
+        }
+
+        return content;
+    }
+
+    /**
+     * Gets the Actor object of all connections
+     *
+     * @return The set of connections
+     */
+    public Collection<Actor> getConnections()
+    {
+        Collection<Actor> connections = currentActor.getConnectionManager().loadConnections(this.dataManager);
+        connections.add(currentActor);
+        return connections;
     }
 }

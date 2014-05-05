@@ -110,11 +110,28 @@ public class ActorContentManager
     }
 
     /**
+     * Get the metadata for all content from this actor.
+     *
+     * @return A collection of the required content
+     */
+    public Collection<ContentMetadata> getAllContent()
+    {
+        Collection ret = new ArrayList();
+
+        for (String type : this.actorContent.keySet())
+        {
+            ret.addAll(this.getAllContent(type));
+        }
+
+        return ret;
+    }
+
+    /**
      * Get the metadata for all content of a given type
      *
-     * @param type
+     * @param type The type of the content to get
      *
-     * @return
+     * @return A collection of the required content
      */
     public Collection<ContentMetadata> getAllContent(String type)
     {
@@ -128,77 +145,6 @@ public class ActorContentManager
         }
     }
 
-    /**
-     * Gets all content from this actor posted after the given timestamp
-     *
-     * @param ts
-     *
-     * @return
-     */
-//    public List<ContentReference> getContentPostedAfter(final long ts)
-//    {
-//
-//    }
-    /**
-     * Gets all content of a specific type from this actor posted after the given timestamp
-     *
-     * @param ts
-     * @param type The type of content
-     *
-     * @return
-     */
-//    public List<ContentReference> getContentPostedAfter(final long ts, final String type)
-//    {
-//
-//    }
-    /**
-     * Gets all content from this actor posted before the given timestamp
-     *
-     * @param ts
-     *
-     * @return
-     */
-//    public List<ContentReference> getContentPostedBefore(final long ts)
-//    {
-//
-//    }
-    /**
-     * Gets all content of a specific type from this actor posted before the given timestamp
-     *
-     * @param ts
-     * @param type The type of content
-     *
-     * @return
-     */
-//    public List<ContentReference> getContentPostedBefore(final long ts, final String type)
-//    {
-//
-//    }
-    /**
-     * Gets all content from this actor posted between the given timestamps
-     *
-     * @param startTs
-     * @param endTs
-     *
-     * @return
-     */
-//    public List<ContentReference> getContentPostedBetween(final long startTs, final long endTs)
-//    {
-//
-//    }
-    /**
-     * Gets all content of a specific type from this actor posted between the given timestamps
-     *
-     * @param startTs
-     * @param endTs
-     * @param type    The type of content
-     *
-     * @return
-     */
-//    public List<ContentReference> getContentPostedBetween(final long startTs, final long endTs, final String type)
-//    {
-//
-//    }
     @Override
     public String toString()
     {
