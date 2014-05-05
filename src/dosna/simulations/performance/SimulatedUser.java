@@ -3,11 +3,12 @@ package dosna.simulations.performance;
 import dosna.DOSNA;
 import dosna.content.ContentManager;
 import dosna.content.DOSNAContent;
+import dosna.osn.activitystream.ActivityStreamManager;
 import dosna.osn.actor.Actor;
 import dosna.osn.actor.ActorManager;
-import dosna.osn.actor.Relationship;
 import dosna.osn.status.Status;
 import java.io.IOException;
+import java.util.Collection;
 import kademlia.dht.StorageEntry;
 import kademlia.exceptions.ContentNotFoundException;
 import kademlia.node.NodeId;
@@ -158,6 +159,19 @@ public class SimulatedUser
 
         /* Update the actor object online */
         this.contentManager.updateContent(this.actor);
+    }
+
+    /**
+     * Refreshes the activity stream of the user.
+     *
+     * Here we only go as far as loading the content since we're not displaying it.
+     */
+    public void refreshActivityStream()
+    {
+        ActivityStreamManager acm = new ActivityStreamManager(actor, this.dosna.getDataManager());
+        Collection<DOSNAContent> cont = acm.getHomeStreamContent();
+        
+        System.out.println(this.actor.getId() + " - Activity Stream Refreshed: " + cont.size() + " Content in activity stream");
     }
 
 }

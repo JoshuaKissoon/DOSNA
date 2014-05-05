@@ -21,7 +21,7 @@ public class SimConfig
     /* The number of times a user can perform the activities */
     private final static int NUM_CONTENT = 5;
     private final static int NUM_CONNECTIONS = 2;
-    private final static int NUM_ACTIVITY_STREAM_REFRESHES = 5;
+    private final static int NUM_ACTIVITY_STREAM_REFRESHES = 8;
     private final static int NUM_CONTENT_MODIFICATIONS = 5;
 
     /**

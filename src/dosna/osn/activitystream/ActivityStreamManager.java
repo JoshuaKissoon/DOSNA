@@ -75,7 +75,7 @@ public class ActivityStreamManager
     {
         /* Get the MetaData of the home stream content */
         Collection homeStreamContent = getHomeStreamContentMD();
-
+        
         /* Use the home stream data manager to load the required content */
         ActivityStreamDataManager hsdm = new ActivityStreamDataManager(dataManager);
         return hsdm.loadContent(homeStreamContent);

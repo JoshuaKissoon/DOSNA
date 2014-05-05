@@ -1,5 +1,6 @@
 package dosna.simulations.performance;
 
+import dosna.osn.activitystream.ActivityStreamManager;
 import java.io.IOException;
 
 /**
@@ -61,33 +62,30 @@ public class UserSimulation implements Runnable
                 {
                     /* Create and post a content */
                     this.createAndPostContent();
+                    Thread.sleep(this.randomWaitPeriod());
                 }
-
-                Thread.sleep(this.randomWaitPeriod());
 
                 if (numConnections < config.numConnections())
                 {
                     /* Create a new connection */
                     this.createConnection();
+                    Thread.sleep(this.randomWaitPeriod());
                 }
-
-                Thread.sleep(this.randomWaitPeriod());
 
                 if (numActivityStreamRefreshes < config.numActivityStreamRefreshes())
                 {
                     /* Refresh our activity stream here */
                     this.refreshActivityStream();
+                    Thread.sleep(this.randomWaitPeriod());
                 }
-
-                Thread.sleep(this.randomWaitPeriod());
 
                 if (numContentModified < config.numContentModifications())
                 {
                     /* Modify some content here */
                     this.modifyContent();
+                    Thread.sleep(this.randomWaitPeriod());
                 }
-
-                Thread.sleep(this.randomWaitPeriod());
+                
             }
             catch (InterruptedException ex)
             {
@@ -98,7 +96,7 @@ public class UserSimulation implements Runnable
         /* Lets shutdown everything */
         try
         {
-            Thread.sleep(3000);// Wait a little for other users to finish their operatins
+            Thread.sleep(5000);// Wait a little for other users to finish their operatins
             this.simulatedUser.logout();
         }
         catch (InterruptedException ex)
@@ -159,7 +157,16 @@ public class UserSimulation implements Runnable
      */
     public synchronized void refreshActivityStream()
     {
-        numActivityStreamRefreshes++;
+        try
+        {
+            this.simulatedUser.refreshActivityStream();
+            numActivityStreamRefreshes++;
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ex)
+        {
+            System.err.println("Activity stream refresh thread interrupted exception. ");
+        }
     }
 
     /**

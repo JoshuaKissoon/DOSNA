@@ -90,7 +90,7 @@ public class Bootstrapper extends JFrame
         contentScrollPane.setMinimumSize(new Dimension(400, 800));
 
         this.splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.contactsScrollPane, this.contentScrollPane);
-        splitPane.setDividerLocation(FRAME_WIDTH / 2);
+        splitPane.setDividerLocation(FRAME_WIDTH / 3);
 
         splitPane.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 
