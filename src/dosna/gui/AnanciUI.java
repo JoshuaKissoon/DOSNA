@@ -3,8 +3,8 @@ package dosna.gui;
 import dosna.osn.status.StatusAddForm;
 import dosna.dhtAbstraction.DataManager;
 import dosna.osn.actor.Actor;
-import dosna.osn.homestream.HomeStream;
-import dosna.osn.homestream.HomeStreamManager;
+import dosna.osn.activitystream.ActivityStream;
+import dosna.osn.activitystream.ActivityStreamManager;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -113,8 +113,8 @@ public final class AnanciUI extends JFrame
                     @Override
                     public void run()
                     {
-                        HomeStreamManager hsm = new HomeStreamManager(actor, dataManager);
-                        HomeStream hs = hsm.createHomeStream();
+                        ActivityStreamManager hsm = new ActivityStreamManager(actor, dataManager);
+                        ActivityStream hs = hsm.createHomeStream();
                         homeStream.removeAll();
                         homeStream.add(hs, BorderLayout.CENTER);
                         AnanciUI.this.refresh();

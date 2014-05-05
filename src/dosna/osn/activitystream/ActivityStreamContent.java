@@ -1,4 +1,4 @@
-package dosna.osn.homestream;
+package dosna.osn.activitystream;
 
 import javax.swing.JPanel;
 
@@ -9,7 +9,7 @@ import javax.swing.JPanel;
  *
  * @since 20140406
  */
-public interface HomeStreamContent
+public interface ActivityStreamContent
 {
 
     /**

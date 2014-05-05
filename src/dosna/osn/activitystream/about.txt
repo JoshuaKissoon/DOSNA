@@ -1,0 +1,1 @@
+Manages the Activity stream of a user

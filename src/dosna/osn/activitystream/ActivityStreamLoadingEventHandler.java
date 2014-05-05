@@ -1,4 +1,4 @@
-package dosna.osn.homestream;
+package dosna.osn.activitystream;
 
 import dosna.core.ContentMetadata;
 import dosna.dhtAbstraction.DataManager;
@@ -14,7 +14,7 @@ import java.util.Collection;
  *
  * @note This is just a simple version to try to comply with event rules not implemented as yet
  */
-public interface HomeStreamLoadingEventHandler<T>
+public interface ActivityStreamLoadingEventHandler<T>
 {
 
     /**
@@ -31,5 +31,5 @@ public interface HomeStreamLoadingEventHandler<T>
      *
      * @return A set of content in sorted order.
      */
-    public Collection<HomeStreamContent> loadContent(DataManager dataManager);
+    public Collection<ActivityStreamContent> loadContent(DataManager dataManager);
 }

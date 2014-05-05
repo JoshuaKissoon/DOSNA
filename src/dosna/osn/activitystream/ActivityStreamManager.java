@@ -1,4 +1,4 @@
-package dosna.osn.homestream;
+package dosna.osn.activitystream;
 
 import dosna.content.DOSNAContent;
 import dosna.core.ContentMetadata;
@@ -17,12 +17,12 @@ import java.util.List;
  * @author Joshua Kissoon
  * @since 20140406
  */
-public class HomeStreamManager
+public class ActivityStreamManager
 {
 
     private final Actor currentActor;
     private final DataManager dataManager;
-    private final HomeStream homeStream;
+    private final ActivityStream homeStream;
 
     /**
      * Initialize the HomeStreamManager
@@ -30,27 +30,27 @@ public class HomeStreamManager
      * @param currentActor The actor currently logged in
      * @param mngr         Used to manage Data sending/receiving to/from the DHT
      */
-    public HomeStreamManager(final Actor currentActor, final DataManager mngr)
+    public ActivityStreamManager(final Actor currentActor, final DataManager mngr)
     {
         this.currentActor = currentActor;
         this.dataManager = mngr;
 
-        this.homeStream = new HomeStream();
+        this.homeStream = new ActivityStream();
     }
 
     /**
      * @return HomeStream The homestream object
      */
-    public HomeStream getHomeStream()
+    public ActivityStream getHomeStream()
     {
         return this.homeStream;
     }
 
-    public HomeStream createHomeStream()
+    public ActivityStream createHomeStream()
     {
         /* Get the home stream content */
         Collection<DOSNAContent> homeStreamContent = getHomeStreamContent();
-        Collection<HomeStreamContent> toAdd = new ArrayList<>();
+        Collection<ActivityStreamContent> toAdd = new ArrayList<>();
         for (DOSNAContent c : homeStreamContent)
         {
             if (c.getType().equals(Status.TYPE))
@@ -77,7 +77,7 @@ public class HomeStreamManager
         Collection homeStreamContent = getHomeStreamContentMD();
 
         /* Use the home stream data manager to load the required content */
-        HomeStreamDataManager hsdm = new HomeStreamDataManager(dataManager);
+        ActivityStreamDataManager hsdm = new ActivityStreamDataManager(dataManager);
         return hsdm.loadContent(homeStreamContent);
     }
 
@@ -90,7 +90,7 @@ public class HomeStreamManager
         List<ContentMetadata> content = getConnectionsContentList();
 
         /* Use the selection algorithm to select which on the list is to be shown on the home stream */
-        HomeStreamContentSelector hscs = new HomeStreamContentSelector(content);
+        ActivityStreamContentSelector hscs = new ActivityStreamContentSelector(content);
         return hscs.getHomeStreamContent();
     }
 

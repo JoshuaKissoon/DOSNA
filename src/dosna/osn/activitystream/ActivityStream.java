@@ -1,4 +1,4 @@
-package dosna.osn.homestream;
+package dosna.osn.activitystream;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,13 +12,13 @@ import javax.swing.JPanel;
  * @author Joshua Kissoon
  * @since 20140406
  */
-public class HomeStream extends JPanel
+public class ActivityStream extends JPanel
 {
 
     /* Properties */
-    private Iterable<HomeStreamContent> content;
+    private Iterable<ActivityStreamContent> content;
 
-    public HomeStream()
+    public ActivityStream()
     {
 
     }
@@ -28,12 +28,12 @@ public class HomeStream extends JPanel
      *
      * @param content The content to be displayed on the Home Stream
      */
-    public HomeStream(final Collection<HomeStreamContent> content)
+    public ActivityStream(final Collection<ActivityStreamContent> content)
     {
         this.content = content;
     }
 
-    public void setContent(final Collection<HomeStreamContent> content)
+    public void setContent(final Collection<ActivityStreamContent> content)
     {
         this.content = content;
     }
@@ -54,7 +54,7 @@ public class HomeStream extends JPanel
     private void addContent()
     {
         int counter = 0;
-        for (HomeStreamContent hsc : this.content)
+        for (ActivityStreamContent hsc : this.content)
         {
             this.add(hsc.getContentDisplay(), getConstraints(0, counter++));
         }

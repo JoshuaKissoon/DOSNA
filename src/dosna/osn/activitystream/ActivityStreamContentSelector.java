@@ -1,4 +1,4 @@
-package dosna.osn.homestream;
+package dosna.osn.activitystream;
 
 import dosna.core.ContentMetadata;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.TreeSet;
  * @author Joshua Kissoon
  * @since 20140505
  */
-public class HomeStreamContentSelector
+public class ActivityStreamContentSelector
 {
 
     private final static int NUM_CONTENT_ON_HOME_STREAM = 100;
@@ -25,7 +25,7 @@ public class HomeStreamContentSelector
      *
      * @param iContentMD The MetaData of all possible content
      */
-    public HomeStreamContentSelector(Collection<ContentMetadata> iContentMD)
+    public ActivityStreamContentSelector(Collection<ContentMetadata> iContentMD)
     {
         this.contentMD = new TreeSet<>();
 

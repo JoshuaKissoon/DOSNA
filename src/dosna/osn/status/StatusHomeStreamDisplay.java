@@ -1,6 +1,6 @@
 package dosna.osn.status;
 
-import dosna.osn.homestream.HomeStreamContent;
+import dosna.osn.activitystream.ActivityStreamContent;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -11,7 +11,7 @@ import javax.swing.JTextArea;
  * @author Joshua
  * @since
  */
-public class StatusHomeStreamDisplay extends JPanel implements HomeStreamContent
+public class StatusHomeStreamDisplay extends JPanel implements ActivityStreamContent
 {
 
     /* Properties */

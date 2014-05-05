@@ -1,4 +1,4 @@
-package dosna.osn.homestream;
+package dosna.osn.activitystream;
 
 import dosna.content.DOSNAContent;
 import dosna.core.ContentMetadata;
@@ -18,12 +18,12 @@ import kademlia.exceptions.ContentNotFoundException;
  * @author Joshua Kissoon
  * @since 20140505
  */
-public class HomeStreamDataManager
+public class ActivityStreamDataManager
 {
 
     private final DataManager dataManager;
 
-    public HomeStreamDataManager(final DataManager dataManager)
+    public ActivityStreamDataManager(final DataManager dataManager)
     {
         this.dataManager = dataManager;
     }
