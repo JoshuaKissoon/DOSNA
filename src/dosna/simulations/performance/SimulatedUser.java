@@ -219,5 +219,10 @@ public class SimulatedUser
 
         System.out.println(this.actor.getId() + " - Activity Stream Refreshed: " + cont.size() + " Content in activity stream");
     }
+    
+    public void stopKadRefreshOperation()
+    {
+        this.dosna.getDataManager().getKademliaNode().stopRefreshOperation();
+    }
 
 }

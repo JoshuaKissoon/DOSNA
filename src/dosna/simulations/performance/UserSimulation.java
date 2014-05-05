@@ -93,15 +93,7 @@ public class UserSimulation implements Runnable
         }
 
         /* Lets shutdown everything */
-//        try
-//        {
-//            Thread.sleep(5000);// Wait a little for other users to finish their operatins
-//            this.simulatedUser.logout();
-//        }
-//        catch (InterruptedException ex)
-//        {
-//
-//        }
+        this.simulatedUser.stopKadRefreshOperation();
         System.out.println("Finished Executing everything....");
     }
 

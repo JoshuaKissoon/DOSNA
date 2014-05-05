@@ -1,5 +1,7 @@
 package dosna.simulations.performance;
 
+import kademlia.Statistics;
+
 /**
  * The class that launches the simulation and aggregates the statistics after the completion of the simulation.
  *
@@ -45,6 +47,9 @@ public class Simulation
             Thread t = new Thread(users[i]);
             t.start();
         }
+        
+        System.out.println(Statistics.dataReceived);
+        System.out.println(Statistics.dataSent);
     }
     
     public static void main(String[] args)

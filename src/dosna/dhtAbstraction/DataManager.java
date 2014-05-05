@@ -1,9 +1,9 @@
 package dosna.dhtAbstraction;
 
 import dosna.content.DOSNAContent;
-import java.util.List;
 import java.io.IOException;
 import java.util.NoSuchElementException;
+import kademlia.KademliaNode;
 import kademlia.dht.GetParameter;
 import kademlia.dht.StorageEntry;
 import kademlia.exceptions.ContentNotFoundException;
@@ -105,4 +105,6 @@ public interface DataManager
      * @throws java.io.IOException
      */
     public void shutdown(final boolean saveState) throws IOException;
+    
+    public KademliaNode getKademliaNode();
 }

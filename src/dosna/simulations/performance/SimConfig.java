@@ -10,7 +10,7 @@ public class SimConfig
 {
 
     /* Number of users in the simulation */
-    public final static int N = 20;
+    public final static int N = 10;
 
     /* How many users should be created at once on the network */
     private final static int NUM_USERS_PER_SET = 2;

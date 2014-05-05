@@ -133,4 +133,10 @@ public final class DosnaDataManager implements DataManager
     {
         this.kad.shutdown(saveState);
     }
+
+    @Override
+    public KademliaNode getKademliaNode()
+    {
+        return this.kad;
+    }
 }
