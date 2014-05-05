@@ -73,12 +73,8 @@ public class PeriodicNotificationsChecker
                 if (nBox.hasNotifications())
                 {
                     /* Check if we have notifications and if we do, alert all of our consumers */
-                    System.out.println("We have Notifications:: ");
-                    for (Notification n : nBox.getNotifications())
-                    {
-                        System.out.println(n);
-                    }
-
+                    System.out.println("We have Notifications:: " + nBox.getNotifications().size());
+                    
                     /* Now empty the notifications box and re-publish it on the network */
                     nBox.emptyBox();
                     dataManager.put(nBox);

@@ -255,8 +255,6 @@ public class DOSNA
             GetParameter gp = new GetParameter(u.getKey(), u.getType(), userId);
             StorageEntry item = dataManager.get(gp);
 
-            System.out.println(item.getContent());
-
             /* Username is already taken */
             return new SignupResult(false);
         }

@@ -45,8 +45,6 @@ public class ActorManager
         dataManager.putLocallyAndUniversally(nb);
         actor.setNotificationBoxNid(nb.getKey());
 
-        System.out.println("Notification box put; NID: " + nb.getKey());
-
         dataManager.putLocally(actor);
         dataManager.put(actor);
 

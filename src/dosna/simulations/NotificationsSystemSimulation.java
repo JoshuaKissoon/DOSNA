@@ -47,7 +47,6 @@ public class NotificationsSystemSimulation
         try
         {
             Actor user2Actor = user1.loadActor(user2.getActor().getId());
-            System.out.println(user2Actor);
 
             /* Retrieve u2's first status and update it */
             for (ContentMetadata cmd : user2Actor.getContentManager().getAllContent(Status.TYPE))
@@ -59,7 +58,6 @@ public class NotificationsSystemSimulation
                 
                 /* Let user 1 update the content */
                 user1.updateContent(a);
-
                 System.out.println(a);
                 break;
             }

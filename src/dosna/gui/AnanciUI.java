@@ -195,7 +195,6 @@ public final class AnanciUI extends JFrame
      */
     public void refresh()
     {
-        System.out.println("Refresh Called.");
         this.invalidate();
         this.validate();
         this.repaint();
@@ -238,9 +237,7 @@ public final class AnanciUI extends JFrame
 
                     break;
                 case AC_HELP_PRINT_ACTOR:
-                    System.out.println();
-                    System.out.println(AnanciUI.this.actor);
-                    System.out.println();
+                    System.out.println("\n" + AnanciUI.this.actor + "\n");
                     break;
                 case AC_HELP_PRINT_ROUTING_TABLE:
                     break;

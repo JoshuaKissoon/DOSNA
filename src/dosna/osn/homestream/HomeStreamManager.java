@@ -59,7 +59,6 @@ public class HomeStreamManager
             }
         }
 
-        System.out.println("Statuses on home stream: " + toAdd.size());
 
         this.homeStream.setContent(toAdd);
         this.homeStream.create();

@@ -44,8 +44,6 @@ public class UserSimulation implements Runnable
         this.name = "Actor Name " + userNumber;
 
         simulatedUser = new SimulatedUser(this.actorId, this.password, this.name);
-
-        System.out.println("Created user " + userNumber);
     }
 
     @Override
