@@ -1,6 +1,5 @@
 package dosna.simulations.performance;
 
-import dosna.osn.activitystream.ActivityStreamManager;
 import java.io.IOException;
 
 /**
@@ -85,7 +84,7 @@ public class UserSimulation implements Runnable
                     this.modifyContent();
                     Thread.sleep(this.randomWaitPeriod());
                 }
-                
+
             }
             catch (InterruptedException ex)
             {
@@ -94,16 +93,15 @@ public class UserSimulation implements Runnable
         }
 
         /* Lets shutdown everything */
-        try
-        {
-            Thread.sleep(5000);// Wait a little for other users to finish their operatins
-            this.simulatedUser.logout();
-        }
-        catch (InterruptedException ex)
-        {
-
-        }
-
+//        try
+//        {
+//            Thread.sleep(5000);// Wait a little for other users to finish their operatins
+//            this.simulatedUser.logout();
+//        }
+//        catch (InterruptedException ex)
+//        {
+//
+//        }
         System.out.println("Finished Executing everything....");
     }
 
@@ -174,6 +172,7 @@ public class UserSimulation implements Runnable
      */
     public synchronized void modifyContent()
     {
+        this.simulatedUser.updateRandomContent();
         numContentModified++;
     }
 

@@ -3,12 +3,15 @@ package dosna.simulations.performance;
 import dosna.DOSNA;
 import dosna.content.ContentManager;
 import dosna.content.DOSNAContent;
+import dosna.core.ContentMetadata;
 import dosna.osn.activitystream.ActivityStreamManager;
 import dosna.osn.actor.Actor;
 import dosna.osn.actor.ActorManager;
 import dosna.osn.status.Status;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import kademlia.dht.StorageEntry;
 import kademlia.exceptions.ContentNotFoundException;
 import kademlia.node.NodeId;
@@ -149,6 +152,49 @@ public class SimulatedUser
     }
 
     /**
+     * Randomly Select a connection,
+     * Randomly select a content from this connection
+     * Load the content
+     * Update it and put it on the DHT.
+     */
+    public void updateRandomContent()
+    {
+        /* Load all connections and select one randomly */
+        List<Actor> connections = new ArrayList<>(this.actor.getConnectionManager().loadConnections(this.dosna.getDataManager()));
+        
+        if (connections.isEmpty())
+        {            
+            return;
+        }
+        int randActor = (int) (Math.random() * connections.size());
+        Actor selected = connections.get(randActor);
+
+        /* Randomly select a content from this actor */
+        List<ContentMetadata> content = new ArrayList<>(selected.getContentManager().getAllContent());
+
+        if (content.isEmpty())
+        {
+            return;
+        }
+
+        int randContent = (int) (Math.random() * content.size());
+        ContentMetadata selectedContent = content.get(randContent);
+
+        /* Load this content, and update it */
+        try
+        {
+            StorageEntry e = this.dosna.getDataManager().get(selectedContent.getKey(), selectedContent.getType(), selectedContent.getOwnerId());
+            Status cc = (Status) new Status().fromBytes(e.getContent().getBytes());            
+            this.updateContent(cc);
+        }
+        catch (IOException | ContentNotFoundException ex)
+        {
+            System.err.println("SimulatedUser.updateRandomContent() exception whiles updating content. Msg: " + ex.getMessage());
+        }
+
+    }
+
+    /**
      * Creates a new connection with the given actor
      *
      * @param actorId The actor to create the connection with
@@ -170,7 +216,7 @@ public class SimulatedUser
     {
         ActivityStreamManager acm = new ActivityStreamManager(actor, this.dosna.getDataManager());
         Collection<DOSNAContent> cont = acm.getHomeStreamContent();
-        
+
         System.out.println(this.actor.getId() + " - Activity Stream Refreshed: " + cont.size() + " Content in activity stream");
     }
 

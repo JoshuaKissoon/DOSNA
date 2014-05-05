@@ -103,6 +103,7 @@ public class ActorConnectionsManager
     {
         if (this.connections.isEmpty())
         {
+            System.out.println("No Connections");
             return new ArrayList<>();
         }
 
