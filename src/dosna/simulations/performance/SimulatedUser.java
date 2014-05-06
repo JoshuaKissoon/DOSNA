@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import kademlia.KademliaNode;
 import kademlia.dht.StorageEntry;
 import kademlia.exceptions.ContentNotFoundException;
 import kademlia.node.NodeId;
@@ -223,6 +224,11 @@ public class SimulatedUser
     public void stopKadRefreshOperation()
     {
         this.dosna.getDataManager().getKademliaNode().stopRefreshOperation();
+    }
+    
+    public KademliaNode getKademliaNode()
+    {
+        return this.dosna.getDataManager().getKademliaNode();
     }
 
 }

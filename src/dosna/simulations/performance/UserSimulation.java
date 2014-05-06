@@ -1,6 +1,7 @@
 package dosna.simulations.performance;
 
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * This is a class that simulates the user activities for a single user;
@@ -20,6 +21,8 @@ public class UserSimulation implements Runnable
 
     private final SimulatedUser simulatedUser;
 
+    private final CountDownLatch threadsWaiter;
+
     
     {
         this.numContent = 0;
@@ -31,10 +34,11 @@ public class UserSimulation implements Runnable
     /**
      * Setup the simulation for a single user
      *
-     * @param config     The simulation configuration
-     * @param userNumber The user number in the simulation
+     * @param config        The simulation configuration
+     * @param userNumber    The user number in the simulation
+     * @param threadsWaiter A latch used to indicate to the main program when this thread is finished
      */
-    public UserSimulation(SimConfig config, int userNumber)
+    public UserSimulation(SimConfig config, int userNumber, CountDownLatch threadsWaiter)
     {
         this.config = config;
         this.userNumber = userNumber;
@@ -44,6 +48,8 @@ public class UserSimulation implements Runnable
         this.name = "Actor Name " + userNumber;
 
         simulatedUser = new SimulatedUser(this.actorId, this.password, this.name);
+
+        this.threadsWaiter = threadsWaiter;
     }
 
     @Override
@@ -95,6 +101,9 @@ public class UserSimulation implements Runnable
         /* Lets shutdown everything */
         this.simulatedUser.stopKadRefreshOperation();
         System.out.println("Finished Executing everything....");
+
+        /* Finished executing!, lets inform the main program */
+        this.threadsWaiter.countDown();
     }
 
     /**
@@ -180,5 +189,10 @@ public class UserSimulation implements Runnable
 
         /* If the value is less than the minimum wait period, we add the minimum wait to the value */
         return (val < config.minWaitPeriod()) ? val + config.minWaitPeriod() : val;
+    }
+
+    public SimulatedUser getSimulatedUser()
+    {
+        return this.simulatedUser;
     }
 }
