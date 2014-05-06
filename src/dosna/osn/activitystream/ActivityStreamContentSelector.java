@@ -14,7 +14,7 @@ import java.util.TreeSet;
 public class ActivityStreamContentSelector
 {
 
-    private final static int NUM_CONTENT_ON_HOME_STREAM = 50;
+    private final static int NUM_CONTENT_ON_HOME_STREAM = 35;
 
     public TreeSet<ContentMetadata> contentMD;
 

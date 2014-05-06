@@ -40,7 +40,7 @@ public class SimulatedUserCreateInitialConnections implements Runnable
             {
                 /* Create and post a content */
                 this.createConnection();
-                Thread.sleep(config.initialOperationsDelay());
+                Thread.sleep(config.randomWaitPeriod());
             }
 
             threadsWaiter.countDown();

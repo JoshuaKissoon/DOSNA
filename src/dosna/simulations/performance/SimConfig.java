@@ -1,5 +1,7 @@
 package dosna.simulations.performance;
 
+import java.util.UUID;
+
 /**
  * Configuration information for this simulation.
  *
@@ -10,14 +12,14 @@ public class SimConfig
 {
 
     /* Number of users in the simulation */
-    public final static int N = 10;
+    public final static int N = 100;
 
     /* How long should we delay between creating users on the network */
     private final static int USER_CREATION_DELAY = 20;
 
     /* Initial details of a user */
-    private final static int NUM_INITIAL_CONTENT = 10;
-    private final static int NUM_INITIAL_CONNECTIONS = 5;
+    private final static int NUM_INITIAL_CONTENT = 20;
+    private final static int NUM_INITIAL_CONNECTIONS = 20;
 
     /* The number of times a user can perform the activities */
     private final static int NUM_CONTENT = 2;
@@ -29,10 +31,10 @@ public class SimConfig
      * Maximum and minimum wait period (in ms) before a user does another activity,
      * the user simulation class will wait a random time between this period.
      */
-    private final static int MIN_WAIT_PERIOD = 1000;
-    private final static int MAX_WAIT_PERIOD = 5000;
+    private final static int MIN_WAIT_PERIOD = 1500;
+    private final static int MAX_WAIT_PERIOD = 7000;
 
-    private final static int INITIAL_OPERATIONS_DELAY = 1000;
+    private final static int INITIAL_OPERATIONS_DELAY = 2500;
 
     /**
      * @return The number of users in the simulation
@@ -134,5 +136,23 @@ public class SimConfig
 
         /* If the value is less than the minimum wait period, we add the minimum wait to the value */
         return (val < minWaitPeriod()) ? val + minWaitPeriod() : val;
+    }
+
+    /**
+     * Generate a random string
+     *
+     * @return the random string
+     */
+    public String randomString()
+    {
+        StringBuilder ret = new StringBuilder();
+
+        for (int i = 0; i < (int) (Math.random() * 10) + 2; i++)
+        {
+            ret.append(UUID.randomUUID().toString());
+            ret.append(" ");
+        }
+
+        return ret.toString();
     }
 }

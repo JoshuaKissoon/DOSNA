@@ -36,9 +36,9 @@ public class SimulatedUserInitialization implements Runnable
         try
         {
             this.simulatedUser.signup();
-            Thread.sleep(1000);
+            Thread.sleep(config.randomWaitPeriod());
             this.simulatedUser.login();
-            Thread.sleep(1000);
+            Thread.sleep(config.randomWaitPeriod());
             
             threadsWaiter.countDown();
         }

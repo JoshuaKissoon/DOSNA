@@ -42,7 +42,7 @@ public class Simulation
             }
             catch (InterruptedException ex)
             {
-                
+
             }
         }
 
@@ -94,11 +94,21 @@ public class Simulation
         {
 
         }
-        
-        /* @todo Get the updated actor objects for the different simualated users */
 
+        /* @todo Get the updated actor objects for the different simualated users */
         System.out.println("\n\nInitial connections creation finished. \n\n");
 
+        try
+        {
+            Thread.sleep(30000);
+        }
+        catch (InterruptedException ex)
+        {
+
+        }
+
+        System.out.println("\n\nStarting the real time operations now. \n\n");
+        
         /* NOW LETS RUN THE PROCESSES */
         threadsWaiter = new CountDownLatch(this.config.numUsers());
         for (int i = 0; i < config.numUsers(); i++)

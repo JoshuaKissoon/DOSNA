@@ -40,7 +40,7 @@ public class SimulatedUserCreateInitialContent implements Runnable
             {
                 /* Create and post a content */
                 this.createAndPostContent();
-                Thread.sleep(config.initialOperationsDelay());
+                Thread.sleep(config.randomWaitPeriod());
             }
 
             threadsWaiter.countDown();
@@ -58,13 +58,7 @@ public class SimulatedUserCreateInitialContent implements Runnable
     {
         try
         {
-            String status = this.simulatedUser.getActor().getName() + " - Status " + numInitialContent;
-
-            for (int i = 0; i < (int) (Math.random() * 10) + 2; i++)
-            {
-                status += status;
-            }
-
+            String status = this.simulatedUser.getActor().getName() + " - Status " + numInitialContent + " " + config.randomString();
             this.simulatedUser.setNewStatus(status);
             numInitialContent++;
         }

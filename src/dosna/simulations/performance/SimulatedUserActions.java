@@ -44,9 +44,6 @@ public class SimulatedUserActions implements Runnable
     @Override
     public void run()
     {
-        /* Lets signup and login */
-        this.signupAndLogin();
-
         while (numContent < config.numContent() || numConnections < config.numConnections()
                 || numActivityStreamRefreshes < config.numActivityStreamRefreshes() || numContentModified < config.numContentModifications())
         {
@@ -94,28 +91,10 @@ public class SimulatedUserActions implements Runnable
 
             /* Lets shutdown everything */
             this.simulatedUser.stopKadRefreshOperation();
-            System.out.println("Finished Executing everything....");
+            //System.out.println("Finished Executing everything....");
 
             /* Finished executing!, lets inform the main program */
             this.threadsWaiter.countDown();
-        }
-        catch (InterruptedException ex)
-        {
-
-        }
-    }
-
-    /**
-     * Let the user signup and log into the system
-     */
-    private synchronized void signupAndLogin()
-    {
-        try
-        {
-            this.simulatedUser.signup();
-            Thread.sleep(1000);
-            this.simulatedUser.login();
-            Thread.sleep(1000);
         }
         catch (InterruptedException ex)
         {
@@ -130,11 +109,7 @@ public class SimulatedUserActions implements Runnable
     {
         try
         {
-            String status = this.simulatedUser.getActor().getName() + " - Status " + numContent;
-            for (int i = 0; i < (int) (Math.random() * 10) + 2; i++)
-            {
-                status += status;
-            }
+            String status = this.simulatedUser.getActor().getName() + " - Status " + numContent + " " + config.randomString();
             this.simulatedUser.setNewStatus(status);
             numContent++;
         }
