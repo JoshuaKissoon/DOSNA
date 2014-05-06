@@ -69,13 +69,17 @@ public class Actor extends DOSNAContent
      */
     private void generateKey()
     {
-        int numRepeats = ((NodeId.ID_LENGTH / 8) / this.id.length()) + 1;
-        StringBuilder nodeId = new StringBuilder();
-        for (int i = 0; i < numRepeats; i++)
+        byte[] keyData = null;
+        try
         {
-            nodeId.append(this.id);
+            keyData = kademlia.util.hashing.HashCalculator.sha1Hash(this.id);
         }
-        this.key = new NodeId(nodeId.substring(0, 20));
+        catch (NoSuchAlgorithmException ex)
+        {
+            /*@todo try some other hash here */
+            System.err.println("SHA-1 Hash algorithm isn't existent.");
+        }
+        this.key = new NodeId(keyData);
     }
 
     /**

@@ -51,8 +51,16 @@ public class DOSNA
             }
             catch (IOException ex)
             {
-                System.err.println("Routing initialization failed! Message: " + ex.getMessage());
-                return false;
+                /* Try again, since we may have tried to use a port already used */
+                try
+                {
+                    dataManager = new DosnaDataManager(username, nid);
+                }
+                catch (IOException exe)
+                {
+                    System.err.println("Routing initialization failed! Message: " + exe.getMessage());
+                    return false;
+                }
             }
         }
         return true;

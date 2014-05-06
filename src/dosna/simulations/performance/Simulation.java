@@ -13,17 +13,15 @@ public class Simulation
 {
 
     private final SimConfig config;
-    private final UserSimulation[] users;
+    private final SimulatedUser[] users;
 
     /* A count down latch to wait for all threads to execute */
-    private final CountDownLatch threadsWaiter;
+    private CountDownLatch threadsWaiter;
 
     public Simulation()
     {
         this.config = new SimConfig();
-        this.users = new UserSimulation[config.numUsers()];
-
-        this.threadsWaiter = new CountDownLatch(this.config.numUsers());
+        this.users = new SimulatedUser[config.numUsers()];
     }
 
     /**
@@ -31,54 +29,100 @@ public class Simulation
      */
     public void start()
     {
+        /* INITIALIZE SIMULATED USERS & CONNECT THEM TO THE NETWORK */
+        threadsWaiter = new CountDownLatch(this.config.numUsers());
         for (int i = 0; i < config.numUsers(); i++)
         {
-            /**
-             * If we've created a set of users, lets wait a while before creating the next set
-             */
-            if (i % config.numUsersPerSet() == 0)
+            String actorId = "actor" + i;
+            this.users[i] = new SimulatedUser(actorId, actorId + "pass", actorId + " Name", i);
+            new Thread(new SimulatedUserInitialization(this.users[i], config, threadsWaiter)).start();
+            try
             {
-                try
-                {
-                    Thread.sleep(config.userCreationDelay());
-                }
-                catch (InterruptedException ex)
-                {
-
-                }
+                Thread.sleep(config.userCreationDelay());
             }
-
-            /* Start a new thread for this user */
-            users[i] = new UserSimulation(config, i, this.threadsWaiter);
-            Thread t = new Thread(users[i]);
-            t.start();
+            catch (InterruptedException ex)
+            {
+                
+            }
         }
 
-        /* Lets wait for all users to finish */
+        /* Wait for all threads to finish */
         try
         {
-            this.threadsWaiter.await();
-
-            /* Lets print their data usage */
-            for (int i = 0; i < config.numUsers(); i++)
-            {
-                UserSimulation us = this.users[i];
-                SimulatedUser simUser = us.getSimulatedUser();
-
-                Statistician statsMan = simUser.getKademliaNode().getStatistician();
-
-                System.out.println("\n\nUser " + i);
-                System.out.println("Total Data Sent: " + statsMan.getTotalDataSent());
-                System.out.println("Total Data Received: " + statsMan.getTotalDataReceived());
-            }
+            threadsWaiter.await();
         }
         catch (InterruptedException ex)
         {
-            System.err.println("Count down latch await() interrupted. Msg: " + ex.getMessage());
+
         }
 
-//        System.out.println(Statistics.dataReceived);
-//        System.out.println(Statistics.dataSent);
+        System.out.println("\n\nNodes Startup Finished. \n\n");
+
+        /* INITIALIZE THE USER'S CONTENT */
+        threadsWaiter = new CountDownLatch(this.config.numUsers());
+        for (int i = 0; i < config.numUsers(); i++)
+        {
+            /* Start a new thread for this user */
+            new Thread(new SimulatedUserCreateInitialContent(this.users[i], config, threadsWaiter)).start();
+        }
+
+        /* Wait for threads to finish */
+        try
+        {
+            threadsWaiter.await();
+        }
+        catch (InterruptedException ex)
+        {
+
+        }
+
+        System.out.println("\n\nInitial content creation finished. \n\n");
+
+        /* INITIALIZE THE USER'S CONNECTIONS */
+        threadsWaiter = new CountDownLatch(this.config.numUsers());
+        for (int i = 0; i < config.numUsers(); i++)
+        {
+            new Thread(new SimulatedUserCreateInitialConnections(this.users[i], config, threadsWaiter)).start();
+        }
+
+        /* Wait for threads to finish */
+        try
+        {
+            threadsWaiter.await();
+        }
+        catch (InterruptedException ex)
+        {
+
+        }
+        
+        /* @todo Get the updated actor objects for the different simualated users */
+
+        System.out.println("\n\nInitial connections creation finished. \n\n");
+
+        /* NOW LETS RUN THE PROCESSES */
+        threadsWaiter = new CountDownLatch(this.config.numUsers());
+        for (int i = 0; i < config.numUsers(); i++)
+        {
+            new Thread(new SimulatedUserActions(this.users[i], config, threadsWaiter)).start();
+        }
+
+        /* Wait for threads to finish */
+        try
+        {
+            threadsWaiter.await();
+        }
+        catch (InterruptedException ex)
+        {
+
+        }
+
+        /* PRINT USER'S DATA USAGE */
+        for (int i = 0; i < config.numUsers(); i++)
+        {
+            SimulatedUser simUser = this.users[i];
+            Statistician statsMan = simUser.getKademliaNode().getStatistician();
+            System.out.println("User " + i + "; Total Data Sent: " + statsMan.getTotalDataSent() + "; Total Data Received: " + statsMan.getTotalDataReceived());
+        }
     }
 
     public static void main(String[] args)

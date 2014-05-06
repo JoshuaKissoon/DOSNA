@@ -1,7 +1,6 @@
 package dosna;
 
 import dosna.dhtAbstraction.DataManager;
-import dosna.notification.Notification;
 import dosna.notification.NotificationBox;
 import java.io.IOException;
 import java.util.Timer;
@@ -27,7 +26,7 @@ public class PeriodicNotificationsChecker
     private final String actorId;
 
     private final Timer timer;
-    private final int period = 60 * 1000;   // every minute
+    private final int period = 10 * 1000;   // every minute
     private final long intialDelay = 10 * 1000; // 5 seconds
 
     /**
@@ -73,7 +72,7 @@ public class PeriodicNotificationsChecker
                 if (nBox.hasNotifications())
                 {
                     /* Check if we have notifications and if we do, alert all of our consumers */
-                    System.out.println("We have Notifications:: " + nBox.getNotifications().size());
+                    //System.out.println("We have Notifications:: " + nBox.getNotifications().size());
                     
                     /* Now empty the notifications box and re-publish it on the network */
                     nBox.emptyBox();

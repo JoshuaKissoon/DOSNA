@@ -12,24 +12,27 @@ public class SimConfig
     /* Number of users in the simulation */
     public final static int N = 10;
 
-    /* How many users should be created at once on the network */
-    private final static int NUM_USERS_PER_SET = 2;
-
     /* How long should we delay between creating users on the network */
-    private final static int USER_CREATION_DELAY = 100;
+    private final static int USER_CREATION_DELAY = 20;
+
+    /* Initial details of a user */
+    private final static int NUM_INITIAL_CONTENT = 10;
+    private final static int NUM_INITIAL_CONNECTIONS = 5;
 
     /* The number of times a user can perform the activities */
-    private final static int NUM_CONTENT = 10;
-    private final static int NUM_CONNECTIONS = 5;
-    private final static int NUM_ACTIVITY_STREAM_REFRESHES = 15;
-    private final static int NUM_CONTENT_MODIFICATIONS = 10;
+    private final static int NUM_CONTENT = 2;
+    private final static int NUM_CONNECTIONS = 0;
+    private final static int NUM_ACTIVITY_STREAM_REFRESHES = 3;
+    private final static int NUM_CONTENT_MODIFICATIONS = 1;
 
     /**
      * Maximum and minimum wait period (in ms) before a user does another activity,
      * the user simulation class will wait a random time between this period.
      */
-    private final static int MIN_WAIT_PERIOD = 10;
-    private final static int MAX_WAIT_PERIOD = 100;
+    private final static int MIN_WAIT_PERIOD = 1000;
+    private final static int MAX_WAIT_PERIOD = 5000;
+
+    private final static int INITIAL_OPERATIONS_DELAY = 1000;
 
     /**
      * @return The number of users in the simulation
@@ -37,14 +40,6 @@ public class SimConfig
     public int numUsers()
     {
         return N;
-    }
-
-    /**
-     * @return How many users should be created per set
-     */
-    public int numUsersPerSet()
-    {
-        return NUM_USERS_PER_SET;
     }
 
     /**
@@ -56,11 +51,27 @@ public class SimConfig
     }
 
     /**
+     * @return The number of initial content each user has to have
+     */
+    public int numInitialContent()
+    {
+        return NUM_INITIAL_CONTENT;
+    }
+
+    /**
      * @return The number of content each user has to have
      */
     public int numContent()
     {
         return NUM_CONTENT;
+    }
+
+    /**
+     * @return The number of connections each user has to have
+     */
+    public int numInitialConnections()
+    {
+        return NUM_INITIAL_CONNECTIONS;
     }
 
     /**
@@ -101,5 +112,27 @@ public class SimConfig
     public int maxWaitPeriod()
     {
         return MAX_WAIT_PERIOD;
+    }
+
+    /**
+     * @return Delay period of initial operations
+     */
+    public int initialOperationsDelay()
+    {
+        return INITIAL_OPERATIONS_DELAY;
+    }
+
+    /**
+     * Computes a random wait period between the min and max wait period.
+     *
+     * @return The computed value
+     */
+    public synchronized long randomWaitPeriod()
+    {
+        /* Compute a random value */
+        long val = (long) (Math.random() * maxWaitPeriod());
+
+        /* If the value is less than the minimum wait period, we add the minimum wait to the value */
+        return (val < minWaitPeriod()) ? val + minWaitPeriod() : val;
     }
 }

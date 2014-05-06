@@ -1,5 +1,6 @@
 package dosna.simulations.performance;
 
+import dosna.osn.actor.Actor;
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 
@@ -10,17 +11,12 @@ import java.util.concurrent.CountDownLatch;
  * @author Joshua Kissoon
  * @since 20140505
  */
-public class UserSimulation implements Runnable
+public class SimulatedUserActions implements Runnable
 {
 
     private final SimConfig config;
     private int numContent, numConnections, numActivityStreamRefreshes, numContentModified;
-
-    private final int userNumber;
-    private final String actorId, password, name;
-
     private final SimulatedUser simulatedUser;
-
     private final CountDownLatch threadsWaiter;
 
     
@@ -35,20 +31,13 @@ public class UserSimulation implements Runnable
      * Setup the simulation for a single user
      *
      * @param config        The simulation configuration
-     * @param userNumber    The user number in the simulation
+     * @param simulatedUser The user in the simulation
      * @param threadsWaiter A latch used to indicate to the main program when this thread is finished
      */
-    public UserSimulation(SimConfig config, int userNumber, CountDownLatch threadsWaiter)
+    public SimulatedUserActions(final SimulatedUser simulatedUser, SimConfig config, CountDownLatch threadsWaiter)
     {
         this.config = config;
-        this.userNumber = userNumber;
-
-        this.actorId = "actor" + userNumber;
-        this.password = "password" + userNumber;
-        this.name = "Actor Name " + userNumber;
-
-        simulatedUser = new SimulatedUser(this.actorId, this.password, this.name);
-
+        this.simulatedUser = simulatedUser;
         this.threadsWaiter = threadsWaiter;
     }
 
@@ -98,12 +87,22 @@ public class UserSimulation implements Runnable
             }
         }
 
-        /* Lets shutdown everything */
-        this.simulatedUser.stopKadRefreshOperation();
-        System.out.println("Finished Executing everything....");
+        try
+        {
+            /* Wait a few seconds before shutting down */
+            Thread.sleep(5000);
 
-        /* Finished executing!, lets inform the main program */
-        this.threadsWaiter.countDown();
+            /* Lets shutdown everything */
+            this.simulatedUser.stopKadRefreshOperation();
+            System.out.println("Finished Executing everything....");
+
+            /* Finished executing!, lets inform the main program */
+            this.threadsWaiter.countDown();
+        }
+        catch (InterruptedException ex)
+        {
+
+        }
     }
 
     /**
@@ -131,13 +130,17 @@ public class UserSimulation implements Runnable
     {
         try
         {
-            String status = this.name + " - Status " + numContent;
+            String status = this.simulatedUser.getActor().getName() + " - Status " + numContent;
+            for (int i = 0; i < (int) (Math.random() * 10) + 2; i++)
+            {
+                status += status;
+            }
             this.simulatedUser.setNewStatus(status);
             numContent++;
         }
         catch (IOException ex)
         {
-            System.err.println("User " + this.userNumber + " error whiles posting status. Msg: " + ex.getMessage());
+            System.err.println("User " + this.simulatedUser.getActor().getId() + " error whiles posting status. Msg: " + ex.getMessage());
         }
     }
 
@@ -146,8 +149,8 @@ public class UserSimulation implements Runnable
      */
     public synchronized void createConnection()
     {
-        int connectionUid = (this.userNumber + numConnections + 1) % this.config.numUsers();
-        this.simulatedUser.createConnection("actor" + connectionUid);
+        int connectionUid = (this.simulatedUser.userNumber + numConnections + 1) % this.config.numUsers();
+        this.simulatedUser.createConnection(new Actor("actor" + connectionUid));
         numConnections++;
     }
 
@@ -158,8 +161,12 @@ public class UserSimulation implements Runnable
     {
         try
         {
-            this.simulatedUser.refreshActivityStream();
+            int numItems = this.simulatedUser.refreshActivityStream();
             numActivityStreamRefreshes++;
+            if (numActivityStreamRefreshes == this.config.numActivityStreamRefreshes())
+            {
+                System.out.println(this.simulatedUser.getActor().getId() + " - Activity Stream Refreshed: " + numItems + " Content in activity stream");
+            }
             Thread.sleep(1000);
         }
         catch (InterruptedException ex)

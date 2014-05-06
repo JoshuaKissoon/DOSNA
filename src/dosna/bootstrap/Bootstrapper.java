@@ -63,7 +63,7 @@ public class Bootstrapper extends JFrame
                     }
                 },
                 // Delay: 10 secs  // Interval
-                10 * 1000, 10 * 1000
+                5 * 1000, 5 * 1000
         );
     }
 
