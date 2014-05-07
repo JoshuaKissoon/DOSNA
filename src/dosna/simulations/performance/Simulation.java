@@ -152,7 +152,7 @@ public class Simulation
         /* Print the Statistics */
         DecimalFormat df = new DecimalFormat("#.00");
         int numUsers = this.config.numUsers();
-        String stats = "\nAverage Statistics for " + numUsers + "Users; \n";
+        String stats = "\nAverage Statistics for " + numUsers + " Users; \n";
         stats += "Avg Data Sent: " + (dataSent / numUsers) + " bytes; \n";
         stats += "Avg Data Received: " + (dataReceived / numUsers) + " bytes; \n";
         stats += "Avg Bootstrap Time: " + df.format(bootstrapTime / numUsers) + " ms; \n";

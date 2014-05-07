@@ -179,7 +179,7 @@ public class ConnectionAddPanel extends JPanel
             try
             {
                 /* Now let's put this data back on the DHT */
-                if (dataManager.putLocallyAndUniversally(actor) > 0)
+                if (dataManager.put(actor) > 0)
                 {
                     JOptionPane.showMessageDialog(null, "You have successfully added this connection!! Congrats!");
                 }

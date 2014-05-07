@@ -83,7 +83,7 @@ public class ActorContentManager
         try
         {
             /* Lets store this content on the DHT now */
-            final int numStored = this.dataManager.putLocallyAndUniversally(content);
+            final int numStored = this.dataManager.put(content);
 
             if (numStored > 0)
             {
@@ -98,7 +98,7 @@ public class ActorContentManager
 
             /* Lets also update the actor object on the DHT */
             this.actor.setUpdated();
-            this.dataManager.putLocallyAndUniversally(this.actor);
+            this.dataManager.put(this.actor);
 
             return numStored;
         }

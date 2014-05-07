@@ -41,10 +41,9 @@ public class ActorManager
     {
         /* Lets create a new notification box for this actor */
         NotificationBox nb = new NotificationBox(actor);
-        dataManager.putLocallyAndUniversally(nb);
+        dataManager.put(nb);
         actor.setNotificationBoxNid(nb.getKey());
 
-        dataManager.putLocally(actor);
         dataManager.put(actor);
 
         return actor;
