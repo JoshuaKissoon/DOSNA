@@ -6,7 +6,6 @@ import java.io.IOException;
 import kademlia.dht.GetParameter;
 import kademlia.dht.StorageEntry;
 import kademlia.exceptions.ContentNotFoundException;
-import kademlia.node.NodeId;
 
 /**
  * A class that handles actors on the DOSN.

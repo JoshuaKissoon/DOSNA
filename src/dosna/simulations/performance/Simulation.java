@@ -1,8 +1,9 @@
 package dosna.simulations.performance;
 
 import dosna.core.DOSNAStatistician;
+import java.text.DecimalFormat;
 import java.util.concurrent.CountDownLatch;
-import kademlia.Statistician;
+import kademlia.KadStatistician;
 
 /**
  * The class that launches the simulation and aggregates the statistics after the completion of the simulation.
@@ -127,24 +128,40 @@ public class Simulation
 
         }
 
-        /* PRINT USER'S DATA USAGE */
+        /* USER'S DATA USAGE */
+        double dataSent = 0, dataReceived = 0, bootstrapTime = 0, avgContentLookupTime = 0;
+        double avgContentLookupRouteLth = 0, avgActivityStreamLoadTime = 0;
+        int numContentLookups = 0;
+
+        /* Aggregate the total user's data */
         for (int i = 0; i < config.numUsers(); i++)
         {
             SimulatedUser simUser = this.users[i];
-            Statistician statsMan = simUser.getKademliaNode().getStatistician();
+            KadStatistician statsMan = simUser.getKademliaNode().getStatistician();
             DOSNAStatistician dosnaStatsMan = simUser.getStatistician();
 
-            String stats = "User " + i + "; ";
-            stats += "Data Sent: " + statsMan.getTotalDataSent() + "; ";
-            stats += "Data Received: " + statsMan.getTotalDataReceived() + "; \n";
-            stats += "Bootstrap Time: " + statsMan.getBootstrapTime() + "; ";
-            stats += "# Content Lookups: " + statsMan.numContentLookups() + "; ";
-            stats += "Avg Content Lookup Time: " + statsMan.averageContentLookupTime() + "; \n";
-            stats += "Avg Content Lookup Route Length: " + statsMan.averageContentLookupRouteLength() + "; ";
-            stats += "Avg Activity Stream load time: " + dosnaStatsMan.avgActivityStreamLoadTime() + "; ";
-            stats += "\n";
-            System.out.println(stats);
+            dataSent += statsMan.getTotalDataSent();
+            dataReceived += statsMan.getTotalDataReceived();
+            bootstrapTime += statsMan.getBootstrapTime();
+            numContentLookups += statsMan.numContentLookups();
+            avgContentLookupTime += statsMan.averageContentLookupTime();
+            avgContentLookupRouteLth += statsMan.averageContentLookupRouteLength();
+            avgActivityStreamLoadTime += dosnaStatsMan.avgActivityStreamLoadTime();
         }
+
+        /* Print the Statistics */
+        DecimalFormat df = new DecimalFormat("#.00");
+        int numUsers = this.config.numUsers();
+        String stats = "\nAverage Statistics for " + numUsers + "Users; \n";
+        stats += "Avg Data Sent: " + (dataSent / numUsers) + " bytes; \n";
+        stats += "Avg Data Received: " + (dataReceived / numUsers) + " bytes; \n";
+        stats += "Avg Bootstrap Time: " + df.format(bootstrapTime / numUsers) + " ms; \n";
+        stats += "Avg # Content Lookups: " + (numContentLookups / (double) numUsers) + "; \n";
+        stats += "Avg Content Lookup Time: " + df.format(avgContentLookupTime / numUsers) + " ms; \n";
+        stats += "Avg Content Lookup Route Length: " + (avgContentLookupRouteLth / numUsers) + "; \n";
+        stats += "Avg Activity Stream load time: " + df.format(avgActivityStreamLoadTime / numUsers) + " ms; \n";
+        stats += "\n";
+        System.out.println(stats);
     }
 
     public static void main(String[] args)
