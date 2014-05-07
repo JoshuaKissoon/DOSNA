@@ -2,6 +2,7 @@ package dosna.osn.activitystream;
 
 import dosna.content.DOSNAContent;
 import dosna.core.ContentMetadata;
+import dosna.core.DOSNAStatistician;
 import dosna.dhtAbstraction.DataManager;
 import dosna.osn.actor.Actor;
 import dosna.osn.status.Status;
@@ -24,18 +25,27 @@ public class ActivityStreamManager
     private final DataManager dataManager;
     private final ActivityStream homeStream;
 
+    private final DOSNAStatistician statistician;
+
     /**
      * Initialize the HomeStreamManager
      *
      * @param currentActor The actor currently logged in
      * @param mngr         Used to manage Data sending/receiving to/from the DHT
+     * @param statistician Guy to manage the statistics
      */
-    public ActivityStreamManager(final Actor currentActor, final DataManager mngr)
+    public ActivityStreamManager(final Actor currentActor, final DataManager mngr, final DOSNAStatistician statistician)
     {
         this.currentActor = currentActor;
         this.dataManager = mngr;
+        this.statistician = statistician;
 
         this.homeStream = new ActivityStream();
+    }
+
+    public ActivityStreamManager(final Actor currentActor, final DataManager mngr)
+    {
+        this(currentActor, mngr, new DOSNAStatistician());
     }
 
     /**
@@ -59,7 +69,6 @@ public class ActivityStreamManager
             }
         }
 
-
         this.homeStream.setContent(toAdd);
         this.homeStream.create();
 
@@ -69,16 +78,27 @@ public class ActivityStreamManager
     /**
      * Loads the Home stream content from the DHT.
      *
+     * Here we check the activity stream load time since:
+     * - We want to check the time content takes to load.
+     * - We don't want to check the time it takes for GUI display.
+     *
      * @return The content to be displayed on the Home stream
      */
     public Collection<DOSNAContent> getHomeStreamContent()
     {
+        long startTime = System.nanoTime();
+
         /* Get the MetaData of the home stream content */
         Collection homeStreamContent = getHomeStreamContentMD();
-        
+
         /* Use the home stream data manager to load the required content */
         ActivityStreamDataManager hsdm = new ActivityStreamDataManager(dataManager);
-        return hsdm.loadContent(homeStreamContent);
+        Collection<DOSNAContent> content = hsdm.loadContent(homeStreamContent);
+
+        long endTime = System.nanoTime();
+        this.statistician.addActivityStreamLoad(endTime - startTime);
+
+        return content;
     }
 
     /**

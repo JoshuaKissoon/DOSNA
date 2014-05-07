@@ -4,6 +4,7 @@ import dosna.DOSNA;
 import dosna.content.ContentManager;
 import dosna.content.DOSNAContent;
 import dosna.core.ContentMetadata;
+import dosna.core.DOSNAStatistician;
 import dosna.osn.activitystream.ActivityStreamManager;
 import dosna.osn.actor.Actor;
 import dosna.osn.actor.ActorManager;
@@ -38,9 +39,13 @@ public class SimulatedUser
     /* Content Manager to manage the content on the network */
     private ContentManager contentManager;
 
+    /* DOSNA Statistician */
+    private final DOSNAStatistician statistician;
+
     
     {
         this.dosna = new DOSNA();
+        statistician = new DOSNAStatistician();
     }
 
     /**
@@ -224,7 +229,7 @@ public class SimulatedUser
      */
     public int refreshActivityStream()
     {
-        ActivityStreamManager acm = new ActivityStreamManager(actor, this.dosna.getDataManager());
+        ActivityStreamManager acm = new ActivityStreamManager(actor, this.dosna.getDataManager(), this.statistician);
         Collection<DOSNAContent> cont = acm.getHomeStreamContent();
         return cont.size();
     }
@@ -237,6 +242,16 @@ public class SimulatedUser
     public KademliaNode getKademliaNode()
     {
         return this.dosna.getDataManager().getKademliaNode();
+    }
+
+    /**
+     * We used this statistician throughout the system to check statistics.
+     *
+     * @return The statistician and his statistics.
+     */
+    public DOSNAStatistician getStatistician()
+    {
+        return this.statistician;
     }
 
 }

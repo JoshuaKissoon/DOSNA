@@ -1,5 +1,6 @@
 package dosna.simulations.performance;
 
+import dosna.core.DOSNAStatistician;
 import java.util.concurrent.CountDownLatch;
 import kademlia.Statistician;
 
@@ -56,7 +57,7 @@ public class Simulation
 
         }
 
-        System.out.println("\n\nNodes Startup Finished. \n\n");
+        System.out.println("\nNodes Startup Finished. \n");
 
         /* INITIALIZE THE USER'S CONTENT */
         threadsWaiter = new CountDownLatch(this.config.numUsers());
@@ -76,7 +77,7 @@ public class Simulation
 
         }
 
-        System.out.println("\n\nInitial content creation finished. \n\n");
+        System.out.println("\nInitial content creation finished. \n");
 
         /* INITIALIZE THE USER'S CONNECTIONS */
         threadsWaiter = new CountDownLatch(this.config.numUsers());
@@ -96,7 +97,7 @@ public class Simulation
         }
 
         /* @todo Get the updated actor objects for the different simualated users */
-        System.out.println("\n\nInitial connections creation finished. \n\n");
+        System.out.println("\nInitial connections creation finished. \n");
 
         try
         {
@@ -107,8 +108,8 @@ public class Simulation
 
         }
 
-        System.out.println("\n\nStarting the real time operations now. \n\n");
-        
+        System.out.println("\nStarting the real time operations now. \n");
+
         /* NOW LETS RUN THE PROCESSES */
         threadsWaiter = new CountDownLatch(this.config.numUsers());
         for (int i = 0; i < config.numUsers(); i++)
@@ -131,7 +132,18 @@ public class Simulation
         {
             SimulatedUser simUser = this.users[i];
             Statistician statsMan = simUser.getKademliaNode().getStatistician();
-            System.out.println("User " + i + "; Total Data Sent: " + statsMan.getTotalDataSent() + "; Total Data Received: " + statsMan.getTotalDataReceived());
+            DOSNAStatistician dosnaStatsMan = simUser.getStatistician();
+
+            String stats = "User " + i + "; ";
+            stats += "Data Sent: " + statsMan.getTotalDataSent() + "; ";
+            stats += "Data Received: " + statsMan.getTotalDataReceived() + "; \n";
+            stats += "Bootstrap Time: " + statsMan.getBootstrapTime() + "; ";
+            stats += "# Content Lookups: " + statsMan.numContentLookups() + "; ";
+            stats += "Avg Content Lookup Time: " + statsMan.averageContentLookupTime() + "; \n";
+            stats += "Avg Content Lookup Route Length: " + statsMan.averageContentLookupRouteLength() + "; ";
+            stats += "Avg Activity Stream load time: " + dosnaStatsMan.avgActivityStreamLoadTime() + "; ";
+            stats += "\n";
+            System.out.println(stats);
         }
     }
 
