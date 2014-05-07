@@ -32,10 +32,14 @@ public class DOSNAStatistician
         this.totalActivityStreamLoadTime += loadTime;
     }
 
-    /* The average time it takes for an instance of the activity stream to load */
+    /**
+     * Compute the average time it takes for an instance of the activity stream to load
+     *
+     * @return The average time in milliseconds
+     */
     public double avgActivityStreamLoadTime()
     {
-        Double avg = ((double) totalActivityStreamLoadTime / (double) numActivityStreamLoads);
+        Double avg = (double) ((double) totalActivityStreamLoadTime / (double) numActivityStreamLoads) / 1000000D;
         DecimalFormat df = new DecimalFormat("#.00");
         return new Double(df.format(avg));
     }

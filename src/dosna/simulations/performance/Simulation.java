@@ -34,7 +34,7 @@ public class Simulation
         threadsWaiter = new CountDownLatch(this.config.numUsers());
         for (int i = 0; i < config.numUsers(); i++)
         {
-            String actorId = "actor" + i;
+            String actorId = "" + i;
             this.users[i] = new SimulatedUser(actorId, actorId + "pass", actorId + " Name", i);
             new Thread(new SimulatedUserInitialization(this.users[i], config, threadsWaiter)).start();
             try

@@ -12,7 +12,7 @@ public class SimConfig
 {
 
     /* Number of users in the simulation */
-    public final static int N = 100;
+    public final static int N = 150;
 
     /* How long should we delay between creating users on the network */
     private final static int USER_CREATION_DELAY = 20;

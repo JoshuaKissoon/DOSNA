@@ -72,7 +72,7 @@ public class Actor extends DOSNAContent
         byte[] keyData = null;
         try
         {
-            keyData = kademlia.util.hashing.HashCalculator.sha1Hash(this.id);
+            keyData = HashCalculator.sha1Hash(this.id);
         }
         catch (NoSuchAlgorithmException ex)
         {
