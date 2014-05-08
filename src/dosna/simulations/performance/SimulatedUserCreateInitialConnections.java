@@ -1,6 +1,5 @@
 package dosna.simulations.performance;
 
-import dosna.osn.actor.Actor;
 import java.util.concurrent.CountDownLatch;
 
 /**

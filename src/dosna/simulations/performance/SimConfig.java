@@ -155,4 +155,14 @@ public class SimConfig
 
         return ret.toString();
     }
+
+    /**
+     * Generate a random string
+     *
+     * @return the random string
+     */
+    public String randomStringShort()
+    {
+        return UUID.randomUUID().toString();
+    }
 }
