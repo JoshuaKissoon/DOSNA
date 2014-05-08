@@ -45,10 +45,14 @@ public class SimulatedUser
     /* Set of users in the simulation */
     private final SimulatedUser[] users;
 
+    /* Whether this user is online or not */
+    private boolean isOnline;
+
     
     {
         this.dosna = new DOSNA();
         statistician = new DOSNAStatistician();
+        this.isOnline = false;
     }
 
     /**
@@ -105,6 +109,7 @@ public class SimulatedUser
             this.actor = res.actor;
             this.actor.init(this.dosna.getDataManager());
             this.dosna.launchNotificationChecker(this.actor);
+            this.isOnline = true;
         }
 
         return res.isSignupSuccessful;
@@ -121,6 +126,7 @@ public class SimulatedUser
             this.actor = res.loggedInActor;
             this.actor.init(this.dosna.getDataManager());
             this.dosna.launchNotificationChecker(this.actor);
+            this.isOnline = true;
         }
 
         return res.isLoginSuccessful;
@@ -129,13 +135,16 @@ public class SimulatedUser
     /**
      * Log the user out and shutdown the system
      *
+     * @param saveState Whether to save the Node state or not
+     *
      * @return Whether logout and shutdown was successful or not
      */
-    public boolean logout()
+    public boolean logout(boolean saveState)
     {
         try
         {
-            this.dosna.getDataManager().shutdown(true);
+            this.dosna.getDataManager().shutdown(saveState);
+            this.isOnline = false;
             return true;
         }
         catch (IOException ex)
@@ -284,4 +293,11 @@ public class SimulatedUser
         return this.statistician;
     }
 
+    /**
+     * @return Whether this user is online or not.
+     */
+    public boolean isOnline()
+    {
+        return this.isOnline;
+    }
 }
