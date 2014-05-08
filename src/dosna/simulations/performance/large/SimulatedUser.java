@@ -22,7 +22,7 @@ import kademlia.node.NodeId;
  * A user used in simulation; this user performs the actions of a user of the system.
  *
  * @author Joshua Kissoon
- * @since 20140502
+ * @since 20140508
  */
 public class SimulatedUser
 {

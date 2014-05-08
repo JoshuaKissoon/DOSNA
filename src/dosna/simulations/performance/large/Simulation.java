@@ -8,8 +8,10 @@ import kademlia.KadStatistician;
 /**
  * The class that launches the simulation and aggregates the statistics after the completion of the simulation.
  *
+ * We process this simulation with sets of users at a time.
+ *
  * @author Joshua Kissoon
- * @since 20140505
+ * @since 20140508
  */
 public class Simulation
 {
@@ -32,6 +34,41 @@ public class Simulation
     public void start()
     {
         /* INITIALIZE SIMULATED USERS & CONNECT THEM TO THE NETWORK */
+        this.initializeUsers();
+        System.out.println("Nodes & User Initialization Finished.");
+
+        /* INITIALIZE THE USER'S CONTENT */
+        this.createInitialUserContent();
+        System.out.println("Initial content creation finished.");
+
+        /* INITIALIZE THE USER'S CONNECTIONS */
+        this.createInitialUsersConnections();
+        System.out.println("Initial connections creation finished.");
+
+        /* Pause a little before real time operations */
+        try
+        {
+            Thread.sleep(30000);
+        }
+        catch (InterruptedException ex)
+        {
+
+        }
+
+        System.out.println("Starting the real time operations now. \n");
+
+        /* NOW LETS RUN THE PROCESSES */
+        this.startSimulation();
+
+        /* USER'S DATA USAGE */
+        this.computeAggregatedStatistics();
+    }
+
+    /**
+     * Initialize simulation users and connect them to the network
+     */
+    private void initializeUsers()
+    {
         threadsWaiter = new CountDownLatch(this.config.numUsers());
         for (int i = 0; i < config.numUsers(); i++)
         {
@@ -57,10 +94,13 @@ public class Simulation
         {
 
         }
+    }
 
-        System.out.println("Nodes Startup Finished.");
-
-        /* INITIALIZE THE USER'S CONTENT */
+    /**
+     * Create initial content for users
+     */
+    private void createInitialUserContent()
+    {
         threadsWaiter = new CountDownLatch(this.config.numUsers());
         for (int i = 0; i < config.numUsers(); i++)
         {
@@ -77,10 +117,13 @@ public class Simulation
         {
 
         }
+    }
 
-        System.out.println("Initial content creation finished.");
-
-        /* INITIALIZE THE USER'S CONNECTIONS */
+    /**
+     * Create the initial connections for the users.
+     */
+    private void createInitialUsersConnections()
+    {
         threadsWaiter = new CountDownLatch(this.config.numUsers());
         for (int i = 0; i < config.numUsers(); i++)
         {
@@ -96,22 +139,13 @@ public class Simulation
         {
 
         }
+    }
 
-        /* @todo Get the updated actor objects for the different simualated users */
-        System.out.println("Initial connections creation finished.");
-
-        try
-        {
-            Thread.sleep(30000);
-        }
-        catch (InterruptedException ex)
-        {
-
-        }
-
-        System.out.println("Starting the real time operations now. \n");
-
-        /* NOW LETS RUN THE PROCESSES */
+    /**
+     * Do the real time simulation operations.
+     */
+    private void startSimulation()
+    {
         threadsWaiter = new CountDownLatch(this.config.numUsers());
         for (int i = 0; i < config.numUsers(); i++)
         {
@@ -127,8 +161,15 @@ public class Simulation
         {
 
         }
+    }
 
-        /* USER'S DATA USAGE */
+    /**
+     * Computed the aggregate statistics for user's data usage.
+     *
+     * @todo Get a class to manage this aggregation
+     */
+    private void computeAggregatedStatistics()
+    {
         double dataSent = 0, dataReceived = 0, bootstrapTime = 0, avgContentLookupTime = 0;
         double avgContentLookupRouteLth = 0, avgActivityStreamLoadTime = 0;
         int numContentLookups = 0;

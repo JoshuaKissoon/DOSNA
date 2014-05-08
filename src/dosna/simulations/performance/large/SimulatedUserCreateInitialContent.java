@@ -7,7 +7,7 @@ import java.util.concurrent.CountDownLatch;
  * This part of the simulation initializes the user objects.
  *
  * @author Joshua Kissoon
- * @since 20140502
+ * @since 20140508
  */
 public class SimulatedUserCreateInitialContent implements Runnable
 {

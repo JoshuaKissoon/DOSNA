@@ -6,7 +6,7 @@ import java.util.UUID;
  * Configuration information for this simulation.
  *
  * @author Joshua Kissoon
- * @since 20140505
+ * @since 20140508
  */
 public class SimConfig
 {

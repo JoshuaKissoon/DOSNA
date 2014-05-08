@@ -8,7 +8,7 @@ import java.util.concurrent.CountDownLatch;
  * this is part of the overall simulation of users.
  *
  * @author Joshua Kissoon
- * @since 20140505
+ * @since 20140508
  */
 public class SimulatedUserActions implements Runnable
 {
