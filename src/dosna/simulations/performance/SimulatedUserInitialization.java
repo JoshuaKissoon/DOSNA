@@ -15,7 +15,6 @@ public class SimulatedUserInitialization implements Runnable
     private final SimConfig config;
     private final CountDownLatch threadsWaiter;
 
-
     /**
      * Setup the simulated user
      *

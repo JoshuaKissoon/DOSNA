@@ -45,21 +45,18 @@ public class DOSNA
     {
         if (dataManager == null)
         {
-            try
+            boolean isConnected = false;
+            while (!isConnected)
             {
-                dataManager = new DosnaDataManager(username, nid);
-            }
-            catch (IOException ex)
-            {
-                /* Try again, since we may have tried to use a port already used */
                 try
                 {
                     dataManager = new DosnaDataManager(username, nid);
+                    isConnected = true;
                 }
-                catch (IOException exe)
+                catch (IOException ex)
                 {
-                    System.err.println("Routing initialization failed! Message: " + exe.getMessage());
-                    return false;
+                    /* Try again, since we may have tried to use a port already used */
+                    
                 }
             }
         }

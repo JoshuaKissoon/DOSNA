@@ -54,7 +54,7 @@ public final class DosnaDataManager implements DataManager
      */
     public DosnaDataManager(final String ownerId, final NodeId nodeId) throws IOException
     {
-        this(ownerId, nodeId, (int) ((Math.random() * 10000) + 5000));
+        this(ownerId, nodeId, (int) ((Math.random() * 20000) + 5000));
     }
 
     /**
