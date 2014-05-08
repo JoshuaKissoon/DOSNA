@@ -14,16 +14,16 @@ public class SimConfig
 {
 
     /* Number of users in the simulation */
-    public final static int N = 500;
+    public final static int N = 250;
 
     /* Number of users that should be offline */
-    public final static int NUMBER_OFFLINE_USERS = 200;
+    public final static int NUMBER_OFFLINE_USERS = 100;
 
     /* Number of users to process per set */
-    public final static int SET_SIZE = 250;
+    public final static int SET_SIZE = 50;
 
     /* How long should we delay between creating users on the network */
-    private final static int USER_CREATION_DELAY = 1000;
+    private final static int USER_CREATION_DELAY = 500;
 
     /* Initial details of a user */
     private final static int NUM_INITIAL_CONTENT = 20;
@@ -39,8 +39,8 @@ public class SimConfig
      * Maximum and minimum wait period (in ms) before a user does another activity,
      * the user simulation class will wait a random time between this period.
      */
-    private final static int MIN_WAIT_PERIOD = 1500;
-    private final static int MAX_WAIT_PERIOD = 5000;
+    private final static int MIN_WAIT_PERIOD = 1000;
+    private final static int MAX_WAIT_PERIOD = 3000;
 
     private final static int MIN_LONG_WAIT_PERIOD = 1500;
     private final static int MAX_LONG_WAIT_PERIOD = 5000;
