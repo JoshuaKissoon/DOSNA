@@ -39,6 +39,10 @@ public class DOSNAStatistician
      */
     public double avgActivityStreamLoadTime()
     {
+        if (this.numActivityStreamLoads == 0)
+        {
+            return 0D;
+        }
         Double avg = (double) ((double) totalActivityStreamLoadTime / (double) numActivityStreamLoads) / 1000000D;
         DecimalFormat df = new DecimalFormat("#.00");
         return new Double(df.format(avg));
