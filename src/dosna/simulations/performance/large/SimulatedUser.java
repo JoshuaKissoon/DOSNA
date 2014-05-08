@@ -30,8 +30,6 @@ public class SimulatedUser
     private Actor actor;
     private final DOSNA dosna;
 
-    private String actorId;
-    private String name;
     private String password;
 
     public int userNumber;
@@ -84,8 +82,6 @@ public class SimulatedUser
         this.actor.setName(name);
         this.actor.setPassword(password);
 
-        this.actorId = actorId;
-        this.name = name;
         this.password = password;
 
         this.userNumber = userNumber;
@@ -100,7 +96,7 @@ public class SimulatedUser
 
     public boolean signup()
     {
-        DOSNA.SignupResult res = this.dosna.signupUser(this.actorId, this.password, this.name);
+        DOSNA.SignupResult res = this.dosna.signupUser(this.actor);
 
         this.contentManager = new ContentManager(this.dosna.getDataManager());
 
@@ -117,7 +113,7 @@ public class SimulatedUser
 
     public boolean login()
     {
-        DOSNA.LoginResult res = this.dosna.loginUser(this.actorId, this.password);
+        DOSNA.LoginResult res = this.dosna.loginUser(this.actor.getId(), this.password);
 
         this.contentManager = new ContentManager(this.dosna.getDataManager());
 

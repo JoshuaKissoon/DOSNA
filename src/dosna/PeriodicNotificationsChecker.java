@@ -2,6 +2,7 @@ package dosna;
 
 import dosna.dhtAbstraction.DataManager;
 import dosna.notification.NotificationBox;
+import dosna.osn.actor.Actor;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,7 +24,7 @@ public class PeriodicNotificationsChecker
 {
 
     private final DataManager dataManager;
-    private final String actorId;
+    private final Actor actor;
 
     private final Timer timer;
     private final int period = 10 * 1000;   // every minute
@@ -33,12 +34,12 @@ public class PeriodicNotificationsChecker
      * Setup the class
      *
      * @param dataManager
-     * @param actorId     The ID of the logged in actor
+     * @param actor       The logged in actor
      */
-    public PeriodicNotificationsChecker(final DataManager dataManager, final String actorId)
+    public PeriodicNotificationsChecker(final DataManager dataManager, final Actor actor)
     {
         this.dataManager = dataManager;
-        this.actorId = actorId;
+        this.actor = actor;
 
         this.timer = new Timer(true);
     }
@@ -63,7 +64,7 @@ public class PeriodicNotificationsChecker
             try
             {
                 /* Generate a temp box so it will generate the key  */
-                NotificationBox temp = new NotificationBox(actorId);
+                NotificationBox temp = new NotificationBox(actor.getId());
 
                 /* Retrieve this users notification box from the network */
                 StorageEntry e = dataManager.get(temp.getKey(), temp.getType());
@@ -73,7 +74,7 @@ public class PeriodicNotificationsChecker
                 {
                     /* Check if we have notifications and if we do, alert all of our consumers */
                     //System.out.println("We have Notifications:: " + nBox.getNotifications().size());
-                    
+
                     /* Now empty the notifications box and re-publish it on the network */
                     nBox.emptyBox();
                     dataManager.put(nBox);
@@ -82,7 +83,7 @@ public class PeriodicNotificationsChecker
             }
             catch (IOException | ContentNotFoundException ex)
             {
-                System.err.println(actorId + " - PeriodicNotificationChecker - Refresh Operation Failed; Message: " + ex.getMessage());
+                System.err.println(actor.getId() + " - PeriodicNotificationChecker - Refresh Operation Failed; Message: " + ex.getMessage());
             }
         }
     }
