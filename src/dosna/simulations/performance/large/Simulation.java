@@ -41,24 +41,28 @@ public class Simulation
         this.createInitialUserContent();
         System.out.println("Initial content creation finished.");
 
-//        /* INITIALIZE THE USER'S CONNECTIONS */
-//        this.createInitialUsersConnections();
-//        System.out.println("Initial connections creation finished.");
-//
-//        /* Pause a little before real time operations */
-//        try
-//        {
-//            Thread.sleep(30000);
-//        }
-//        catch (InterruptedException ex)
-//        {
-//
-//        }
-//
-//        System.out.println("Starting the real time operations now. \n");
-//
-//        /* NOW LETS RUN THE PROCESSES */
-//        this.startSimulation();
+        /* INITIALIZE THE USER'S CONNECTIONS */
+        this.createInitialUsersConnections();
+        System.out.println("Initial connections creation finished.");
+        
+        /* LETS PUT USERS OFFLINE */
+        this.putUsersOffline();
+        System.out.println("We've put users offline!!!");
+
+        /* Pause a little before real time operations */
+        try
+        {
+            Thread.sleep(30000);
+        }
+        catch (InterruptedException ex)
+        {
+
+        }
+
+        System.out.println("Starting the real time operations now. \n");
+
+        /* NOW LETS RUN THE PROCESSES */
+        this.startSimulation();
 
         /* USER'S DATA USAGE */
         this.computeAggregatedStatistics();
@@ -140,9 +144,8 @@ public class Simulation
             }
             catch (InterruptedException ex)
             {
-
             }
-            
+
             System.out.println("Finished creating content set " + x);
         }
     }
@@ -152,20 +155,31 @@ public class Simulation
      */
     private void createInitialUsersConnections()
     {
-        threadsWaiter = new CountDownLatch(this.config.numUsers());
-        for (int i = 0; i < config.numUsers(); i++)
-        {
-            new Thread(new SimulatedUserCreateInitialConnections(this.users[i], config, threadsWaiter)).start();
-        }
+        final int numSets = config.numUsers() / config.numUsersPerSet();
 
-        /* Wait for threads to finish */
-        try
+        for (int x = 0; x < numSets; x++)
         {
-            threadsWaiter.await();
-        }
-        catch (InterruptedException ex)
-        {
+            final int startUser = x * config.numUsersPerSet();  // Which user should we start at for this set of initialization
+            threadsWaiter = new CountDownLatch(this.config.numUsersPerSet());       // Setup the CountDownLatch for this set
 
+            /* Lets work on this set of suers */
+            for (int i = 0; i < config.numUsersPerSet(); i++)
+            {
+                final int userIndex = startUser + i;    // The index of the user we should operate on
+                /* Start a new thread for this user  */
+                new Thread(new SimulatedUserCreateInitialConnections(this.users[userIndex], config, threadsWaiter)).start();
+            }
+
+            /* Wait for all threads to finish */
+            try
+            {
+                threadsWaiter.await();
+            }
+            catch (InterruptedException ex)
+            {
+            }
+
+            System.out.println("Finished creating connections set " + x);
         }
     }
 
@@ -183,20 +197,40 @@ public class Simulation
      */
     private void startSimulation()
     {
-        threadsWaiter = new CountDownLatch(this.config.numUsers());
-        for (int i = 0; i < config.numUsers(); i++)
-        {
-            new Thread(new SimulatedUserActions(this.users[i], config, threadsWaiter)).start();
-        }
+        final int numSets = config.numUsers() / config.numUsersPerSet();
 
-        /* Wait for threads to finish */
-        try
+        for (int x = 0; x < numSets; x++)
         {
-            threadsWaiter.await();
-        }
-        catch (InterruptedException ex)
-        {
+            final int startUser = x * config.numUsersPerSet();  // Which user should we start at for this set of initialization
+            threadsWaiter = new CountDownLatch(this.config.numUsersPerSet());       // Setup the CountDownLatch for this set
 
+            /* Lets work on this set of suers */
+            for (int i = 0; i < config.numUsersPerSet(); i++)
+            {
+                final int userIndex = startUser + i;    // The index of the user we should operate on
+
+                if (this.users[userIndex].isOnline())
+                {
+                    /* The user is online, lets do some actions */
+                    new Thread(new SimulatedUserActions(this.users[userIndex], config, threadsWaiter)).start();
+                }
+                else
+                {
+                    /* User is offline, lets decrement the count down latch */
+                    threadsWaiter.countDown();
+                }
+            }
+
+            /* Wait for all threads to finish */
+            try
+            {
+                threadsWaiter.await();
+            }
+            catch (InterruptedException ex)
+            {
+            }
+            
+            System.out.println("Finished Running Simulation set " + x);
         }
     }
 
