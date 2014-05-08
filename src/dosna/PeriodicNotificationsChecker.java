@@ -82,7 +82,7 @@ public class PeriodicNotificationsChecker
             }
             catch (IOException | ContentNotFoundException ex)
             {
-                System.err.println("Refresh Operation Failed; Message: " + ex.getMessage());
+                System.err.println(actorId + " - PeriodicNotificationChecker - Refresh Operation Failed; Message: " + ex.getMessage());
             }
         }
     }

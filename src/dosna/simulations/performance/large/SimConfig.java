@@ -14,7 +14,7 @@ public class SimConfig
 {
 
     /* Number of users in the simulation */
-    public final static int N = 250;
+    public final static int N = 200;
 
     /* Number of users that should be offline */
     public final static int NUMBER_OFFLINE_USERS = 100;

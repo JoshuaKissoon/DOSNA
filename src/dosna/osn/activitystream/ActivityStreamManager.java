@@ -130,6 +130,8 @@ public class ActivityStreamManager
         {
             content.addAll(a.getContentManager().getAllContent());
         }
+        
+        System.out.println(this.currentActor.getId() + "Total content possible for activity stream " + content.size());
 
         return content;
     }
