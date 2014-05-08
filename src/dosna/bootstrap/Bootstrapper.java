@@ -27,7 +27,7 @@ public class Bootstrapper extends JFrame
 {
 
     /* Properties */
-    private final static int FRAME_WIDTH = 1400;
+    private final static int FRAME_WIDTH = 1600;
     private final static int FRAME_HEIGHT = 800;
     private final static String BOOTSTRAP_OWNER_ID = "DOSNA";   // Owner id of the bootstrap kademlia instance
     private final static int BOOTSTRAP_NODE_PORT = 15049;
@@ -90,7 +90,7 @@ public class Bootstrapper extends JFrame
         contentScrollPane.setMinimumSize(new Dimension(400, 800));
 
         this.splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.contactsScrollPane, this.contentScrollPane);
-        splitPane.setDividerLocation(FRAME_WIDTH / 3);
+        splitPane.setDividerLocation(FRAME_WIDTH / 4);
 
         splitPane.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 

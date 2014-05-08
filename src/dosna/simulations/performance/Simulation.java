@@ -58,7 +58,7 @@ public class Simulation
 
         }
 
-        System.out.println("\nNodes Startup Finished. \n");
+        System.out.println("Nodes Startup Finished.");
 
         /* INITIALIZE THE USER'S CONTENT */
         threadsWaiter = new CountDownLatch(this.config.numUsers());
@@ -78,7 +78,7 @@ public class Simulation
 
         }
 
-        System.out.println("\nInitial content creation finished. \n");
+        System.out.println("Initial content creation finished.");
 
         /* INITIALIZE THE USER'S CONNECTIONS */
         threadsWaiter = new CountDownLatch(this.config.numUsers());
@@ -98,7 +98,7 @@ public class Simulation
         }
 
         /* @todo Get the updated actor objects for the different simualated users */
-        System.out.println("\nInitial connections creation finished. \n");
+        System.out.println("Initial connections creation finished.");
 
         try
         {
@@ -109,7 +109,7 @@ public class Simulation
 
         }
 
-        System.out.println("\nStarting the real time operations now. \n");
+        System.out.println("Starting the real time operations now. \n");
 
         /* NOW LETS RUN THE PROCESSES */
         threadsWaiter = new CountDownLatch(this.config.numUsers());

@@ -52,28 +52,28 @@ public class SimulatedUserActions implements Runnable
                 {
                     /* Create and post a content */
                     this.createAndPostContent();
-                    Thread.sleep(this.randomWaitPeriod());
+                    Thread.sleep(this.config.randomLongWaitPeriod());
                 }
 
                 if (numConnections < config.numConnections())
                 {
                     /* Create a new connection */
                     this.createConnection();
-                    Thread.sleep(this.randomWaitPeriod());
+                    Thread.sleep(this.config.randomLongWaitPeriod());
                 }
 
                 if (numActivityStreamRefreshes < config.numActivityStreamRefreshes())
                 {
                     /* Refresh our activity stream here */
                     this.refreshActivityStream();
-                    Thread.sleep(this.randomWaitPeriod());
+                    Thread.sleep(this.config.randomLongWaitPeriod());
                 }
 
                 if (numContentModified < config.numContentModifications())
                 {
                     /* Modify some content here */
                     this.modifyContent();
-                    Thread.sleep(this.randomWaitPeriod());
+                    Thread.sleep(this.config.randomLongWaitPeriod());
                 }
 
             }
@@ -86,7 +86,7 @@ public class SimulatedUserActions implements Runnable
         try
         {
             /* Wait a few seconds before shutting down */
-            Thread.sleep(5000);
+            Thread.sleep(this.config.randomLongWaitPeriod());
 
             /* Lets shutdown everything */
             this.simulatedUser.stopKadRefreshOperation();
@@ -132,21 +132,13 @@ public class SimulatedUserActions implements Runnable
      */
     public synchronized void refreshActivityStream()
     {
-        try
-        {
             int numItems = this.simulatedUser.refreshActivityStream();
             numActivityStreamRefreshes++;
-            if (numActivityStreamRefreshes == this.config.numActivityStreamRefreshes())
+        //if (numActivityStreamRefreshes == this.config.numActivityStreamRefreshes())
             {
                 System.out.println(this.simulatedUser.getActor().getId() + " - Activity Stream Refreshed: " + numItems + " Content in activity stream");
             }
-            Thread.sleep(1000);
         }
-        catch (InterruptedException ex)
-        {
-            System.err.println("Activity stream refresh thread interrupted exception. ");
-        }
-    }
 
     /**
      * Modify some content from a connection
@@ -155,20 +147,6 @@ public class SimulatedUserActions implements Runnable
     {
         this.simulatedUser.updateRandomContent();
         numContentModified++;
-    }
-
-    /**
-     * Computes a random wait period between the min and max wait period.
-     *
-     * @return The computed value
-     */
-    public synchronized long randomWaitPeriod()
-    {
-        /* Compute a random value */
-        long val = (long) (Math.random() * config.maxWaitPeriod());
-
-        /* If the value is less than the minimum wait period, we add the minimum wait to the value */
-        return (val < config.minWaitPeriod()) ? val + config.minWaitPeriod() : val;
     }
 
     public SimulatedUser getSimulatedUser()

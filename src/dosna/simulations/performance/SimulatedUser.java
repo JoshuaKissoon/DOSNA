@@ -210,7 +210,7 @@ public class SimulatedUser
         }
         catch (IOException | ContentNotFoundException ex)
         {
-            System.err.println("SimulatedUser.updateRandomContent() exception whiles updating content. Msg: " + ex.getMessage());
+            System.err.println(this.actor.getName() + " SimulatedUser.updateRandomContent() exception whiles updating content. Msg: " + ex.getMessage());
         }
 
     }

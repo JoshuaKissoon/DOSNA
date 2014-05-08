@@ -15,16 +15,16 @@ public class SimConfig
     public final static int N = 100;
 
     /* How long should we delay between creating users on the network */
-    private final static int USER_CREATION_DELAY = 20;
+    private final static int USER_CREATION_DELAY = 1000;
 
     /* Initial details of a user */
     private final static int NUM_INITIAL_CONTENT = 20;
     private final static int NUM_INITIAL_CONNECTIONS = 20;
 
     /* The number of times a user can perform the activities */
-    private final static int NUM_CONTENT = 5;
-    private final static int NUM_CONNECTIONS = 5;
-    private final static int NUM_ACTIVITY_STREAM_REFRESHES = 6;
+    private final static int NUM_CONTENT = 2;
+    private final static int NUM_CONNECTIONS = 2;
+    private final static int NUM_ACTIVITY_STREAM_REFRESHES = 3;
     private final static int NUM_CONTENT_MODIFICATIONS = 1;
 
     /**
@@ -32,9 +32,10 @@ public class SimConfig
      * the user simulation class will wait a random time between this period.
      */
     private final static int MIN_WAIT_PERIOD = 1500;
-    private final static int MAX_WAIT_PERIOD = 7000;
+    private final static int MAX_WAIT_PERIOD = 5000;
 
-    private final static int INITIAL_OPERATIONS_DELAY = 2500;
+    private final static int MIN_LONG_WAIT_PERIOD = 1500;
+    private final static int MAX_LONG_WAIT_PERIOD = 5000;
 
     /**
      * @return The number of users in the simulation
@@ -117,14 +118,6 @@ public class SimConfig
     }
 
     /**
-     * @return Delay period of initial operations
-     */
-    public int initialOperationsDelay()
-    {
-        return INITIAL_OPERATIONS_DELAY;
-    }
-
-    /**
      * Computes a random wait period between the min and max wait period.
      *
      * @return The computed value
@@ -136,6 +129,20 @@ public class SimConfig
 
         /* If the value is less than the minimum wait period, we add the minimum wait to the value */
         return (val < minWaitPeriod()) ? val + minWaitPeriod() : val;
+    }
+
+    /**
+     * Computes a random wait period between the min and max wait period.
+     *
+     * @return The computed value
+     */
+    public synchronized long randomLongWaitPeriod()
+    {
+        /* Compute a random value */
+        long val = (long) (Math.random() * MAX_LONG_WAIT_PERIOD);
+
+        /* If the value is less than the minimum wait period, we add the minimum wait to the value */
+        return (val < MIN_LONG_WAIT_PERIOD) ? val + MIN_LONG_WAIT_PERIOD : val;
     }
 
     /**
