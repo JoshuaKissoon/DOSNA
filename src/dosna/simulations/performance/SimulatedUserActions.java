@@ -124,8 +124,7 @@ public class SimulatedUserActions implements Runnable
      */
     public synchronized void createConnection()
     {
-        int connectionUid = (this.simulatedUser.userNumber + numConnections + 1) % this.config.numUsers();
-        this.simulatedUser.createConnection(new Actor("" + connectionUid));
+        this.simulatedUser.createRandomConnection();
         numConnections++;
     }
 

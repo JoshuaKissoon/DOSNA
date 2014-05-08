@@ -85,6 +85,26 @@ public class ActorConnectionsManager
     }
 
     /**
+     * Check whether this actor has a given connection
+     *
+     * @param conn The actor to check for the connection with.
+     *
+     * @return Whether the connection exist
+     */
+    public boolean hasConnection(final Actor conn)
+    {
+        for (Relationship r : this.connections)
+        {
+            if (r.getConnectionUid().equals(conn.getId()))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @return The set of all relationships that this actor has
      */
     public Collection<Relationship> getRelationships()

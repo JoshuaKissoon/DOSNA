@@ -42,6 +42,9 @@ public class SimulatedUser
     /* DOSNA Statistician */
     private final DOSNAStatistician statistician;
 
+    /* Set of users in the simulation */
+    private final SimulatedUser[] users;
+
     
     {
         this.dosna = new DOSNA();
@@ -53,11 +56,13 @@ public class SimulatedUser
      *
      * @param actor      The DOSN actor object for this user
      * @param userNumber The user number in the simulation
+     * @param users      Set of users in the simulation
      */
-    public SimulatedUser(final Actor actor, final int userNumber)
+    public SimulatedUser(final Actor actor, final int userNumber, final SimulatedUser[] users)
     {
         this.actor = actor;
         this.userNumber = userNumber;
+        this.users = users;
     }
 
     /**
@@ -67,8 +72,9 @@ public class SimulatedUser
      * @param name
      * @param password
      * @param userNumber The user number in the simulation
+     * @param users      The set of users in the simulation
      */
-    public SimulatedUser(final String actorId, final String password, final String name, final int userNumber)
+    public SimulatedUser(final String actorId, final String password, final String name, final int userNumber, final SimulatedUser[] users)
     {
         this.actor = new Actor(actorId);
         this.actor.setName(name);
@@ -79,6 +85,8 @@ public class SimulatedUser
         this.password = password;
 
         this.userNumber = userNumber;
+
+        this.users = users;
     }
 
     public Actor getActor()
@@ -218,6 +226,24 @@ public class SimulatedUser
 
         /* Update the actor object online */
         this.contentManager.updateContent(this.actor);
+    }
+
+    /**
+     * Create a connection with a random actor
+     */
+    public void createRandomConnection()
+    {
+        int randActor = (int) (Math.random() * users.length);
+        Actor toConnect = this.users[randActor].getActor();
+
+        while (this.actor.hasConnection(toConnect))
+        {
+            randActor = (int) (Math.random() * users.length);
+            toConnect = this.users[randActor].getActor();
+        }
+
+        /* Have a new actor to connect to */
+        this.createConnection(toConnect);
     }
 
     /**

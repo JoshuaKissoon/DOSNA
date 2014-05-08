@@ -36,7 +36,7 @@ public class Simulation
         for (int i = 0; i < config.numUsers(); i++)
         {
             String actorId = "" + i;
-            this.users[i] = new SimulatedUser(actorId, actorId + "pass", actorId + " Name", i);
+            this.users[i] = new SimulatedUser(actorId, actorId + "pass", actorId + " Name", i, this.users);
             new Thread(new SimulatedUserInitialization(this.users[i], config, threadsWaiter)).start();
             try
             {
@@ -152,13 +152,13 @@ public class Simulation
         /* Print the Statistics */
         DecimalFormat df = new DecimalFormat("#.00");
         int numUsers = this.config.numUsers();
-        String stats = "\nAverage Statistics for " + numUsers + " Users; \n";
+        String stats = "\nAverage Statistics for " + numUsers + " users; \n";
         stats += "Avg Data Sent: " + (dataSent / numUsers) + " bytes; \n";
         stats += "Avg Data Received: " + (dataReceived / numUsers) + " bytes; \n";
         stats += "Avg Bootstrap Time: " + df.format(bootstrapTime / numUsers) + " ms; \n";
         stats += "Avg # Content Lookups: " + (numContentLookups / (double) numUsers) + "; \n";
         stats += "Avg Content Lookup Time: " + df.format(avgContentLookupTime / numUsers) + " ms; \n";
-        stats += "Avg Content Lookup Route Length: " + (avgContentLookupRouteLth / numUsers) + "; \n";
+        stats += "Avg Content Lookup Route Length: " + df.format(avgContentLookupRouteLth / numUsers) + "; \n";
         stats += "Avg Activity Stream load time: " + df.format(avgActivityStreamLoadTime / numUsers) + " ms; \n";
         stats += "\n";
         System.out.println(stats);

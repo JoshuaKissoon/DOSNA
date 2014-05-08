@@ -205,6 +205,18 @@ public class Actor extends DOSNAContent
     }
 
     /**
+     * Whether this actor is connected to the given actor
+     *
+     * @param conn The actor to check for connection with
+     *
+     * @return Whether the relationship exists
+     */
+    public boolean hasConnection(final Actor conn)
+    {
+        return this.getConnectionManager().hasConnection(conn);
+    }
+
+    /**
      * @return The ConnectionManager for this actor
      */
     public ActorConnectionsManager getConnectionManager()
