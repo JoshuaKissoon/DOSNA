@@ -27,7 +27,7 @@ public class Bootstrapper extends JFrame
 {
 
     /* Properties */
-    private final static int FRAME_WIDTH = 1200;
+    private final static int FRAME_WIDTH = 1400;
     private final static int FRAME_HEIGHT = 800;
     private final static String BOOTSTRAP_OWNER_ID = "DOSNA";   // Owner id of the bootstrap kademlia instance
     private final static int BOOTSTRAP_NODE_PORT = 15049;

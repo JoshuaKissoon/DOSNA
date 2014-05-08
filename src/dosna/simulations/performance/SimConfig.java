@@ -12,7 +12,7 @@ public class SimConfig
 {
 
     /* Number of users in the simulation */
-    public final static int N = 50;
+    public final static int N = 100;
 
     /* How long should we delay between creating users on the network */
     private final static int USER_CREATION_DELAY = 20;
@@ -22,9 +22,9 @@ public class SimConfig
     private final static int NUM_INITIAL_CONNECTIONS = 20;
 
     /* The number of times a user can perform the activities */
-    private final static int NUM_CONTENT = 2;
-    private final static int NUM_CONNECTIONS = 0;
-    private final static int NUM_ACTIVITY_STREAM_REFRESHES = 3;
+    private final static int NUM_CONTENT = 5;
+    private final static int NUM_CONNECTIONS = 5;
+    private final static int NUM_ACTIVITY_STREAM_REFRESHES = 6;
     private final static int NUM_CONTENT_MODIFICATIONS = 1;
 
     /**
