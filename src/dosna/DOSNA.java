@@ -36,12 +36,12 @@ public class DOSNA
      * Connect to the network
      * Launch the main Application UI
      *
-     * @param username
+     * @param actorId
      * @param nid
      *
      * @return Boolean Whether the initialization was successful or not
      */
-    public boolean initRouting(String username, NodeId nid)
+    public boolean initRouting(String actorId, NodeId nid)
     {
         if (dataManager == null)
         {
@@ -50,13 +50,13 @@ public class DOSNA
             {
                 try
                 {
-                    dataManager = new DosnaDataManager(username, nid);
+                    dataManager = new DosnaDataManager(actorId, nid);
                     isConnected = true;
                 }
                 catch (IOException ex)
                 {
                     /* Try again, since we may have tried to use a port already used */
-                    
+
                 }
             }
         }
@@ -118,21 +118,21 @@ public class DOSNA
     /**
      * Try to login a user into the system, handles the logic for logging in the user.
      *
-     * @param username
+     * @param actorId
      * @param password
      *
      * @return Whether the user login was successful or not
      */
-    public LoginResult loginUser(String username, String password)
+    public LoginResult loginUser(String actorId, String password)
     {
-        final Actor u = new Actor(username);
+        final Actor u = new Actor(actorId);
 
-        DOSNA.this.initRouting(username, u.getKey());
+        DOSNA.this.initRouting(actorId, u.getKey());
 
         try
         {
             /* Checking if a user exists */
-            final GetParameter gp = new GetParameter(u.getKey(), u.getType(), username);
+            final GetParameter gp = new GetParameter(u.getKey(), u.getType(), actorId);
             StorageEntry items = this.dataManager.get(gp);
 
             /* User exists! Now check if password matches */
@@ -151,7 +151,6 @@ public class DOSNA
         {
 
         }
-
 
         /* Login was unsuccessful */
         return new LoginResult(false);
@@ -239,25 +238,19 @@ public class DOSNA
     /**
      * Try to signup a user into the system, handles the logic for signing up the user.
      *
-     * @param userId
-     * @param password
-     * @param fullName
+     * @param actor The actor object of the user to signup
      *
      * @return Whether the user signup was successful or not
      */
-    public SignupResult signupUser(final String userId, final String password, final String fullName)
+    public SignupResult signupUser(final Actor actor)
     {
-        final Actor u = new Actor(userId);
-        u.setPassword(password);
-        u.setName(fullName);
-
         try
         {
             /* Initialize our routing */
-            DOSNA.this.initRouting(userId, u.getKey());
+            DOSNA.this.initRouting(actor.getId(), actor.getKey());
 
             /* See if this user object already exists on the network */
-            GetParameter gp = new GetParameter(u.getKey(), u.getType(), userId);
+            GetParameter gp = new GetParameter(actor.getKey(), actor.getType(), actor.getId());
             StorageEntry item = dataManager.get(gp);
 
             /* Username is already taken */
@@ -269,8 +262,7 @@ public class DOSNA
             {
                 /* Lets add this user to the system */
                 ActorManager ac = new ActorManager(dataManager);
-
-                Actor createdActor = ac.createActor(u);
+                Actor createdActor = ac.createActor(actor);
 
                 /* User added, now launch DOSNA */
                 return new SignupResult(createdActor, true);
@@ -283,6 +275,15 @@ public class DOSNA
 
         /* We got here means things were not successful */
         return new SignupResult();
+    }
+
+    public SignupResult signupUser(final String userId, final String password, final String fullName)
+    {
+        final Actor u = new Actor(userId);
+        u.setPassword(password);
+        u.setName(fullName);
+
+        return this.signupUser(u);
     }
 
     /**
@@ -343,7 +344,7 @@ public class DOSNA
      */
     public void launchNotificationChecker(final Actor actor)
     {
-        PeriodicNotificationsChecker pnc = new PeriodicNotificationsChecker(this.dataManager, actor.getId());
+        PeriodicNotificationsChecker pnc = new PeriodicNotificationsChecker(this.dataManager, actor);
         pnc.startTimer();
     }
 
