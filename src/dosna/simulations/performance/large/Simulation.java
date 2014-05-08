@@ -65,34 +65,59 @@ public class Simulation
     }
 
     /**
-     * Initialize simulation users and connect them to the network
+     * Initialize simulation users and connect them to the network.
+     *
+     * We initialize users in sets.
      */
     private void initializeUsers()
     {
-        threadsWaiter = new CountDownLatch(this.config.numUsers());
-        for (int i = 0; i < config.numUsers(); i++)
+        final int numSets = config.numUsers() / config.numUsersPerSet();
+
+        for (int x = 0; x < numSets; x++)
         {
-            String actorId = config.randomStringShort() + i;
-            this.users[i] = new SimulatedUser(actorId, actorId + "pass", "Actor " + i + " Name", i, this.users);
-            new Thread(new SimulatedUserInitialization(this.users[i], config, threadsWaiter)).start();
+            /* Which user should we start at for this set of initialization */
+            final int startUser = x * config.numUsersPerSet();
+
+            /* Setup the CountDownLatch for this set */
+            threadsWaiter = new CountDownLatch(this.config.numUsersPerSet());
+
+            /* Lets initialize this set of suers */
+            for (int i = 0; i < config.numUsersPerSet(); i++)
+            {
+                /* The index of the user we should operate on */
+                final int userIndex = startUser + i;
+
+                /* Random Actor Id */
+                String actorId = config.randomStringShort() + userIndex;
+
+                /* Initialize the user's object */
+                this.users[userIndex] = new SimulatedUser(actorId, actorId + "pass", "Actor " + userIndex + " Name", userIndex, this.users);
+
+                /* Start a new thread to do the user's initialization */
+                new Thread(new SimulatedUserInitialization(this.users[userIndex], config, threadsWaiter)).start();
+
+                /* Take a little nap before creating the other user */
+                try
+                {
+                    Thread.sleep(config.userCreationDelay());
+                }
+                catch (InterruptedException ex)
+                {
+
+                }
+            }
+
+            /* Wait for all users in the set to finish initialization */
             try
             {
-                Thread.sleep(config.userCreationDelay());
+                threadsWaiter.await();
             }
             catch (InterruptedException ex)
             {
 
             }
-        }
 
-        /* Wait for all threads to finish */
-        try
-        {
-            threadsWaiter.await();
-        }
-        catch (InterruptedException ex)
-        {
-
+            System.out.println("Finished creating user set " + x);
         }
     }
 

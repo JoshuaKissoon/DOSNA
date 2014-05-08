@@ -5,6 +5,8 @@ import java.util.UUID;
 /**
  * Configuration information for this simulation.
  *
+ * @note For simplification, the entire simulation assumes that the number of users is a multiple of the set size.
+ *
  * @author Joshua Kissoon
  * @since 20140508
  */
@@ -12,13 +14,13 @@ public class SimConfig
 {
 
     /* Number of users in the simulation */
-    public final static int N = 1000;
+    public final static int N = 500;
 
     /* Number of users that should be offline */
-    public final static int NUMBER_OFFLINE_USERS = 500;
+    public final static int NUMBER_OFFLINE_USERS = 200;
 
     /* Number of users to process per set */
-    public final static int SET_SIZE = 100;
+    public final static int SET_SIZE = 250;
 
     /* How long should we delay between creating users on the network */
     private final static int USER_CREATION_DELAY = 1000;
