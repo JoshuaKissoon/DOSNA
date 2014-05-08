@@ -33,19 +33,8 @@ public class SimulatedUserInitialization implements Runnable
     @Override
     public void run()
     {
-        try
-        {
             this.simulatedUser.signup();
-            Thread.sleep(config.randomWaitPeriod());
-            this.simulatedUser.login();
-            Thread.sleep(config.randomWaitPeriod());
-            
             threadsWaiter.countDown();
-        }
-        catch (InterruptedException ex)
-        {
-
-        }
     }
 
 }

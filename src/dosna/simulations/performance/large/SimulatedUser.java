@@ -98,9 +98,13 @@ public class SimulatedUser
     {
         DOSNA.SignupResult res = this.dosna.signupUser(this.actorId, this.password, this.name);
 
+        this.contentManager = new ContentManager(this.dosna.getDataManager());
+
         if (res.isSignupSuccessful)
         {
             this.actor = res.actor;
+            this.actor.init(this.dosna.getDataManager());
+            this.dosna.launchNotificationChecker(this.actor);
         }
 
         return res.isSignupSuccessful;
