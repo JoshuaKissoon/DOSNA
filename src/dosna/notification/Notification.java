@@ -1,6 +1,6 @@
 package dosna.notification;
 
-import kademlia.node.NodeId;
+import kademlia.node.KademliaId;
 
 /**
  * A notification to be added to the notification box
@@ -11,7 +11,7 @@ import kademlia.node.NodeId;
 public class Notification
 {
 
-    private final NodeId key;
+    private final KademliaId key;
     private final String notification;
 
     /**
@@ -20,13 +20,13 @@ public class Notification
      * @param key          The key of the content this notification is for
      * @param notification The Notification itself.
      */
-    public Notification(NodeId key, String notification)
+    public Notification(KademliaId key, String notification)
     {
         this.key = key;
         this.notification = notification;
     }
 
-    public NodeId getContentKey()
+    public KademliaId getContentKey()
     {
         return this.key;
     }

@@ -4,7 +4,7 @@ import dosna.content.DOSNAContent;
 import dosna.osn.actor.Actor;
 import dosna.util.HashCalculator;
 import java.security.NoSuchAlgorithmException;
-import kademlia.node.NodeId;
+import kademlia.node.KademliaId;
 
 /**
  * A status update from an Actor.
@@ -20,7 +20,7 @@ public class Status extends DOSNAContent
     private String text;
     private String userId;
 
-    private NodeId key;
+    private KademliaId key;
 
     /**
      * Blank public constructor mainly used by serializer.
@@ -57,7 +57,7 @@ public class Status extends DOSNAContent
 
         try
         {
-            this.key = new NodeId(HashCalculator.sha1Hash(userId + currentTs));
+            this.key = new KademliaId(HashCalculator.sha1Hash(userId + currentTs));
         }
         catch (NoSuchAlgorithmException ex)
         {
@@ -87,7 +87,7 @@ public class Status extends DOSNAContent
     }
 
     @Override
-    public NodeId getKey()
+    public KademliaId getKey()
     {
         return this.key;
     }

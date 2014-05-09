@@ -16,7 +16,7 @@ import java.util.List;
 import kademlia.KademliaNode;
 import kademlia.dht.StorageEntry;
 import kademlia.exceptions.ContentNotFoundException;
-import kademlia.node.NodeId;
+import kademlia.node.KademliaId;
 
 /**
  * A user used in simulation; this user performs the actions of a user of the system.
@@ -167,7 +167,7 @@ public class SimulatedUser
         return new ActorManager(this.dosna.getDataManager()).loadActor(uid);
     }
 
-    public Status loadStatus(NodeId statusId) throws IOException, ContentNotFoundException
+    public Status loadStatus(KademliaId statusId) throws IOException, ContentNotFoundException
     {
         StorageEntry e = this.dosna.getDataManager().get(statusId, Status.TYPE);
         return (Status) new Status().fromBytes(e.getContent().getBytes());

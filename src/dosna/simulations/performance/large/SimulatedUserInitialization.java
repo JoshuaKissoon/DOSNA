@@ -14,7 +14,6 @@ public class SimulatedUserInitialization implements Runnable
     private final SimulatedUser simulatedUser;
     private final SimConfig config;
     private final CountDownLatch threadsWaiter;
-    
 
     /**
      * Setup the simulated user
@@ -33,8 +32,8 @@ public class SimulatedUserInitialization implements Runnable
     @Override
     public void run()
     {
-            this.simulatedUser.signup();
-            threadsWaiter.countDown();
+        this.simulatedUser.signup();
+        threadsWaiter.countDown();
     }
 
 }

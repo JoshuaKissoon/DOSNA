@@ -27,8 +27,8 @@ public class PeriodicNotificationsChecker
     private final Actor actor;
 
     private final Timer timer;
-    private final int period = 10 * 1000;   // every minute
-    private final long intialDelay = 10 * 1000; // 5 seconds
+    private final int period = 30 * 1000;   // in milliseconds
+    private final long intialDelay = 200 * 1000; // in milliseconds
 
     /**
      * Setup the class
@@ -61,11 +61,10 @@ public class PeriodicNotificationsChecker
         @Override
         public void run()
         {
+            /* Generate a temp box so it will generate the key  */
+            NotificationBox temp = new NotificationBox(actor.getId());
             try
             {
-                /* Generate a temp box so it will generate the key  */
-                NotificationBox temp = new NotificationBox(actor.getId());
-
                 /* Retrieve this users notification box from the network */
                 StorageEntry e = dataManager.get(temp.getKey(), temp.getType());
                 NotificationBox nBox = (NotificationBox) new NotificationBox().fromBytes(e.getContent().getBytes());
@@ -79,11 +78,14 @@ public class PeriodicNotificationsChecker
                     nBox.emptyBox();
                     dataManager.put(nBox);
                 }
-
             }
-            catch (IOException | ContentNotFoundException ex)
+            catch (ContentNotFoundException exe)
             {
-                System.err.println(actor.getId() + " - PeriodicNotificationChecker - Refresh Operation Failed; Message: " + ex.getMessage());
+                System.err.println(actor.getId() + " - PeriodicNotificationChecker - Notification box not found; BoxId: " + temp.getKey() + " Box owner: " + temp.getOwnerId());
+            }
+            catch (IOException ex)
+            {
+                System.err.println(actor.getId() + " - PeriodicNotificationChecker - Error occurred; Message: " + ex.getMessage());
             }
         }
     }

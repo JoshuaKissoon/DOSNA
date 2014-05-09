@@ -5,7 +5,7 @@ import dosna.osn.actor.Actor;
 import dosna.osn.status.Status;
 import java.io.IOException;
 import kademlia.exceptions.ContentNotFoundException;
-import kademlia.node.NodeId;
+import kademlia.node.KademliaId;
 
 /**
  * Simulating basic notification system changes to test it.
@@ -51,7 +51,7 @@ public class NotificationsSystemSimulation
             /* Retrieve u2's first status and update it */
             for (ContentMetadata cmd : user2Actor.getContentManager().getAllContent(Status.TYPE))
             {
-                NodeId key = cmd.getKey();
+                KademliaId key = cmd.getKey();
 
                 /* Lets retrieve the status */
                 Status a = user1.loadStatus(key);

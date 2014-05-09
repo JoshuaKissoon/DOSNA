@@ -5,7 +5,7 @@ import dosna.dhtAbstraction.DataManager;
 import dosna.util.HashCalculator;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
-import kademlia.node.NodeId;
+import kademlia.node.KademliaId;
 
 /**
  * Any type of user/group within the system of the system
@@ -30,11 +30,11 @@ public class Actor extends DOSNAContent
     /* Attributes */
     private String id;
     private String fullName;
-    private NodeId key;
+    private KademliaId key;
     private String hashedPassword;
 
     /* References to other objects */
-    private NodeId notificationBoxNid;
+    private KademliaId notificationBoxNid;
 
     
     {
@@ -79,7 +79,7 @@ public class Actor extends DOSNAContent
             /*@todo try some other hash here */
             System.err.println("SHA-1 Hash algorithm isn't existent.");
         }
-        this.key = new NodeId(keyData);
+        this.key = new KademliaId(keyData);
     }
 
     /**
@@ -164,7 +164,7 @@ public class Actor extends DOSNAContent
     }
 
     @Override
-    public NodeId getKey()
+    public KademliaId getKey()
     {
         return this.key;
     }
@@ -229,7 +229,7 @@ public class Actor extends DOSNAContent
      *
      * @param notificationBoxNid
      */
-    public void setNotificationBoxNid(NodeId notificationBoxNid)
+    public void setNotificationBoxNid(KademliaId notificationBoxNid)
     {
         this.notificationBoxNid = notificationBoxNid;
     }

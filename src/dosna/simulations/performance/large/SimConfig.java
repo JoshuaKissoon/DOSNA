@@ -17,13 +17,13 @@ public class SimConfig
     public final static int N = 200;
 
     /* Number of users that should be offline */
-    public final static int NUMBER_OFFLINE_USERS = 100;
+    public final static int NUMBER_OFFLINE_USERS = 10;
 
     /* Number of users to process per set */
-    public final static int SET_SIZE = 50;
+    public final static int SET_SIZE = 100;
 
     /* How long should we delay between creating users on the network */
-    private final static int USER_CREATION_DELAY = 500;
+    private final static int USER_CREATION_DELAY = 1000;
 
     /* Initial details of a user */
     private final static int NUM_INITIAL_CONTENT = 20;

@@ -15,7 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import kademlia.KademliaNode;
-import kademlia.node.NodeId;
+import kademlia.node.KademliaId;
 
 /**
  * Here we load the bootstrap node and keep it running
@@ -162,7 +162,7 @@ public class Bootstrapper extends JFrame
             try
             {
                 /* Create a new instance */
-                this.bootstrapInstance = new KademliaNode(BOOTSTRAP_OWNER_ID, new NodeId("BOOTSTRAPBOOTSTRAPBO"), BOOTSTRAP_NODE_PORT);
+                this.bootstrapInstance = new KademliaNode(BOOTSTRAP_OWNER_ID, new KademliaId("BOOTSTRAPBOOTSTRAPBO"), BOOTSTRAP_NODE_PORT);
             }
             catch (IOException exx)
             {

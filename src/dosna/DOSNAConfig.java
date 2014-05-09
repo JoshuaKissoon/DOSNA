@@ -3,7 +3,7 @@ package dosna;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import kademlia.node.Node;
-import kademlia.node.NodeId;
+import kademlia.node.KademliaId;
 
 /**
  * Configuration for DOSNA
@@ -21,6 +21,6 @@ public class DOSNAConfig
      */
     public Node getBootstrapNode() throws UnknownHostException
     {
-        return new Node(new NodeId("BOOTSTRAPBOOTSTRAPBO"), InetAddress.getLocalHost(), 15049);
+        return new Node(new KademliaId("BOOTSTRAPBOOTSTRAPBO"), InetAddress.getLocalHost(), 15049);
     }
 }

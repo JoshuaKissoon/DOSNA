@@ -1,7 +1,7 @@
 package dosna.core;
 
 import dosna.content.DOSNAContent;
-import kademlia.node.NodeId;
+import kademlia.node.KademliaId;
 
 /**
  * Class used by the content manager to store metadata of a content.
@@ -16,7 +16,7 @@ import kademlia.node.NodeId;
 public final class ContentMetadata implements Comparable<ContentMetadata>
 {
 
-    private NodeId key;
+    private KademliaId key;
     private long updateTs;
     private String ownerId;
     private String type;
@@ -42,7 +42,7 @@ public final class ContentMetadata implements Comparable<ContentMetadata>
         this.type = content.getType();
     }
 
-    public NodeId getKey()
+    public KademliaId getKey()
     {
         return this.key;
     }

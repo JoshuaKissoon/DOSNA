@@ -7,7 +7,7 @@ import kademlia.KademliaNode;
 import kademlia.dht.GetParameter;
 import kademlia.dht.StorageEntry;
 import kademlia.exceptions.ContentNotFoundException;
-import kademlia.node.NodeId;
+import kademlia.node.KademliaId;
 
 /**
  * Just testing notification box handling.
@@ -22,13 +22,13 @@ public class NotificationBoxSimulation
     {
         try
         {
-            KademliaNode kad = new KademliaNode("Joshua", new NodeId("JOSHUAJOSHUAJOSHUAJO"), 3445);
-            KademliaNode kad2 = new KademliaNode("Joshua2", new NodeId("JOSHUAJOSHUAJOSHUAJK"), 3446);
+            KademliaNode kad = new KademliaNode("Joshua", new KademliaId("JOSHUAJOSHUAJOSHUAJO"), 3445);
+            KademliaNode kad2 = new KademliaNode("Joshua2", new KademliaId("JOSHUAJOSHUAJOSHUAJK"), 3446);
 
             kad.bootstrap(kad2.getNode());
 
             NotificationBox nb = new NotificationBox("Joshua");
-            nb.addNotification(new Notification(new NodeId(), "Some Notification 1"));
+            nb.addNotification(new Notification(new KademliaId(), "Some Notification 1"));
 
             /* Put the notification box */
             kad.put(nb);
@@ -43,7 +43,7 @@ public class NotificationBoxSimulation
             System.out.println("\n\n\n\n************* Adding new Notification ********************* ");
 
             /* Add a notification and put the box back on the DHT */
-            nb2.addNotification(new Notification(new NodeId(), "Some Notification 2"));
+            nb2.addNotification(new Notification(new KademliaId(), "Some Notification 2"));
             kad.put(nb2);
             System.out.println(nb2);
 
