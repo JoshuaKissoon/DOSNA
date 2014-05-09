@@ -20,10 +20,16 @@ public class SimConfig
     public final static int NUMBER_OFFLINE_USERS = 10;
 
     /* Number of users to process per set */
-    public final static int SET_SIZE = 100;
+    public final static int SET_SIZE = 20;
+
+    /* Number of users to process per set */
+    public final static int ACTIVITIES_SET_SIZE = 10;
 
     /* How much time (in milliseconds) to wait between processing sets */
-    public final static long INTER_SET_WAIT = 5 * 1000;
+    public final static long INTER_SET_WAIT = 60 * 1000;
+
+    /* How much time (in milliseconds) to wait between each user running their activities */
+    public final static long INTER_ACTIVITY_USER_WAIT = 10 * 1000;
 
     /* How long should we delay between creating users on the network */
     private final static int USER_CREATION_DELAY = 1000;
@@ -45,8 +51,8 @@ public class SimConfig
     private final static int MIN_WAIT_PERIOD = 1500;
     private final static int MAX_WAIT_PERIOD = 5000;
 
-    private final static int MIN_LONG_WAIT_PERIOD = 2000;
-    private final static int MAX_LONG_WAIT_PERIOD = 5000;
+    private final static int MIN_LONG_WAIT_PERIOD = 4000;
+    private final static int MAX_LONG_WAIT_PERIOD = 10000;
 
     /**
      * @return The number of users in the simulation
@@ -72,9 +78,22 @@ public class SimConfig
         return SET_SIZE;
     }
 
+    /**
+     * @return How many users should be processed per set
+     */
+    public int numUsersPerActivitySet()
+    {
+        return ACTIVITIES_SET_SIZE;
+    }
+
     public long interSetWait()
     {
         return INTER_SET_WAIT;
+    }
+
+    public long interActivityUserWait()
+    {
+        return INTER_ACTIVITY_USER_WAIT;
     }
 
     /**

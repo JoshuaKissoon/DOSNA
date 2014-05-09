@@ -136,7 +136,7 @@ public class SimulatedUserActions implements Runnable
     {
         Collection<DOSNAContent> content = this.simulatedUser.refreshActivityStream();
         numActivityStreamRefreshes++;
-        //if (numActivityStreamRefreshes == this.config.numActivityStreamRefreshes())
+        if (content.size() < 35)
         {
             /* Count how many are from the local user */
             int localUserContent = 0;

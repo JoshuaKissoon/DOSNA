@@ -198,18 +198,20 @@ public class Simulation
 
     /**
      * Do the real time simulation operations.
+     *
+     * This is an expensive operation for each user, so we pause a lot during these operations.
      */
     private void startSimulation()
     {
-        final int numSets = config.numUsers() / config.numUsersPerSet();
+        final int numSets = config.numUsers() / config.numUsersPerActivitySet();
 
         for (int x = 0; x < numSets; x++)
         {
-            final int startUser = x * config.numUsersPerSet();  // Which user should we start at for this set of initialization
-            threadsWaiter = new CountDownLatch(this.config.numUsersPerSet());       // Setup the CountDownLatch for this set
+            final int startUser = x * config.numUsersPerActivitySet();  // Which user should we start at for this set of initialization
+            threadsWaiter = new CountDownLatch(this.config.numUsersPerActivitySet());       // Setup the CountDownLatch for this set
 
             /* Lets work on this set of suers */
-            for (int i = 0; i < config.numUsersPerSet(); i++)
+            for (int i = 0; i < config.numUsersPerActivitySet(); i++)
             {
                 final int userIndex = startUser + i;    // The index of the user we should operate on
 
@@ -217,6 +219,13 @@ public class Simulation
                 {
                     /* The user is online, lets do some actions */
                     new Thread(new SimulatedUserActions(this.users[userIndex], config, threadsWaiter)).start();
+                    try
+                    {
+                        Thread.sleep(config.interActivityUserWait());
+                    }
+                    catch (InterruptedException ex)
+                    {                        
+                    }
                 }
                 else
                 {
