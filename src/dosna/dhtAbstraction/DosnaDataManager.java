@@ -65,6 +65,7 @@ public final class DosnaDataManager implements DataManager
     @Override
     public synchronized int put(final DOSNAContent content) throws IOException
     {
+        this.kad.putLocally(content);   // Keep it locally so it'll be distributed on next refresh.
         return kad.put(content);
     }
 

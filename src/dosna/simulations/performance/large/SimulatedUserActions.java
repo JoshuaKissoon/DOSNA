@@ -1,6 +1,8 @@
 package dosna.simulations.performance.large;
 
+import dosna.content.DOSNAContent;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -132,13 +134,22 @@ public class SimulatedUserActions implements Runnable
      */
     public synchronized void refreshActivityStream()
     {
-            int numItems = this.simulatedUser.refreshActivityStream();
-            numActivityStreamRefreshes++;
+        Collection<DOSNAContent> content = this.simulatedUser.refreshActivityStream();
+        numActivityStreamRefreshes++;
         //if (numActivityStreamRefreshes == this.config.numActivityStreamRefreshes())
+        {
+            /* Count how many are from the local user */
+            int localUserContent = 0;
+            for (DOSNAContent c : content)
             {
-                System.out.println(this.simulatedUser.getActor().getId() + " - Activity Stream Refreshed: " + numItems + " Content in activity stream");
+                if (c.getOwnerId().equals(this.simulatedUser.getActor().getId()))
+                {
+                    localUserContent++;
+                }
             }
+            System.out.println(this.simulatedUser.getActor().getId() + " - Activity Stream Refreshed; # content " + content.size() + "; # local user content Content " + localUserContent);
         }
+    }
 
     /**
      * Modify some content from a connection

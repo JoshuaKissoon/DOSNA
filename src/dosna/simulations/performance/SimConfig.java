@@ -25,7 +25,7 @@ public class SimConfig
     private final static int NUM_CONTENT = 2;
     private final static int NUM_CONNECTIONS = 2;
     private final static int NUM_ACTIVITY_STREAM_REFRESHES = 3;
-    private final static int NUM_CONTENT_MODIFICATIONS = 1;
+    private final static int NUM_CONTENT_MODIFICATIONS = 2;
 
     /**
      * Maximum and minimum wait period (in ms) before a user does another activity,

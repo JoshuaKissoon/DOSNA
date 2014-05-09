@@ -44,7 +44,7 @@ public class Simulation
         /* INITIALIZE THE USER'S CONNECTIONS */
         this.createInitialUsersConnections();
         System.out.println("Initial connections creation finished.");
-        
+
         /* LETS PUT USERS OFFLINE */
         this.putUsersOffline();
         System.out.println("We've put users offline!!!");
@@ -108,6 +108,7 @@ public class Simulation
             try
             {
                 threadsWaiter.await();
+                Thread.sleep(config.interSetWait()); // pause so that a KadRefresh can be ran
             }
             catch (InterruptedException ex)
             {
@@ -141,9 +142,11 @@ public class Simulation
             try
             {
                 threadsWaiter.await();
+                Thread.sleep(config.interSetWait()); // pause so that a KadRefresh can be ran
             }
             catch (InterruptedException ex)
             {
+                ex.printStackTrace();
             }
 
             System.out.println("Finished creating content set " + x);
@@ -174,6 +177,7 @@ public class Simulation
             try
             {
                 threadsWaiter.await();
+                Thread.sleep(config.interSetWait()); // pause so that a KadRefresh can be ran
             }
             catch (InterruptedException ex)
             {
@@ -225,11 +229,12 @@ public class Simulation
             try
             {
                 threadsWaiter.await();
+                Thread.sleep(config.interSetWait()); // pause so that a KadRefresh can be ran
             }
             catch (InterruptedException ex)
             {
             }
-            
+
             System.out.println("Finished Running Simulation set " + x);
         }
     }

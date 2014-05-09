@@ -262,11 +262,10 @@ public class SimulatedUser
      *
      * @return Number of items on activity streams
      */
-    public int refreshActivityStream()
+    public Collection<DOSNAContent> refreshActivityStream()
     {
         ActivityStreamManager acm = new ActivityStreamManager(actor, this.dosna.getDataManager(), this.statistician);
-        Collection<DOSNAContent> cont = acm.getHomeStreamContent();
-        return cont.size();
+        return acm.getHomeStreamContent();
     }
 
     public void stopKadRefreshOperation()
