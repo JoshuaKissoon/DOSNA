@@ -14,13 +14,16 @@ public class SimConfig
 {
 
     /* Number of users in the simulation */
-    public final static int N = 200;
+    public final static int N = 50;
 
     /* Number of users that should be offline */
     public final static int NUMBER_OFFLINE_USERS = 10;
 
     /* Number of users to process per set */
-    public final static int SET_SIZE = 100;
+    public final static int SET_SIZE = 10;
+
+    /* How much time (in milliseconds) to wait between processing sets */
+    public final static long INTER_SET_WAIT = 10 * 1000;
 
     /* How long should we delay between creating users on the network */
     private final static int USER_CREATION_DELAY = 1000;
@@ -33,17 +36,17 @@ public class SimConfig
     private final static int NUM_CONTENT = 2;
     private final static int NUM_CONNECTIONS = 2;
     private final static int NUM_ACTIVITY_STREAM_REFRESHES = 3;
-    private final static int NUM_CONTENT_MODIFICATIONS = 1;
+    private final static int NUM_CONTENT_MODIFICATIONS = 2;
 
     /**
      * Maximum and minimum wait period (in ms) before a user does another activity,
      * the user simulation class will wait a random time between this period.
      */
-    private final static int MIN_WAIT_PERIOD = 1000;
-    private final static int MAX_WAIT_PERIOD = 3000;
+    private final static int MIN_WAIT_PERIOD = 1500;
+    private final static int MAX_WAIT_PERIOD = 5000;
 
-    private final static int MIN_LONG_WAIT_PERIOD = 1500;
-    private final static int MAX_LONG_WAIT_PERIOD = 5000;
+    private final static int MIN_LONG_WAIT_PERIOD = 4000;
+    private final static int MAX_LONG_WAIT_PERIOD = 10000;
 
     /**
      * @return The number of users in the simulation
@@ -67,6 +70,11 @@ public class SimConfig
     public int numUsersPerSet()
     {
         return SET_SIZE;
+    }
+
+    public long interSetWait()
+    {
+        return INTER_SET_WAIT;
     }
 
     /**
