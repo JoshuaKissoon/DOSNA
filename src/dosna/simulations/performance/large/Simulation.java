@@ -35,19 +35,21 @@ public class Simulation
     {
         /* INITIALIZE SIMULATED USERS & CONNECT THEM TO THE NETWORK */
         this.initializeUsers();
-        System.out.println("Nodes & User Initialization Finished.");
+        System.out.println("Nodes & User Initialization Finished.\n\n\n");
 
         /* INITIALIZE THE USER'S CONTENT */
         this.createInitialUserContent();
-        System.out.println("Initial content creation finished.");
+        System.out.println("Initial content creation finished.\n\n\n");
 
         /* INITIALIZE THE USER'S CONNECTIONS */
         this.createInitialUsersConnections();
-        System.out.println("Initial connections creation finished.");
+        System.out.println("Initial connections creation finished.\n\n\n");
 
         /* LETS PUT USERS OFFLINE */
         this.putUsersOffline();
-        System.out.println("We've put users offline!!!");
+        System.out.println("We've put users offline!!!\n\n\n");
+        
+        this.printUsers();
 
         /* Pause a little before real time operations */
         try
@@ -115,6 +117,7 @@ public class Simulation
             }
 
             System.out.println("Finished creating user set " + x);
+            System.out.println();
         }
     }
 
@@ -150,6 +153,7 @@ public class Simulation
             }
 
             System.out.println("Finished creating content set " + x);
+            System.out.println();
         }
     }
 
@@ -184,6 +188,7 @@ public class Simulation
             }
 
             System.out.println("Finished creating connections set " + x);
+            System.out.println();
         }
     }
 
@@ -195,7 +200,7 @@ public class Simulation
      */
     public void putUsersOffline()
     {
-        final int numSets = config.numUsers() / config.numUsersPerOfflineSet();
+        final int numSets = config.numOfflineUsers()/ config.numUsersPerOfflineSet();
 
         for (int x = 0; x < numSets; x++)
         {
@@ -237,6 +242,7 @@ public class Simulation
             }
 
             System.out.println("Finished running putting users offline; set " + x);
+            System.out.println();
         }
     }
 
@@ -289,6 +295,7 @@ public class Simulation
             }
 
             System.out.println("Finished Running Simulation set " + x);
+            System.out.println();
         }
     }
 
@@ -332,6 +339,17 @@ public class Simulation
         stats += "Avg Activity Stream load time: " + df.format(avgActivityStreamLoadTime / numUsers) + " ms; \n";
         stats += "\n";
         System.out.println(stats);
+    }
+
+    public void printUsers()
+    {
+        System.out.println("\n\n\nPrinting Simulated Users: \n");
+        for (SimulatedUser u : this.users)
+        {
+            System.out.println(u);
+        }
+        
+        System.out.println("\nPrinting users ended. \n\n\n");
     }
 
     public static void main(String[] args)
