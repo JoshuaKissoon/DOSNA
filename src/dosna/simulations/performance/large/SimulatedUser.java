@@ -295,4 +295,20 @@ public class SimulatedUser
     {
         return this.isOnline;
     }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder("[Simulated User: ");
+
+        sb.append("{isOnline: ");
+        sb.append(this.isOnline());
+        sb.append("}");
+
+        sb.append(this.actor);
+
+        sb.append("]");
+
+        return sb.toString();
+    }
 }
