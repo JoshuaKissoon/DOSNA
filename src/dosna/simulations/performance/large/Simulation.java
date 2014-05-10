@@ -48,8 +48,8 @@ public class Simulation
         /* LETS PUT USERS OFFLINE */
         this.putUsersOffline();
         System.out.println("We've put users offline!!!\n\n\n");
-        
-        this.printUsers();
+
+        //this.printUsers();
 
         /* Pause a little before real time operations */
         try
@@ -200,7 +200,7 @@ public class Simulation
      */
     public void putUsersOffline()
     {
-        final int numSets = config.numOfflineUsers()/ config.numUsersPerOfflineSet();
+        final int numSets = config.numOfflineUsers() / config.numUsersPerOfflineSet();
 
         for (int x = 0; x < numSets; x++)
         {
@@ -314,22 +314,26 @@ public class Simulation
         for (int i = 0; i < config.numUsers(); i++)
         {
             SimulatedUser simUser = this.users[i];
-            KadStatistician statsMan = simUser.getKademliaNode().getStatistician();
-            DOSNAStatistician dosnaStatsMan = simUser.getStatistician();
 
-            dataSent += statsMan.getTotalDataSent();
-            dataReceived += statsMan.getTotalDataReceived();
-            bootstrapTime += statsMan.getBootstrapTime();
-            numContentLookups += statsMan.numContentLookups();
-            avgContentLookupTime += statsMan.averageContentLookupTime();
-            avgContentLookupRouteLth += statsMan.averageContentLookupRouteLength();
-            avgActivityStreamLoadTime += dosnaStatsMan.avgActivityStreamLoadTime();
+            if (simUser.isOnline())
+            {
+                KadStatistician statsMan = simUser.getKademliaNode().getStatistician();
+                DOSNAStatistician dosnaStatsMan = simUser.getStatistician();
+
+                dataSent += statsMan.getTotalDataSent();
+                dataReceived += statsMan.getTotalDataReceived();
+                bootstrapTime += statsMan.getBootstrapTime();
+                numContentLookups += statsMan.numContentLookups();
+                avgContentLookupTime += statsMan.averageContentLookupTime();
+                avgContentLookupRouteLth += statsMan.averageContentLookupRouteLength();
+                avgActivityStreamLoadTime += dosnaStatsMan.avgActivityStreamLoadTime();
+            }
         }
 
         /* Print the Statistics */
         DecimalFormat df = new DecimalFormat("#.00");
         int numUsers = this.config.numUsers();
-        String stats = "\nAverage Statistics for " + numUsers + " users; \n";
+        String stats = "\nAverage Statistics for " + numUsers + " users; " + this.config.numOfflineUsers() + " offline (offline user stats not incl.); \n";
         stats += "Avg Data Sent: " + (dataSent / numUsers) + " KBs; \n";
         stats += "Avg Data Received: " + (dataReceived / numUsers) + " KBs; \n";
         stats += "Avg Bootstrap Time: " + df.format(bootstrapTime / numUsers) + " ms; \n";
@@ -348,7 +352,7 @@ public class Simulation
         {
             System.out.println(u);
         }
-        
+
         System.out.println("\nPrinting users ended. \n\n\n");
     }
 
