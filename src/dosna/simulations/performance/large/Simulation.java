@@ -190,10 +190,54 @@ public class Simulation
     /**
      * For the simulation, a number of users need to be placed offline,
      * we take care of that in this method.
+     *
+     * We randomly select users to be put offline and put them offline in sets.
      */
     public void putUsersOffline()
     {
+        final int numSets = config.numUsers() / config.numUsersPerOfflineSet();
 
+        for (int x = 0; x < numSets; x++)
+        {
+            threadsWaiter = new CountDownLatch(this.config.numUsersPerOfflineSet());       // Setup the CountDownLatch for this set
+            /* Lets work on this set of users */
+            for (int i = 0; i < config.numUsersPerOfflineSet(); i++)
+            {
+                /* Select a random user to put offline */
+                int userIndex = (int) (Math.random() * config.numUsers());
+
+                while (!this.users[userIndex].isOnline())
+                {
+                    userIndex = (int) (Math.random() * config.numUsers());
+                }
+
+                /* Now we have a user that is online, lets put it offline */
+                this.users[userIndex].logout(true);
+
+                /* Sleep a little before putting the other user offline */
+                try
+                {
+                    Thread.sleep(config.interActivityUserWait());
+                }
+                catch (InterruptedException ex)
+                {
+                }
+
+                threadsWaiter.countDown();
+            }
+
+            /* Wait for all threads to finish */
+            try
+            {
+                threadsWaiter.await();
+                Thread.sleep(config.interOfflineSetWait()); // pause so that a KadRefresh can be ran
+            }
+            catch (InterruptedException ex)
+            {
+            }
+
+            System.out.println("Finished running putting users offline; set " + x);
+        }
     }
 
     /**
@@ -224,7 +268,7 @@ public class Simulation
                         Thread.sleep(config.interActivityUserWait());
                     }
                     catch (InterruptedException ex)
-                    {                        
+                    {
                     }
                 }
                 else
