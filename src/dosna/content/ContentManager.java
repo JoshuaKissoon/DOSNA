@@ -57,7 +57,7 @@ public class ContentManager
                 {
                     /* Retrieve this users notification box from the network */
                     StorageEntry e = this.dataManager.get(temp.getKey(), temp.getType());
-                    NotificationBox original = (NotificationBox) new NotificationBox().fromBytes(e.getContent().getBytes());
+                    NotificationBox original = (NotificationBox) new NotificationBox().fromBytes(e.getContentString().getBytes());
 
                     /* Add the updated notification box */
                     original.addNotification(new Notification(content.getKey(), "Content has been modified"));

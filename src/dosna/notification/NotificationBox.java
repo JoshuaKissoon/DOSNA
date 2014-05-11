@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import kademlia.node.KademliaId;
-import kademlia.util.hashing.HashCalculator;
+import kademlia.util.HashCalculator;
 
 /**
  * A box containing all notifications meant for a user

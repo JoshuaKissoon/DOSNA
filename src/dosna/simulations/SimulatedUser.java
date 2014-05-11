@@ -112,7 +112,7 @@ public class SimulatedUser
     public Status loadStatus(KademliaId statusId) throws IOException, ContentNotFoundException
     {
         StorageEntry e = this.dosna.getDataManager().get(statusId, Status.TYPE);
-        return (Status) new Status().fromBytes(e.getContent().getBytes());
+        return (Status) new Status().fromBytes(e.getContentString().getBytes());
     }
 
     public void updateContent(DOSNAContent content)

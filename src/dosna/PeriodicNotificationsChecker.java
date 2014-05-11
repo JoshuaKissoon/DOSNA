@@ -67,7 +67,7 @@ public class PeriodicNotificationsChecker
             {
                 /* Retrieve this users notification box from the network */
                 StorageEntry e = dataManager.get(temp.getKey(), temp.getType());
-                NotificationBox nBox = (NotificationBox) new NotificationBox().fromBytes(e.getContent().getBytes());
+                NotificationBox nBox = (NotificationBox) new NotificationBox().fromBytes(e.getContentString().getBytes());
 
                 if (nBox.hasNotifications())
                 {
