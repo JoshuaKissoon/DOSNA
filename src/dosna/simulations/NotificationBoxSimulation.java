@@ -35,7 +35,7 @@ public class NotificationBoxSimulation
 
             /* Re-retrieve the notification box */
             StorageEntry se = kad.get(new GetParameter(nb));
-            NotificationBox nb2 = (NotificationBox) new NotificationBox().fromBytes(se.getContentString().getBytes());
+            NotificationBox nb2 = (NotificationBox) new NotificationBox().fromBytes(se.getContent().getBytes());
             System.out.println(nb2);
 
             Thread.sleep(1000);
@@ -52,7 +52,7 @@ public class NotificationBoxSimulation
 
             /* Retrieve it again */
             StorageEntry se2 = kad.get(new GetParameter(nb));
-            NotificationBox nb3 = (NotificationBox) new NotificationBox().fromBytes(se2.getContentString().getBytes());
+            NotificationBox nb3 = (NotificationBox) new NotificationBox().fromBytes(se2.getContent().getBytes());
             System.out.println(nb3);
         }
         catch (IOException | ContentNotFoundException | InterruptedException ex)

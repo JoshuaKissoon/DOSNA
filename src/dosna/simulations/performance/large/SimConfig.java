@@ -17,7 +17,7 @@ public class SimConfig
     public final static int N = 500;
 
     /* Number of users that should be offline */
-    public final static int NUMBER_OFFLINE_USERS = 450;
+    public final static int NUMBER_OFFLINE_USERS = 150;
 
     /* How much users to put offline at a time */
     public final static int NUM_USERS_PER_OFFLINE_SET = 10;
@@ -46,10 +46,10 @@ public class SimConfig
     private final static int NUM_INITIAL_CONNECTIONS = 20;
 
     /* The number of times a user can perform the activities */
-    private final static int NUM_CONTENT = 2;
-    private final static int NUM_CONNECTIONS = 2;
-    private final static int NUM_ACTIVITY_STREAM_REFRESHES = 3;
-    private final static int NUM_CONTENT_MODIFICATIONS = 2;
+    private final static int NUM_CONTENT = 5;
+    private final static int NUM_CONNECTIONS = 5;
+    private final static int NUM_ACTIVITY_STREAM_REFRESHES = 6;
+    private final static int NUM_CONTENT_MODIFICATIONS = 5;
 
     /**
      * Maximum and minimum wait period (in ms) before a user does another activity,

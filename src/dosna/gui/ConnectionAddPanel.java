@@ -141,7 +141,7 @@ public class ConnectionAddPanel extends JPanel
                 try
                 {
                     val = ConnectionAddPanel.this.dataManager.get(gp);
-                    u = (Actor) new Actor().fromBytes(val.getContentString().getBytes());
+                    u = (Actor) new Actor().fromBytes(val.getContent().getBytes());
                     ConnectionAddPanel.this.setResult(u);
                 }
                 catch (ContentNotFoundException | IOException ex)
