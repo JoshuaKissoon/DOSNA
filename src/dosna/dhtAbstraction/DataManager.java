@@ -85,6 +85,9 @@ public interface DataManager
      * @throws java.io.IOException
      */
     public void shutdown(final boolean saveState) throws IOException;
-    
+
+    /**
+     * @return The KademliaNode used by this DataManager
+     */
     public KademliaNode getKademliaNode();
 }

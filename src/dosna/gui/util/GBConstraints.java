@@ -1,4 +1,4 @@
-package dosna.gui;
+package dosna.gui.util;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;

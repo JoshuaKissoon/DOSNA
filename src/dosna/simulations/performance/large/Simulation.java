@@ -334,8 +334,8 @@ public class Simulation
         DecimalFormat df = new DecimalFormat("#.00");
         int numUsers = this.config.numUsers();
         String stats = "\nAverage Statistics for " + numUsers + " users; " + this.config.numOfflineUsers() + " offline (offline user stats not incl.); \n";
-        stats += "Avg Data Sent: " + (dataSent / numUsers) + " KBs; \n";
-        stats += "Avg Data Received: " + (dataReceived / numUsers) + " KBs; \n";
+        stats += "Avg Data Sent: " + df.format(dataSent / numUsers) + " KBs; \n";
+        stats += "Avg Data Received: " + df.format(dataReceived / numUsers) + " KBs; \n";
         stats += "Avg Bootstrap Time: " + df.format(bootstrapTime / numUsers) + " ms; \n";
         stats += "Avg # Content Lookups: " + (numContentLookups / (double) numUsers) + "; \n";
         stats += "Avg Content Lookup Time: " + df.format(avgContentLookupTime / numUsers) + " ms; \n";

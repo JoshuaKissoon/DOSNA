@@ -1,5 +1,6 @@
 package dosna.gui;
 
+import dosna.gui.util.GBConstraints;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
