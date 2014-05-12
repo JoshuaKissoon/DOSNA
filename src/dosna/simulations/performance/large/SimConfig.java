@@ -17,7 +17,7 @@ public class SimConfig
     public final static int N = 500;
 
     /* Number of users that should be offline */
-    public final static int NUMBER_OFFLINE_USERS = 150;
+    public final static int NUMBER_OFFLINE_USERS = 350;
 
     /* How much users to put offline at a time */
     public final static int NUM_USERS_PER_OFFLINE_SET = 10;

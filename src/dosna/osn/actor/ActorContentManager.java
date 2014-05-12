@@ -4,6 +4,7 @@ import dosna.core.ContentMetadata;
 import dosna.content.DOSNAContent;
 import dosna.dhtAbstraction.DataManager;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ import java.util.TreeSet;
  * @author Joshua Kissoon
  * @since 20140401
  */
-public class ActorContentManager
+public class ActorContentManager implements Serializable
 {
 
     /*  Set of content for a specific actor <String - The type of element stored, TreeSet<ContentMetadata>>

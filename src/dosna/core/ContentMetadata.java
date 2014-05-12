@@ -1,6 +1,7 @@
 package dosna.core;
 
 import dosna.content.DOSNAContent;
+import java.io.Serializable;
 import kademlia.node.KademliaId;
 
 /**
@@ -13,7 +14,7 @@ import kademlia.node.KademliaId;
  * @author Joshua Kissoon
  * @since 20140406
  */
-public final class ContentMetadata implements Comparable<ContentMetadata>
+public final class ContentMetadata implements Comparable<ContentMetadata>, Serializable
 {
 
     private KademliaId key;

@@ -1,12 +1,14 @@
 package dosna.osn.actor;
 
+import java.io.Serializable;
+
 /**
  * An object that is used to represent relationships between users.
  *
  * @author Joshua Kissoon
  * @since 20140403
  */
-public class Relationship implements Comparable<Relationship>
+public class Relationship implements Comparable<Relationship>, Serializable
 {
 
     /**

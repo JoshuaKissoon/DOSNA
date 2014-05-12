@@ -2,6 +2,7 @@ package dosna.osn.actor;
 
 import dosna.dhtAbstraction.DataManager;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeSet;
@@ -16,7 +17,7 @@ import kademlia.exceptions.ContentNotFoundException;
  * @todo Add an isConnection method
  * @todo When a person is a connection, show that status in the addConnection frame
  */
-public class ActorConnectionsManager
+public class ActorConnectionsManager implements Serializable
 {
 
     /**
