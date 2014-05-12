@@ -139,7 +139,7 @@ public class SimulatedUser
     {
         try
         {
-            this.dosna.getDataManager().shutdown(saveState);
+            this.dosna.shutdown(saveState);
             this.isOnline = false;
             return true;
         }

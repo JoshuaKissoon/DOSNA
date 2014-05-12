@@ -30,6 +30,8 @@ public class PeriodicNotificationsChecker
     private final int period = 30 * 1000;   // in milliseconds
     private final long intialDelay = 200 * 1000; // in milliseconds
 
+    private NotificationsTimerTask timerTask;
+
     /**
      * Setup the class
      *
@@ -50,8 +52,8 @@ public class PeriodicNotificationsChecker
      */
     public void startTimer()
     {
-        NotificationsTimerTask tt = new NotificationsTimerTask();
-        this.timer.schedule(tt, this.intialDelay, this.period);
+        timerTask = new NotificationsTimerTask();
+        this.timer.schedule(timerTask, this.intialDelay, this.period);
 
     }
 
@@ -90,4 +92,13 @@ public class PeriodicNotificationsChecker
         }
     }
 
+    /**
+     * Shutdown the notifications checker
+     */
+    public void shutdown()
+    {
+        this.timerTask.cancel();
+        this.timer.cancel();
+        this.timer.purge();
+    }
 }
