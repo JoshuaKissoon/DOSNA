@@ -137,7 +137,7 @@ public class DOSNA
             StorageEntry items = this.dataManager.get(gp);
 
             /* User exists! Now check if password matches */
-            Actor actor = (Actor) new Actor().fromBytes(items.getContent());
+            Actor actor = (Actor) new Actor().fromSerializedForm(items.getContent());
             if (actor.isPassword(password))
             {
                 return new LoginResult(actor, true);

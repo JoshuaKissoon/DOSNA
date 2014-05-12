@@ -51,7 +51,7 @@ public class ActivityStreamDataManager
                 StorageEntry e = dataManager.get(cmd.getKey(), cmd.getType(), cmd.getOwnerId());
                 
                 /* @todo We need to figure out a way to make this more generic for different types of content */
-                Status s = (Status) new Status().fromBytes(e.getContent());
+                Status s = (Status) new Status().fromSerializedForm(e.getContent());
                 content.add(s);
             }
             catch (IOException | ContentNotFoundException ex)

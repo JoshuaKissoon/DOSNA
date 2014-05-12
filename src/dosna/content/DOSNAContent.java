@@ -57,7 +57,7 @@ public abstract class DOSNAContent implements KadContent, ActorRelatedContent, S
     }
 
     @Override
-    public byte[] toBytes()
+    public byte[] toSerializedForm()
     {
         Gson gson = new Gson();
 //        try (
@@ -77,7 +77,7 @@ public abstract class DOSNAContent implements KadContent, ActorRelatedContent, S
     }
 
     @Override
-    public DOSNAContent fromBytes(byte[] data)
+    public DOSNAContent fromSerializedForm(byte[] data)
     {
 //        try (ByteArrayInputStream bin = new ByteArrayInputStream(data);
 //                ObjectInputStream oin = new ObjectInputStream(bin))
