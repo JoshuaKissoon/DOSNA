@@ -64,6 +64,6 @@ public class ActorManager
         Actor a = new Actor(id);
         GetParameter gp = new GetParameter(a.getKey(), a.getType(), a.getId());
         StorageEntry se = dataManager.get(gp);
-        return (Actor) new Actor().fromBytes(se.getContent().getBytes());
+        return (Actor) new Actor().fromBytes(se.getContent());
     }
 }
