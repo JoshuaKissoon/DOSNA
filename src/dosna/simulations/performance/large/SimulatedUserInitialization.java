@@ -12,7 +12,7 @@ public class SimulatedUserInitialization implements Runnable
 {
 
     private final SimulatedUser simulatedUser;
-    private final SimConfig config;
+    private final SimulationConfiguration config;
     private final CountDownLatch threadsWaiter;
 
     /**
@@ -22,7 +22,7 @@ public class SimulatedUserInitialization implements Runnable
      * @param config
      * @param threadsWaiter
      */
-    public SimulatedUserInitialization(final SimulatedUser simulatedUser, SimConfig config, CountDownLatch threadsWaiter)
+    public SimulatedUserInitialization(final SimulatedUser simulatedUser, SimulationConfiguration config, CountDownLatch threadsWaiter)
     {
         this.simulatedUser = simulatedUser;
         this.config = config;

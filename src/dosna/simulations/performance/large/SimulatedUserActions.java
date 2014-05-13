@@ -15,7 +15,7 @@ import java.util.concurrent.CountDownLatch;
 public class SimulatedUserActions implements Runnable
 {
 
-    private final SimConfig config;
+    private final SimulationConfiguration config;
     private int numContent, numConnections, numActivityStreamRefreshes, numContentModified;
     private final SimulatedUser simulatedUser;
     private final CountDownLatch threadsWaiter;
@@ -35,7 +35,7 @@ public class SimulatedUserActions implements Runnable
      * @param simulatedUser The user in the simulation
      * @param threadsWaiter A latch used to indicate to the main program when this thread is finished
      */
-    public SimulatedUserActions(final SimulatedUser simulatedUser, SimConfig config, CountDownLatch threadsWaiter)
+    public SimulatedUserActions(final SimulatedUser simulatedUser, SimulationConfiguration config, CountDownLatch threadsWaiter)
     {
         this.config = config;
         this.simulatedUser = simulatedUser;

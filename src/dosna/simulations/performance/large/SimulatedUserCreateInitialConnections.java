@@ -12,7 +12,7 @@ public class SimulatedUserCreateInitialConnections implements Runnable
 {
 
     private final SimulatedUser simulatedUser;
-    private final SimConfig config;
+    private final SimulationConfiguration config;
     private final CountDownLatch threadsWaiter;
     private int numInitialConnections = 0;
 
@@ -23,7 +23,7 @@ public class SimulatedUserCreateInitialConnections implements Runnable
      * @param config
      * @param threadsWaiter
      */
-    public SimulatedUserCreateInitialConnections(final SimulatedUser simulatedUser, SimConfig config, CountDownLatch threadsWaiter)
+    public SimulatedUserCreateInitialConnections(final SimulatedUser simulatedUser, SimulationConfiguration config, CountDownLatch threadsWaiter)
     {
         this.simulatedUser = simulatedUser;
         this.config = config;

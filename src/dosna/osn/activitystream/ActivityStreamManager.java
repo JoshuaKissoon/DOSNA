@@ -92,6 +92,7 @@ public class ActivityStreamManager
         Collection homeStreamContent = getHomeStreamContentMD();
 
         /* Use the home stream data manager to load the required content */
+        /* @todo get time it took to load this here in the ActivityStreamDataManager. */
         ActivityStreamDataManager hsdm = new ActivityStreamDataManager(dataManager);
         Collection<DOSNAContent> content = hsdm.loadContent(homeStreamContent);
 

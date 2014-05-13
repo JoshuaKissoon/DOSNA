@@ -16,7 +16,7 @@ import kademlia.KadStatistician;
 public class Simulation
 {
 
-    private final SimConfig config;
+    private final SimulationConfiguration config;
     private final SimulatedUser[] users;
 
     /* A count down latch to wait for all threads to execute */
@@ -37,34 +37,34 @@ public class Simulation
         this.initializeUsers();
         System.out.println("Nodes & User Initialization Finished.\n\n\n");
 
-        /* INITIALIZE THE USER'S CONTENT */
-        this.createInitialUserContent();
-        System.out.println("Initial content creation finished.\n\n\n");
-
-        /* INITIALIZE THE USER'S CONNECTIONS */
-        this.createInitialUsersConnections();
-        System.out.println("Initial connections creation finished.\n\n\n");
-
-        /* LETS PUT USERS OFFLINE */
-        this.putUsersOffline();
-        System.out.println("We've put users offline!!!\n\n\n");
-
-        //this.printUsers();
-
-        /* Pause a little before real time operations */
-        try
-        {
-            Thread.sleep(30000);
-        }
-        catch (InterruptedException ex)
-        {
-
-        }
-
-        System.out.println("Starting the real time operations now. \n");
-
-        /* NOW LETS RUN THE PROCESSES */
-        this.startSimulation();
+//        /* INITIALIZE THE USER'S CONTENT */
+//        this.createInitialUserContent();
+//        System.out.println("Initial content creation finished.\n\n\n");
+//
+//        /* INITIALIZE THE USER'S CONNECTIONS */
+//        this.createInitialUsersConnections();
+//        System.out.println("Initial connections creation finished.\n\n\n");
+//
+//        /* LETS PUT USERS OFFLINE */
+//        this.putUsersOffline();
+//        System.out.println("We've put users offline!!!\n\n\n");
+//
+//        //this.printUsers();
+//
+//        /* Pause a little before real time operations */
+//        try
+//        {
+//            Thread.sleep(30000);
+//        }
+//        catch (InterruptedException ex)
+//        {
+//
+//        }
+//
+//        System.out.println("Starting the real time operations now. \n");
+//
+//        /* NOW LETS RUN THE PROCESSES */
+//        this.startSimulation();
 
         /* USER'S DATA USAGE */
         this.computeAggregatedStatistics();

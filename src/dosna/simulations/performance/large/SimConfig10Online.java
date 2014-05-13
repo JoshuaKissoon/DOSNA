@@ -1,18 +1,16 @@
 package dosna.simulations.performance.large;
 
-import java.util.UUID;
-
 /**
  * Configuration information for this simulation.
  *
  * @note For simplification, the entire simulation assumes that the number of users is a multiple of the set size.
- *
+ * 
  * @todo Create an interface and create different configurations for the different numbers of users online
  *
  * @author Joshua Kissoon
  * @since 20140508
  */
-public class SimConfig implements SimulationConfiguration
+public class SimConfig10Online implements SimulationConfiguration
 {
 
     /* Number of users in the simulation */
