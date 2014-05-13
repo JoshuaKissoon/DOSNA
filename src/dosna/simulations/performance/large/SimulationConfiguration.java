@@ -87,18 +87,42 @@ public interface SimulationConfiguration
     public int maxWaitPeriod();
 
     /**
-     * Computes a random wait period between the min and max wait period.
-     *
-     * @return The computed value
+     * @return The minimum time a user has to wait before performing another operation
      */
-    public long randomWaitPeriod();
+    public int minLongWaitPeriod();
+
+    /**
+     * @return The maximum time a user has to wait before performing another operation
+     */
+    public int maxLongWaitPeriod();
 
     /**
      * Computes a random wait period between the min and max wait period.
      *
      * @return The computed value
      */
-    public long randomLongWaitPeriod();
+    public default long randomWaitPeriod()
+    {
+        /* Compute a random value */
+        long val = (long) (Math.random() * maxWaitPeriod());
+
+        /* If the value is less than the minimum wait period, we add the minimum wait to the value */
+        return (val < minWaitPeriod()) ? val + minWaitPeriod() : val;
+    }
+
+    /**
+     * Computes a random wait period between the min and max wait period.
+     *
+     * @return The computed value
+     */
+    public default long randomLongWaitPeriod()
+    {
+        /* Compute a random value */
+        long val = (long) (Math.random() * maxLongWaitPeriod());
+
+        /* If the value is less than the minimum wait period, we add the minimum wait to the value */
+        return (val < minLongWaitPeriod()) ? val + minLongWaitPeriod() : val;
+    }
 
     /**
      * Generate a random string

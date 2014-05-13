@@ -4,7 +4,7 @@ package dosna.simulations.performance.large;
  * Configuration information for this simulation.
  *
  * @note For simplification, the entire simulation assumes that the number of users is a multiple of the set size.
- * 
+ *
  * @todo Create an interface and create different configurations for the different numbers of users online
  *
  * @author Joshua Kissoon
@@ -14,10 +14,10 @@ public class SimConfig10Online implements SimulationConfiguration
 {
 
     /* Number of users in the simulation */
-    public final static int N = 300;
+    public final static int N = 500;
 
     /* Number of users that should be offline */
-    public final static int NUMBER_OFFLINE_USERS = 350;
+    public final static int NUMBER_OFFLINE_USERS = 450;
 
     /* How much users to put offline at a time */
     public final static int NUM_USERS_PER_OFFLINE_SET = 10;
@@ -61,155 +61,117 @@ public class SimConfig10Online implements SimulationConfiguration
     private final static int MIN_LONG_WAIT_PERIOD = 1500;
     private final static int MAX_LONG_WAIT_PERIOD = 5000;
 
-    /**
-     * @return The number of users in the simulation
-     */
+    @Override
     public int numUsers()
     {
         return N;
     }
 
-    /**
-     * @return How many users should be processed per set
-     */
+    @Override
     public int numUsersPerSet()
     {
         return SET_SIZE;
     }
 
-    /**
-     * @return How many users should be offline during the simulation
-     */
+    @Override
     public int numOfflineUsers()
     {
         return NUMBER_OFFLINE_USERS;
     }
 
+    @Override
     public int numUsersPerOfflineSet()
     {
         return NUM_USERS_PER_OFFLINE_SET;
     }
 
-    /**
-     * @return How many users should be processed per set
-     */
+    @Override
     public int numUsersPerActivitySet()
     {
         return ACTIVITIES_SET_SIZE;
     }
 
+    @Override
     public long interSetWait()
     {
         return INTER_SET_WAIT;
     }
 
+    @Override
     public long interOfflineSetWait()
     {
         return INTER_USERS_OFFLINE_SET_WAIT;
     }
 
+    @Override
     public long interActivityUserWait()
     {
         return INTER_ACTIVITY_USER_WAIT;
     }
 
-    /**
-     * @return How long to delay between creating sets of users on the network
-     */
+    @Override
     public int userCreationDelay()
     {
         return USER_CREATION_DELAY;
     }
 
-    /**
-     * @return The number of initial content each user has to have
-     */
+    @Override
     public int numInitialContent()
     {
         return NUM_INITIAL_CONTENT;
     }
 
-    /**
-     * @return The number of content each user has to have
-     */
+    @Override
     public int numContent()
     {
         return NUM_CONTENT;
     }
 
-    /**
-     * @return The number of connections each user has to have
-     */
+    @Override
     public int numInitialConnections()
     {
         return NUM_INITIAL_CONNECTIONS;
     }
 
-    /**
-     * @return The number of connections each user has to have
-     */
+    @Override
     public int numConnections()
     {
         return NUM_CONNECTIONS;
     }
 
-    /**
-     * @return The number of times a user's activity stream has to be refreshed in the simulation.
-     */
+    @Override
     public int numActivityStreamRefreshes()
     {
         return NUM_ACTIVITY_STREAM_REFRESHES;
     }
 
-    /**
-     * @return The number of connections content a user have to modify.
-     */
+    @Override
     public int numContentModifications()
     {
         return NUM_CONTENT_MODIFICATIONS;
     }
 
-    /**
-     * @return The minimum time a user has to wait before performing another operation
-     */
+    @Override
     public int minWaitPeriod()
     {
         return MIN_WAIT_PERIOD;
     }
 
-    /**
-     * @return The maximum time a user has to wait before performing another operation
-     */
+    @Override
     public int maxWaitPeriod()
     {
         return MAX_WAIT_PERIOD;
     }
 
-    /**
-     * Computes a random wait period between the min and max wait period.
-     *
-     * @return The computed value
-     */
-    public synchronized long randomWaitPeriod()
+    @Override
+    public int minLongWaitPeriod()
     {
-        /* Compute a random value */
-        long val = (long) (Math.random() * maxWaitPeriod());
-
-        /* If the value is less than the minimum wait period, we add the minimum wait to the value */
-        return (val < minWaitPeriod()) ? val + minWaitPeriod() : val;
+        return MIN_LONG_WAIT_PERIOD;
     }
 
-    /**
-     * Computes a random wait period between the min and max wait period.
-     *
-     * @return The computed value
-     */
-    public synchronized long randomLongWaitPeriod()
+    @Override
+    public int maxLongWaitPeriod()
     {
-        /* Compute a random value */
-        long val = (long) (Math.random() * MAX_LONG_WAIT_PERIOD);
-
-        /* If the value is less than the minimum wait period, we add the minimum wait to the value */
-        return (val < MIN_LONG_WAIT_PERIOD) ? val + MIN_LONG_WAIT_PERIOD : val;
+        return MAX_LONG_WAIT_PERIOD;
     }
 }

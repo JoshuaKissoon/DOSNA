@@ -7,8 +7,6 @@ import java.util.UUID;
  *
  * @note For simplification, the entire simulation assumes that the number of users is a multiple of the set size.
  *
- * @todo Create an interface and create different configurations for the different numbers of users online
- *
  * @author Joshua Kissoon
  * @since 20140508
  */
@@ -187,31 +185,15 @@ public class SimConfig implements SimulationConfiguration
         return MAX_WAIT_PERIOD;
     }
 
-    /**
-     * Computes a random wait period between the min and max wait period.
-     *
-     * @return The computed value
-     */
-    public synchronized long randomWaitPeriod()
+    @Override
+    public int minLongWaitPeriod()
     {
-        /* Compute a random value */
-        long val = (long) (Math.random() * maxWaitPeriod());
-
-        /* If the value is less than the minimum wait period, we add the minimum wait to the value */
-        return (val < minWaitPeriod()) ? val + minWaitPeriod() : val;
+        return MIN_LONG_WAIT_PERIOD;
     }
 
-    /**
-     * Computes a random wait period between the min and max wait period.
-     *
-     * @return The computed value
-     */
-    public synchronized long randomLongWaitPeriod()
+    @Override
+    public int maxLongWaitPeriod()
     {
-        /* Compute a random value */
-        long val = (long) (Math.random() * MAX_LONG_WAIT_PERIOD);
-
-        /* If the value is less than the minimum wait period, we add the minimum wait to the value */
-        return (val < MIN_LONG_WAIT_PERIOD) ? val + MIN_LONG_WAIT_PERIOD : val;
+        return MAX_LONG_WAIT_PERIOD;
     }
 }
