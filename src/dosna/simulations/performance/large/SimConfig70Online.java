@@ -32,7 +32,7 @@ public class SimConfig70Online implements SimulationConfiguration
     public final static long INTER_SET_WAIT = 30 * 1000;
 
     /* How much time (in milliseconds) to wait between processing "putting users offline" sets */
-    public final static long INTER_USERS_OFFLINE_SET_WAIT = 60 * 1000; // Long wait so refresh activities can be ran
+    public final static long INTER_USERS_OFFLINE_SET_WAIT = 100 * 1000; // Long wait so refresh activities can be ran
 
 
     /* How much time (in milliseconds) to wait between each user running their activities */
@@ -59,7 +59,7 @@ public class SimConfig70Online implements SimulationConfiguration
     private final static int MAX_WAIT_PERIOD = 5000;
 
     private final static int MIN_LONG_WAIT_PERIOD = 1500;
-    private final static int MAX_LONG_WAIT_PERIOD = 5000;
+    private final static int MAX_LONG_WAIT_PERIOD = 7500;
 
     @Override
     public int numUsers()
