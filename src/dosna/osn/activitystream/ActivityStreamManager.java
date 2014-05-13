@@ -27,6 +27,9 @@ public class ActivityStreamManager
 
     private final DOSNAStatistician statistician;
 
+    /* The total time it took to load the home stream */
+    private transient long totalLoadingTime;
+
     /**
      * Initialize the HomeStreamManager
      *
@@ -86,18 +89,14 @@ public class ActivityStreamManager
      */
     public Collection<DOSNAContent> getHomeStreamContent()
     {
-        long startTime = System.nanoTime();
-
         /* Get the MetaData of the home stream content */
         Collection homeStreamContent = getHomeStreamContentMD();
 
         /* Use the home stream data manager to load the required content */
-        /* @todo get time it took to load this here in the ActivityStreamDataManager. */
         ActivityStreamDataManager hsdm = new ActivityStreamDataManager(dataManager);
         Collection<DOSNAContent> content = hsdm.loadContent(homeStreamContent);
 
-        long endTime = System.nanoTime();
-        this.statistician.addActivityStreamLoad(endTime - startTime);
+        this.statistician.addActivityStreamLoad(hsdm.getLoadingTime());
 
         return content;
     }

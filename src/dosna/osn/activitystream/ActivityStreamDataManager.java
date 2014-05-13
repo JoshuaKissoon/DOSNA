@@ -23,6 +23,14 @@ public class ActivityStreamDataManager
 
     private final DataManager dataManager;
 
+    /* Total time it took to load the content */
+    private transient long totalLoadingTimeTaken;
+
+    
+    {
+        this.totalLoadingTimeTaken = 0;
+    }
+
     public ActivityStreamDataManager(final DataManager dataManager)
     {
         this.dataManager = dataManager;
@@ -48,11 +56,14 @@ public class ActivityStreamDataManager
         {
             try
             {
+                long startTime = System.nanoTime();
                 StorageEntry e = dataManager.get(cmd.getKey(), cmd.getType(), cmd.getOwnerId());
-                
+
                 /* @todo We need to figure out a way to make this more generic for different types of content */
                 Status s = (Status) new Status().fromSerializedForm(e.getContent());
                 content.add(s);
+                long endTime = System.nanoTime();
+                this.totalLoadingTimeTaken += (endTime - startTime);
             }
             catch (IOException | ContentNotFoundException ex)
             {
@@ -61,5 +72,15 @@ public class ActivityStreamDataManager
         }
 
         return content;
+    }
+
+    /**
+     * Get the total time it took to load the content in the activity stream
+     *
+     * @return The total time taken in nanoseconds
+     */
+    public long getLoadingTime()
+    {
+        return this.totalLoadingTimeTaken;
     }
 }
