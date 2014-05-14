@@ -36,7 +36,7 @@ public class SimConfig50Online implements SimulationConfiguration
 
 
     /* How much time (in milliseconds) to wait between each user running their activities */
-    public final static long INTER_ACTIVITY_USER_WAIT = 8 * 1000;
+    public final static long INTER_ACTIVITY_USER_WAIT = 10 * 1000;
 
     /* How long should we delay between creating users on the network */
     private final static int USER_CREATION_DELAY = 1000;
