@@ -21,7 +21,7 @@ public class SimConfig implements SimulationConfiguration
     public final static int NUM_USERS_PER_OFFLINE_SET = 10;
 
     /* Number of users to process per set */
-    public final static int SET_SIZE = 50;
+    public final static int SET_SIZE = 25;
 
     /* Number of users to process per activity set */
     public final static int ACTIVITIES_SET_SIZE = 25;
@@ -30,11 +30,11 @@ public class SimConfig implements SimulationConfiguration
     public final static long INTER_SET_WAIT = 30 * 1000;
 
     /* How much time (in milliseconds) to wait between processing "putting users offline" sets */
-    public final static long INTER_USERS_OFFLINE_SET_WAIT = 60 * 1000; // Long wait so refresh activities can be ran
+    public final static long INTER_USERS_OFFLINE_SET_WAIT = 100 * 1000; // Long wait so refresh activities can be ran
 
 
     /* How much time (in milliseconds) to wait between each user running their activities */
-    public final static long INTER_ACTIVITY_USER_WAIT = 8 * 1000;
+    public final static long INTER_ACTIVITY_USER_WAIT = 10 * 1000;
 
     /* How long should we delay between creating users on the network */
     private final static int USER_CREATION_DELAY = 1000;
