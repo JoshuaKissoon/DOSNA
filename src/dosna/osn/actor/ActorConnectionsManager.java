@@ -141,7 +141,7 @@ public class ActorConnectionsManager implements Serializable
             catch (IOException | ContentNotFoundException ex)
             {
                 /* We can ignore it since one of the DHT assumptions we make is that all content is available all the time */
-                System.err.println(this.actor.getId() + " error whiles loading connection " + r.getConnectionUid() + "; msg: " + ex.getMessage());
+                //System.err.println(this.actor.getId() + " error whiles loading connection " + r.getConnectionUid() + "; msg: " + ex.getMessage());
             }
         }
 
