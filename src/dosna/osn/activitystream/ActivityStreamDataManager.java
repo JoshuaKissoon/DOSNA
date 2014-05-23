@@ -7,7 +7,7 @@ import dosna.osn.status.Status;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import kademlia.dht.StorageEntry;
+import kademlia.dht.KademliaStorageEntry;
 import kademlia.exceptions.ContentNotFoundException;
 
 /**
@@ -57,7 +57,7 @@ public class ActivityStreamDataManager
             try
             {
                 long startTime = System.nanoTime();
-                StorageEntry e = dataManager.get(cmd.getKey(), cmd.getType(), cmd.getOwnerId());
+                KademliaStorageEntry e = dataManager.get(cmd.getKey(), cmd.getType(), cmd.getOwnerId());
 
                 /* @todo We need to figure out a way to make this more generic for different types of content */
                 Status s = (Status) new Status().fromSerializedForm(e.getContent());

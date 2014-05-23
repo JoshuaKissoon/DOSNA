@@ -3,9 +3,9 @@ package dosna.simulations;
 import dosna.notification.Notification;
 import dosna.notification.NotificationBox;
 import java.io.IOException;
-import kademlia.KademliaNode;
+import kademlia.JKademliaNode;
 import kademlia.dht.GetParameter;
-import kademlia.dht.StorageEntry;
+import kademlia.dht.KademliaStorageEntry;
 import kademlia.exceptions.ContentNotFoundException;
 import kademlia.node.KademliaId;
 
@@ -22,8 +22,8 @@ public class NotificationBoxSimulation
     {
         try
         {
-            KademliaNode kad = new KademliaNode("Joshua", new KademliaId("JOSHUAJOSHUAJOSHUAJO"), 3445);
-            KademliaNode kad2 = new KademliaNode("Joshua2", new KademliaId("JOSHUAJOSHUAJOSHUAJK"), 3446);
+            JKademliaNode kad = new JKademliaNode("Joshua", new KademliaId("JOSHUAJOSHUAJOSHUAJO"), 3445);
+            JKademliaNode kad2 = new JKademliaNode("Joshua2", new KademliaId("JOSHUAJOSHUAJOSHUAJK"), 3446);
 
             kad.bootstrap(kad2.getNode());
 
@@ -34,7 +34,7 @@ public class NotificationBoxSimulation
             kad.put(nb);
 
             /* Re-retrieve the notification box */
-            StorageEntry se = kad.get(new GetParameter(nb));
+            KademliaStorageEntry se = kad.get(new GetParameter(nb));
             NotificationBox nb2 = (NotificationBox) new NotificationBox().fromSerializedForm(se.getContent());
             System.out.println(nb2);
 
@@ -51,7 +51,7 @@ public class NotificationBoxSimulation
             System.out.println("\n\n\n\n************* Retrieving again ********************* ");
 
             /* Retrieve it again */
-            StorageEntry se2 = kad.get(new GetParameter(nb));
+            KademliaStorageEntry se2 = kad.get(new GetParameter(nb));
             NotificationBox nb3 = (NotificationBox) new NotificationBox().fromSerializedForm(se2.getContent());
             System.out.println(nb3);
         }

@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import kademlia.dht.GetParameter;
-import kademlia.dht.StorageEntry;
+import kademlia.dht.KademliaStorageEntry;
 import kademlia.exceptions.ContentNotFoundException;
 import kademlia.node.KademliaId;
 
@@ -134,7 +134,7 @@ public class DOSNA
         {
             /* Checking if a user exists */
             final GetParameter gp = new GetParameter(u.getKey(), u.getType(), actorId);
-            StorageEntry items = this.dataManager.get(gp);
+            KademliaStorageEntry items = this.dataManager.get(gp);
 
             /* User exists! Now check if password matches */
             Actor actor = (Actor) new Actor().fromSerializedForm(items.getContent());

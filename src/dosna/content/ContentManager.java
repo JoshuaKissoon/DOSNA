@@ -5,7 +5,7 @@ import dosna.notification.Notification;
 import dosna.notification.NotificationBox;
 import java.io.IOException;
 import java.util.List;
-import kademlia.dht.StorageEntry;
+import kademlia.dht.KademliaStorageEntry;
 import kademlia.exceptions.ContentNotFoundException;
 
 /**
@@ -56,7 +56,7 @@ public class ContentManager
                 try
                 {
                     /* Retrieve this users notification box from the network */
-                    StorageEntry e = this.dataManager.get(temp.getKey(), temp.getType());
+                    KademliaStorageEntry e = this.dataManager.get(temp.getKey(), temp.getType());
                     NotificationBox original = (NotificationBox) new NotificationBox().fromSerializedForm(e.getContent());
 
                     /* Add the updated notification box */

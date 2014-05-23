@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.NoSuchElementException;
 import kademlia.dht.GetParameter;
-import kademlia.KademliaNode;
-import kademlia.dht.StorageEntry;
+import kademlia.JKademliaNode;
+import kademlia.dht.KademliaStorageEntry;
 import kademlia.exceptions.ContentNotFoundException;
 import kademlia.node.KademliaId;
 
@@ -25,7 +25,7 @@ public final class DosnaDataManager implements DataManager
      * The Kademlia instance to be used.
      * We use composition rather than inheritance.
      */
-    private final KademliaNode kad;
+    private final JKademliaNode kad;
 
     /**
      * Initialize Kademlia
@@ -40,7 +40,7 @@ public final class DosnaDataManager implements DataManager
      */
     public DosnaDataManager(final String ownerId, final KademliaId nodeId, final int port) throws IOException, UnknownHostException
     {
-        kad = new KademliaNode(ownerId, nodeId, port);
+        kad = new JKademliaNode(ownerId, nodeId, port);
         kad.bootstrap(new DOSNAConfig().getBootstrapNode());
     }
 
@@ -70,19 +70,19 @@ public final class DosnaDataManager implements DataManager
     }
 
     @Override
-    public StorageEntry get(final GetParameter gp) throws IOException, ContentNotFoundException
+    public KademliaStorageEntry get(final GetParameter gp) throws IOException, ContentNotFoundException
     {
         return kad.get(gp);
     }
 
     @Override
-    public StorageEntry get(KademliaId key, String type) throws IOException, NoSuchElementException, ContentNotFoundException
+    public KademliaStorageEntry get(KademliaId key, String type) throws IOException, NoSuchElementException, ContentNotFoundException
     {
         return this.get(new GetParameter(key, type));
     }
 
     @Override
-    public StorageEntry get(KademliaId key, String type, String ownerId) throws IOException, NoSuchElementException, ContentNotFoundException
+    public KademliaStorageEntry get(KademliaId key, String type, String ownerId) throws IOException, NoSuchElementException, ContentNotFoundException
     {
         return this.get(new GetParameter(key, type, ownerId));
     }
@@ -104,7 +104,7 @@ public final class DosnaDataManager implements DataManager
     }
 
     @Override
-    public KademliaNode getKademliaNode()
+    public JKademliaNode getKademliaNode()
     {
         return this.kad;
     }

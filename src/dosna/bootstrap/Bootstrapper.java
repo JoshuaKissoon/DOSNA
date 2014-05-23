@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
-import kademlia.KademliaNode;
+import kademlia.JKademliaNode;
 import kademlia.node.KademliaId;
 
 /**
@@ -47,7 +47,7 @@ public class Bootstrapper extends JFrame
     private JLabel lbl;
 
     /* Kademlia instance */
-    KademliaNode bootstrapInstance;
+    JKademliaNode bootstrapInstance;
 
     public Bootstrapper()
     {
@@ -152,7 +152,7 @@ public class Bootstrapper extends JFrame
         try
         {
             /* Try to load the state from file */
-            this.bootstrapInstance = KademliaNode.loadFromFile(BOOTSTRAP_OWNER_ID);
+            this.bootstrapInstance = JKademliaNode.loadFromFile(BOOTSTRAP_OWNER_ID);
 
         }
         catch (IOException | ClassNotFoundException ex)
@@ -162,7 +162,7 @@ public class Bootstrapper extends JFrame
             try
             {
                 /* Create a new instance */
-                this.bootstrapInstance = new KademliaNode(BOOTSTRAP_OWNER_ID, new KademliaId("BOOTSTRAPBOOTSTRAPBO"), BOOTSTRAP_NODE_PORT);
+                this.bootstrapInstance = new JKademliaNode(BOOTSTRAP_OWNER_ID, new KademliaId("BOOTSTRAPBOOTSTRAPBO"), BOOTSTRAP_NODE_PORT);
             }
             catch (IOException exx)
             {
