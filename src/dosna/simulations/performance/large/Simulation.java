@@ -24,7 +24,7 @@ public class Simulation
 
     public Simulation()
     {
-        this.config = new SimConfig50Online();
+        this.config = new SimConfig();
         this.users = new SimulatedUser[config.numUsers()];
     }
 
@@ -308,7 +308,7 @@ public class Simulation
     {
         double dataSent = 0, dataReceived = 0, bootstrapTime = 0, avgContentLookupTime = 0;
         double avgContentLookupRouteLth = 0, avgActivityStreamLoadTime = 0;
-        int numContentLookups = 0;
+        int numContentLookups = 0, numFailedContentLookups = 0;
 
         /* Aggregate the total user's data */
         for (int i = 0; i < config.numUsers(); i++)
@@ -324,6 +324,7 @@ public class Simulation
                 dataReceived += statsMan.getTotalDataReceived();
                 bootstrapTime += statsMan.getBootstrapTime();
                 numContentLookups += statsMan.numContentLookups();
+                numFailedContentLookups += statsMan.numFailedContentLookups();
                 avgContentLookupTime += statsMan.averageContentLookupTime();
                 avgContentLookupRouteLth += statsMan.averageContentLookupRouteLength();
                 avgActivityStreamLoadTime += dosnaStatsMan.avgActivityStreamLoadTime();
@@ -342,6 +343,7 @@ public class Simulation
         stats += "Avg Content Lookup Route Length: " + df.format(avgContentLookupRouteLth / numUsers) + "; \n";
         stats += "Avg Activity Stream load time: " + df.format(avgActivityStreamLoadTime / numUsers) + " ms; \n";
         stats += "\n";
+        stats += "Total Failed Content Lookups: " + numFailedContentLookups;
         System.out.println(stats);
     }
 
